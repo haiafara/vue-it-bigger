@@ -260,6 +260,16 @@ img.vue-lb-modal-image {
   opacity: 0;
 }
 
+.vue-lb-modal-image-no-transition-enter-active,
+.vue-lb-modal-image-no-transition-leave-active {
+  transition: none;
+}
+
+.vue-lb-modal-image-no-transition-enter,
+.vue-lb-modal-image-no-transition-leave-to {
+  opacity: 0;
+}
+
 .vue-lb-content-transition-enter-active,
 .vue-lb-content-transition-leave-active {
   transition: opacity .2s ease;

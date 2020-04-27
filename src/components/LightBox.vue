@@ -3,6 +3,8 @@
     <transition
       mode="out-in"
       name="vue-lb-content-transition"
+      @afterEnter="enableImageTransition"
+      @beforeLeave="disableImageTransition"
     >
       <div
         v-if="media && media.length > 0"
@@ -30,7 +32,7 @@
           >
             <transition
               mode="out-in"
-              name="vue-lb-modal-image-transition"
+              :name="modalImageTransitionName"
             >
               <img
                 v-if="media[select].type !== 'video'"
@@ -264,6 +266,7 @@ export default {
     return {
       select: this.startAt,
       lightBoxOn: this.showLightBox,
+      modalImageTransitionName: 'vue-lb-modal-image-no-transition',
       timer: null,
     }
   },
@@ -408,6 +411,14 @@ export default {
     previousImage() {
       this.$set(this, 'select', (this.select + this.media.length - 1) % this.media.length)
     },
+
+    enableImageTransition() {
+      this.modalImageTransitionName = 'vue-lb-modal-image-transition'
+    },
+
+    disableImageTransition() {
+      this.modalImageTransitionName = 'vue-lb-modal-image-no-transition'
+    }
   },
 }
 </script>
