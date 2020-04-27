@@ -1,3 +1,5 @@
+const imageDomain = 'https://vue-image-lightbox.rusiczki.net/'
+
 const media = [
   {
     thumb: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRx1TQ3PfnhWmLUWcxrGj3atDCZVTVBKetMOWVVQ4ipIStW03pY',
@@ -13,69 +15,60 @@ const media = [
     height: 600,
   },
   {
-    thumb: 'https://s3-us-west-1.amazonaws.com/powr/defaults/image-slider2.jpg',
-    src: 'https://s3-us-west-1.amazonaws.com/powr/defaults/image-slider2.jpg',
-    caption: '<h4>Elephant</h4>',
+    thumb: imageDomain + '01-zell-am-see-thumbnail.jpg',
+    src: imageDomain + '01-zell-am-see.jpg',
+    caption: '<h4>Zell am See</h4>',
+    width: 1620,
+    height: 1080
   },
   {
-    thumb: 'https://i-kinhdoanh.vnecdn.net/2018/06/18/1-1529296929_680x0.jpg',
-    src: 'https://i-kinhdoanh.vnecdn.net/2018/06/18/1-1529296929_680x0.jpg',
-    caption: '<h4>Messi</h4>',
+    thumb: imageDomain + '02-balea-lake-chalet-thumbnail.jpg',
+    src: imageDomain + '02-balea-lake-chalet.jpg',
+    caption: '<h4>Balea Lake Chalet</h4>',
+    width: 1614,
+    height: 1080
   },
   {
-    thumb: 'https://i-thethao.vnecdn.net/2018/05/27/775162441-MR-2031-8E033EFCEBB928DC12A2A0AA3CEC4C33-21885-1527376486_680x0.jpg',
-    src: 'https://i-thethao.vnecdn.net/2018/05/27/775162441-MR-2031-8E033EFCEBB928DC12A2A0AA3CEC4C33-21885-1527376486_680x0.jpg',
-    caption: '<h4>Bale and Marcelo</h4>',
+    thumb: imageDomain + '03-maybug-thumbnail.jpg',
+    src: imageDomain + '03-maybug.jpg',
+    caption: '<h4>Maybug</h4>',
+    width: 1613,
+    height: 1080
   },
   {
-    thumb: 'https://i-thethao.vnecdn.net/2018/05/27/Screen-Shot-2018-05-27-at-7-1527379562_680x0.png',
-    src: 'https://i-thethao.vnecdn.net/2018/05/27/Screen-Shot-2018-05-27-at-7-1527379562_680x0.png',
-    caption: '<h4>Madrid crowd</h4>',
+    thumb: imageDomain + '04-rc-car-thumbnail.jpg',
+    src: imageDomain + '04-rc-car.jpg',
+    caption: '<h4>RC Car</h4>',
+    width: 1623,
+    height: 1080
   },
   {
-    thumb: 'https://i-thethao.vnecdn.net/2018/05/27/000-15E0DG-1527379049_680x0.jpg',
-    src: 'https://i-thethao.vnecdn.net/2018/05/27/000-15E0DG-1527379049_680x0.jpg',
-    caption: '<h4>Zidane</h4>',
+    thumb: imageDomain + '05-tourists-thumbnail.jpg',
+    src: imageDomain + '05-tourists.jpg',
+    caption: '<h4>Tourists</h4>',
+    width: 1613,
+    height: 1080
   },
   {
-    thumb: 'https://i-thethao.vnecdn.net/2018/05/27/Screen-Shot-2018-05-27-at-7-1527379346_680x0.png',
-    src: 'https://i-thethao.vnecdn.net/2018/05/27/Screen-Shot-2018-05-27-at-7-1527379346_680x0.png',
-    caption: '<h4>Bale kissed the cup</h4>',
+    thumb: imageDomain + '06-dog-thumbnail.jpg',
+    src: imageDomain + '06-dog.jpg',
+    caption: '<h4>Dog</h4>',
+    width: 1440,
+    height: 1080
   },
   {
-    thumb: 'https://i-thethao.vnecdn.net/2018/05/27/000-15D9SR-1527378710_680x0.jpg',
-    src: 'https://i-thethao.vnecdn.net/2018/05/27/000-15D9SR-1527378710_680x0.jpg',
-    caption: '<h4>Ronaldo showed off</h4>',
+    thumb: imageDomain + '07-beer-thumbnail.jpg',
+    src: imageDomain + '07-beer.jpg',
+    caption: '<h4>Mmm, beer</h4>',
+    width: 1620,
+    height: 1080
   },
   {
-    thumb: 'https://i-thethao.vnecdn.net/2018/05/27/000-15D9PD-1527378584_680x0.jpg',
-    src: 'https://i-thethao.vnecdn.net/2018/05/27/000-15D9PD-1527378584_680x0.jpg',
-    caption: '<h4>Benzema and Varane</h4>',
-  },
-  {
-    thumb: 'https://i-thethao.vnecdn.net/2018/05/27/000-15E01C-1527378364_680x0.jpg',
-    src: 'https://i-thethao.vnecdn.net/2018/05/27/000-15E01C-1527378364_680x0.jpg',
-    caption: '<h4>Nacho</h4>',
-  },
-  {
-    thumb: 'https://i-thethao.vnecdn.net/2018/05/27/000-15D9DX-1527378233_680x0.jpg',
-    src: 'https://i-thethao.vnecdn.net/2018/05/27/000-15D9DX-1527378233_680x0.jpg',
-    caption: '<h4>Ramos</h4>',
-  },
-  {
-    thumb: 'https://i-thethao.vnecdn.net/2018/05/27/000-15D921-1527377928_680x0.jpg',
-    src: 'https://i-thethao.vnecdn.net/2018/05/27/000-15D921-1527377928_680x0.jpg',
-    caption: '<h4>Ceremony</h4>',
-  },
-  {
-    thumb: 'https://i-thethao.vnecdn.net/2018/05/27/000-15D8R8-1527377973_680x0.jpg',
-    src: 'https://i-thethao.vnecdn.net/2018/05/27/000-15D8R8-1527377973_680x0.jpg',
-    caption: '<h4>Champion</h4>',
-  },
-  {
-    thumb: 'https://i-thethao.vnecdn.net/2018/05/27/000-15E0FA-1527377507_680x0.jpg',
-    src: 'https://i-thethao.vnecdn.net/2018/05/27/000-15E0FA-1527377507_680x0.jpg',
-    caption: '<h4>Kiss</h4>',
+    thumb: imageDomain + '08-roosters-crest-thumbnail.jpg',
+    src: imageDomain + '08-roosters-crest.jpg',
+    caption: '<h4>The Rooster\'s Crest</h4>',
+    width: 1620,
+    height: 1080
   },
 ]
 
