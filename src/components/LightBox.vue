@@ -1,5 +1,9 @@
 <template>
   <div @click.stop="closeLightBox">
+    <transition
+      mode="out-in"
+      name="vue-lb-content-transition"
+    >
     <div
       v-if="media && media.length > 0"
       v-show="lightBoxOn"
@@ -26,7 +30,7 @@
         >
           <transition
             mode="out-in"
-            name="fade"
+            name="vue-lb-modal-image-transition"
           >
             <img
               v-if="media[select].type !== 'video'"
@@ -144,6 +148,7 @@
         </slot>
       </button>
     </div> <!-- .vue-lb-container -->
+    </transition>
   </div>
 </template>
 
@@ -158,7 +163,6 @@ let Hammer
 if (typeof window !== 'undefined') {
   Hammer = require('hammerjs')
 }
-
 
 export default {
   components: {
