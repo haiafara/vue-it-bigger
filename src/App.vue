@@ -1,15 +1,17 @@
 <template>
   <div
     id="app"
-    style="background-color: yellow"
+    style="background-color: yellow; padding: 0; margin: 0"
     class="row"
   >
     <div>
-      <ul>
+      <ul
+        style="margin: 5px 0 0 5px; padding: 0"
+      >
         <li
           v-for="(image, index) in media"
           :key="index"
-          style="display: inline-block"
+          style="display: inline-block; margin: 0 5px 5px 0"
         >
           <img
             v-lazy="image.src || image.thumb"
