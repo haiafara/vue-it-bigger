@@ -1,8 +1,10 @@
-# vue-image-lightbox
-A simple image/video lightbox component for Vuejs
-[NPM Package](https://www.npmjs.com/package/vue-image-lightbox)
+# vue-image-lightbox-evolved
 
-I use CSS style from [react-images](https://github.com/jossmac/react-images)
+[![Build Status](https://travis-ci.org/haiafara/vue-image-lightbox-evolved.svg?branch=master)](https://travis-ci.org/haiafara/vue-image-lightbox-evolved)
+
+A simple image/video lightbox component for VueJS
+
+[NPM Package](https://www.npmjs.com/package/vue-image-lightbox-evolved)
 
 [Demo!](http://pexea12.github.io/vue-image-lightbox/)
 
@@ -12,7 +14,7 @@ npm run dev
 yarn dev
 ```
 
-## Install
+## Installation
 
 #### NPM / Yarn
 
@@ -23,13 +25,14 @@ npm install vue-image-lightbox
 yarn add vue-image-lightbox
 ```
 
-Then import it in your project
-At your entry point (`main.js` normally)
+Then import it in your project at your entry point (`main.js` normally)
+
 ```javascript
 import Vue from 'vue'
 ```
 
 and use the lightbox:
+
 ```javascript
 import LightBox from 'vue-image-lightbox'
 
@@ -49,19 +52,23 @@ export default {
 
 ## Usage
 
-You can simply view [App.vue](https://github.com/pexea12/vue-image-lightbox/blob/master/src/App.vue) to see how to use **vue-image-lightbox**
+You can simply view [App.vue](src/App.vue) to see how to use **vue-image-lightbox-evolved**
 
 Import CSS style
+
 ```javascript
 require('vue-image-lightbox/dist/vue-image-lightbox.min.css')
 // Use only when you are using Webpack
 ```
+
 How to use:
+
 ```html
 <LightBox :media="media"></LightBox>
 ```
 
-`media` has the structure:
+### Structure of the media prop:
+
 ```javascript
 [
   { // For image
