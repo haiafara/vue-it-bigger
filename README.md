@@ -1,14 +1,13 @@
 # vue-image-lightbox-evolved
 
-[![Build Status](https://travis-ci.org/haiafara/vue-image-lightbox-evolved.svg?branch=master)](https://travis-ci.org/haiafara/vue-image-lightbox-evolved) [![Depfu](https://badges.depfu.com/badges/069e198b8d20824c7de448b3506afcde/overview.svg)](https://depfu.com/github/haiafara/vue-image-lightbox-evolved?project_id=12241)
+[![npm](https://img.shields.io/npm/v/vue-image-lightbox-evolved?color=%2341BB13)](https://www.npmjs.com/package/vue-image-lightbox-evolved) [![Build Status](https://travis-ci.org/haiafara/vue-image-lightbox-evolved.svg?branch=master)](https://travis-ci.org/haiafara/vue-image-lightbox-evolved) [![Depfu](https://badges.depfu.com/badges/069e198b8d20824c7de448b3506afcde/overview.svg)](https://depfu.com/github/haiafara/vue-image-lightbox-evolved?project_id=12241)
 
 A simple image / video lightbox component for Vue.js. Based on [vue-image-lightbox](https://github.com/pexea12/vue-image-lightbox).
-
-[NPM Package](https://www.npmjs.com/package/vue-image-lightbox-evolved)
 
 [Demo!](http://pexea12.github.io/vue-image-lightbox/)
 
 ## Development (NPM / Yarn)
+
 ```
 npm run dev
 yarn dev
@@ -295,10 +294,10 @@ The Icon used for videos
 - `onStartIndex`: Emit when the current image is at the `startAt` index (specified in the properties).
 - `onLoad`: Emit when there are `lengthToLoadMore` images left in the array (specified in the properties). For example, if `lengthToLoadMore = 2` and there are 7 images in your array, when you reach index 4 (which means there are 2 images left which are not discovered yet), this event will be emitted. After that, if the image array are updated and there are totally 15 images, the event will be emitted at index 12.
 
-## CREDITS
+## Credits
 
 Most of the CSS belongs to [react-images](https://github.com/jossmac/react-images)
 
 ### Contributors:
 
-Original author: [@pexea12](https://github.com/pexea12). Other contributors: check out the [contributors graph](graphs/contributors).
+Original author: [@pexea12](https://github.com/pexea12). Other contributors: check out the [contributors graph](https://github.com/haiafara/vue-image-lightbox-evolved/graphs/contributors).
