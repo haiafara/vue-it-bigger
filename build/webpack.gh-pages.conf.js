@@ -20,6 +20,7 @@ config.plugins = (config.plugins || []).concat([
     title: 'Vue Image Lightbox Evolved',
     fileName: 'index.html',
     template: path.resolve(__dirname, '../src/index.html'),
+    inject: false,
   }),
 
   new webpack.NoEmitOnErrorsPlugin(),
