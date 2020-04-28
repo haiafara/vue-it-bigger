@@ -6,13 +6,6 @@ A simple image / video lightbox component for Vue.js. Based on [vue-image-lightb
 
 [Demo!](http://pexea12.github.io/vue-image-lightbox/)
 
-## Development (NPM / Yarn)
-
-```
-npm run dev
-yarn dev
-```
-
 ## Installation
 
 #### NPM / Yarn
@@ -293,6 +286,15 @@ The Icon used for videos
 - `onFirstIndex`: Emit when the current image is the first one of the list.
 - `onStartIndex`: Emit when the current image is at the `startAt` index (specified in the properties).
 - `onLoad`: Emit when there are `lengthToLoadMore` images left in the array (specified in the properties). For example, if `lengthToLoadMore = 2` and there are 7 images in your array, when you reach index 4 (which means there are 2 images left which are not discovered yet), this event will be emitted. After that, if the image array are updated and there are totally 15 images, the event will be emitted at index 12.
+
+## Development (NPM / Yarn)
+
+Clone the repository, cd into it and run:
+
+```
+npm run dev
+yarn dev
+```
 
 ## Credits
 
