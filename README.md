@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/haiafara/vue-image-lightbox-evolved.svg?branch=master)](https://travis-ci.org/haiafara/vue-image-lightbox-evolved) [![Depfu](https://badges.depfu.com/badges/069e198b8d20824c7de448b3506afcde/overview.svg)](https://depfu.com/github/haiafara/vue-image-lightbox-evolved?project_id=12241)
 
-A simple image/video lightbox component for VueJS
+A simple image / video lightbox component for Vue.js. Based on [vue-image-lightbox](https://github.com/pexea12/vue-image-lightbox).
 
 [NPM Package](https://www.npmjs.com/package/vue-image-lightbox-evolved)
 
@@ -21,8 +21,8 @@ yarn dev
 Install the package:
 
 ```
-npm install vue-image-lightbox
-yarn add vue-image-lightbox
+npm install vue-image-lightbox-evolved
+yarn add vue-image-lightbox-evolved
 ```
 
 Then import it in your project at your entry point (`main.js` normally)
@@ -34,7 +34,7 @@ import Vue from 'vue'
 and use the lightbox:
 
 ```javascript
-import LightBox from 'vue-image-lightbox'
+import LightBox from 'vue-image-lightbox-evolved'
 
 export default {
   components: {
@@ -47,7 +47,7 @@ export default {
 
 ```html
 <script src="path/to/vue.js"></script>
-<script src="path/to/dist/vue-image-lightbox.js"></script>
+<script src="path/to/dist/vue-image-lightbox-evolved.js"></script>
 ```
 
 ## Usage
@@ -57,7 +57,7 @@ You can simply view [App.vue](src/App.vue) to see how to use **vue-image-lightbo
 Import CSS style
 
 ```javascript
-require('vue-image-lightbox/dist/vue-image-lightbox.min.css')
+require('vue-image-lightbox-evolved/dist/vue-image-lightbox-evolved.min.css')
 // Use only when you are using Webpack
 ```
 
@@ -300,12 +300,5 @@ The Icon used for videos
 Most of the CSS belongs to [react-images](https://github.com/jossmac/react-images)
 
 ### Contributors:
-- [@imcvampire](https://github.com/imcvampire)
-- [@krystalcampioni](https://github.com/krystalcampioni)
-- [@jstr14](https://github.com/jstr14)
-- [@PedroBatista333](https://github.com/PedroBatista333)
-- [@vtalbot](https://github.com/vtalbot)
-- [@hasangilak](https://github.com/hasangilak)
-- [@neobutter](https://github.com/neobutter)
-- [@mudin](https://github.com/mudin)
-- [@asterisx](https://github.com/asterisx)
+
+Original author: [@pexea12](https://github.com/pexea12). Other contributors: check out the [contributors graph](graphs/contributors).

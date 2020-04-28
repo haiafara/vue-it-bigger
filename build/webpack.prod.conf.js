@@ -5,7 +5,7 @@ const path = require('path')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
-config.output.filename = 'vue-image-lightbox.min.js'
+config.output.filename = 'vue-image-lightbox-evolved.min.js'
 config.output.libraryTarget = 'umd'
 config.output.library = 'Lightbox'
 
@@ -46,7 +46,7 @@ config.optimization = {
 
 config.plugins = (config.plugins || []).concat([
   new MiniCssExtractPlugin({
-    filename: 'vue-image-lightbox.min.css'
+    filename: 'vue-image-lightbox-evolved.min.css'
   }),
 
   new OptimizeCSSPlugin({
