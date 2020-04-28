@@ -1,7 +1,7 @@
 {
   "name": "vue-image-lightbox-evolved",
   "description": "A simple image / video lightbox component for Vue.js. Based on vue-image-lightbox.",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "author": "Janos Rusiczki <janos.rusiczki@gmail.com>",
   "contributors": [
     "Nguyen P. Thien Dzung <dzungnguyenvn@outlook.com>"
