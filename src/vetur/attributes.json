@@ -27,10 +27,6 @@
         "description": "Time to stop at an image before move on to next image",
         "type": "number"
     },
-    "lightbox/siteLoading": {
-        "description": "default image when your image is error or loading",
-        "type": "string"
-    },
     "lightbox/showCaption": {
         "description": "Whether to show caption or not",
         "type": "boolean"

@@ -142,12 +142,6 @@ How to use:
       <td>Time to stop at an image before move on to next image</td>
     </tr>
     <tr>
-      <td>siteLoading</td>
-      <td></td>
-      <td>null</td>
-      <td>default image when your image is error or loading</td>
-    </tr>
-    <tr>
       <td>showCaption</td>
       <td>Boolean</td>
       <td>false</td>

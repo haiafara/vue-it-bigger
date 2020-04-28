@@ -34,7 +34,6 @@
 <script>
 import LightBox from 'components/LightBox'
 
-import siteLoading from './siteloading.gif'
 import media from './dummy'
 
 export default {
@@ -45,7 +44,6 @@ export default {
   data () {
     return {
       media,
-      siteLoading,
     }
   },
 

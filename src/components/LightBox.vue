@@ -221,11 +221,6 @@ export default {
       default: 3000,
     },
 
-    siteLoading: {
-      type: Object,
-      default: null,
-    },
-
     showCaption: {
       type: Boolean,
       default: false,
@@ -294,15 +289,6 @@ export default {
     },
 
     imagesThumb() {
-      if (this.siteLoading) {
-        return this.media.map(({ thumb, type }) => ({
-          src: thumb,
-          type,
-          loading: this.siteLoading,
-          error: this.siteLoading,
-        }))
-      }
-
       return this.media.map(({ thumb, type }) => ({ thumb, type }))
     },
   },
