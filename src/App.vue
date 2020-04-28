@@ -14,7 +14,7 @@
           style="display: inline-block; margin: 0 5px 5px 0"
         >
           <img
-            v-lazy="image.src || image.thumb"
+            :src="image.thumb"
             style="height: 100px"
             @click="openGallery(index)"
           >
