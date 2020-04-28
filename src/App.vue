@@ -14,7 +14,7 @@
           style="display: inline-block; margin: 0 5px 5px 0"
         >
           <img
-            v-lazy="image.src || image.thumb"
+            :src="image.thumb"
             style="height: 100px"
             @click="openGallery(index)"
           >
@@ -34,7 +34,6 @@
 <script>
 import LightBox from 'components/LightBox'
 
-import siteLoading from './siteloading.gif'
 import media from './dummy'
 
 export default {
@@ -45,7 +44,6 @@ export default {
   data () {
     return {
       media,
-      siteLoading,
     }
   },
 

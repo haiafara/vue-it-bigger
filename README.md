@@ -19,17 +19,14 @@ yarn dev
 Install the package:
 
 ```
-npm install vue-image-lightbox vue-lazyload
-yarn add vue-image-lightbox vue-lazyload
+npm install vue-image-lightbox
+yarn add vue-image-lightbox
 ```
 
 Then import it in your project
 At your entry point (`main.js` normally)
 ```javascript
 import Vue from 'vue'
-import VueLazyLoad from 'vue-lazyload'
-...
-Vue.use(VueLazyLoad)
 ```
 
 and use the lightbox:
@@ -143,12 +140,6 @@ How to use:
       <td>Number</td>
       <td>3000 (ms)</td>
       <td>Time to stop at an image before move on to next image</td>
-    </tr>
-    <tr>
-      <td>siteLoading</td>
-      <td></td>
-      <td>null</td>
-      <td>default image when your image is error or loading</td>
     </tr>
     <tr>
       <td>showCaption</td>

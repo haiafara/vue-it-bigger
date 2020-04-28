@@ -101,7 +101,7 @@
               v-for="(image, index) in imagesThumb"
               v-show="index >= thumbIndex.begin && index <= thumbIndex.end"
               :key="typeof image.thumb === 'string' ? `${image.thumb}${index}` : index"
-              v-lazy:background-image="image.thumb"
+              :style="{ backgroundImage: 'url(' + image.thumb + ')' }"
               :class="'vue-lb-modal-thumbnail' + (select === index ? '-active' : '')"
               @click.stop="showImage(index)"
             >
@@ -221,11 +221,6 @@ export default {
       default: 3000,
     },
 
-    siteLoading: {
-      type: Object,
-      default: null,
-    },
-
     showCaption: {
       type: Boolean,
       default: false,
@@ -294,15 +289,6 @@ export default {
     },
 
     imagesThumb() {
-      if (this.siteLoading) {
-        return this.media.map(({ thumb, type }) => ({
-          src: thumb,
-          type,
-          loading: this.siteLoading,
-          error: this.siteLoading,
-        }))
-      }
-
       return this.media.map(({ thumb, type }) => ({ thumb, type }))
     },
   },
