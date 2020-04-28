@@ -2,3 +2,14 @@ language: node_js
 node_js:
   - 10
 cache: yarn
+
+before_deploy:
+  - yarn gh-pages
+
+deploy:
+ provider: pages
+ skip_cleanup: true
+ github_token: $GITHUB_TOKEN
+ local_dir: dist
+ on:
+   branch: master

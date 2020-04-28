@@ -15,6 +15,7 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --hot --open --config build/webpack.dev.conf.js --mode development",
     "build": "rimraf dist && webpack --progress --hide-modules --config build/webpack.prod.conf.js --mode production",
+    "gh-pages": "webpack --hide-modules --config build/webpack.gh-pages.conf.js --mode production",
     "lint": "eslint --ext .js,.vue src/",
     "test": "jest"
   },

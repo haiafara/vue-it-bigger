@@ -1,8 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-
 
 module.exports = {
   entry: {
@@ -61,10 +59,6 @@ module.exports = {
 
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-    }),
-
-    new CopyWebpackPlugin([
-      { from: 'src/vetur', to: 'vetur' }
-    ])
+    })
   ],
 }
