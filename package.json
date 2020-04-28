@@ -47,7 +47,7 @@
   "homepage": "https://github.com/pexea12/vue-image-lightbox",
   "dependencies": {
     "@babel/runtime": "^7.9.0",
-    "babel-loader": "^8.0.6",
+    "babel-loader": "^8.1.0",
     "hammerjs": "^2.0.8",
     "terser-webpack-plugin": "^2.3.6"
   },
