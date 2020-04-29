@@ -34,7 +34,7 @@
 <script>
 import LightBox from 'components/LightBox'
 
-import media from './dummy'
+import media from './media'
 
 export default {
   components: {
