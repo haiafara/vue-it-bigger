@@ -36,6 +36,7 @@
     "collectCoverageFrom": [
       "**/*.{js,vue}",
       "!**/build/**",
+      "!**/coverage/**",
       "!**/dist/**",
       "!**/node_modules/**"
     ],
