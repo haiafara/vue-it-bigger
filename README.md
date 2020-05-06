@@ -8,6 +8,25 @@ A simple image / video lightbox component for Vue.js. Based on [vue-image-lightb
 
 Click on the screenshot above for a **demo**.
 
+## Features
+
+* Unobtrusive interface that disappears after a few seconds, reappears on mouse activity
+* Can display a thumbnail strip with all of the gallery's media
+* Can show an HTML capable caption under each image or video
+* Can play the slideshow automatically
+* All of the graphics (next, previous, close buttons) can be customized via slots
+* Can skip to next / previous media programatically
+
+# Improvements over vue-image-lightbox
+
+* Lightbox opens and closes with a short fade
+* Media's width is no longer limited
+* When opening the lightbox the media doesn't flicker
+* Moved caption bar and image counter off the media to the bottom of the screen
+* Moved thumbnails to the top of the screen
+* Previous and next buttons have a background for better visibility
+* Simpler CSS
+
 ## Installation
 
 #### NPM / Yarn

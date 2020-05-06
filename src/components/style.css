@@ -1,10 +1,26 @@
-.vue-lb-box {
-  width: 100%;
+/* general style */
+
+.vue-lb-open {
+  overflow: hidden;
 }
+
+.no-scroll {
+  overflow-y: hidden;
+}
+
+.vue-lb-hideable {
+  transition: opacity .5s ease;
+}
+
+.vue-lb-hidden {
+  opacity: 0;
+}
+
+/* elements styling */
 
 .vue-lb-container {
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.85);
   box-sizing: border-box;
   display: -moz-box;
   display: -ms-flexbox;
@@ -14,7 +30,6 @@
   height: 100%;
   justify-content: center;
   left: 0px;
-  padding: 10px;
   position: fixed;
   top: 0px;
   width: 100%;
@@ -29,46 +44,14 @@
 }
 
 .vue-lb-content {
-  margin-bottom: 60px;
   position: relative;
-}
-
-.vue-lb-header {
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  justify-content: space-between;
-  height: 40px;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  -webkit-box-pack: justify;
-}
-
-.vue-lb-button-close {
-  background: none;
-  border: none;
-  cursor: pointer;
-  outline: none;
-  position: relative;
-  top: 0px;
-  vertical-align: bottom;
-  height: 40px;
-  margin-right: -10px;
-  padding: 10px;
-  width: 40px;
-}
-
-.vue-lb-figure {
   margin: 0px;
   display: block;
-  position: relative;
 }
 
-img.vue-lb-modal-image {
+img.vue-lb-image {
   cursor: pointer;
-  max-height: calc(100vh - 140px);
+  max-height: calc(100vh);
   cursor: pointer;
   display: block;
   height: auto;
@@ -80,159 +63,104 @@ img.vue-lb-modal-image {
   -ms-user-select: none;
 }
 
-.vue-lb-info {
-  visibility: initial;
-  position: absolute;
-  bottom: 25px;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.7);
-  height: 40px;
-  width: 100%;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+.vue-lb-thumbnail-wrapper {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px 12px;
   text-align: center;
-}
-
-
-.vue-lb-footer {
-  box-sizing: border-box;
-  color: white;
-  cursor: auto;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  justify-content: space-between;
-  left: 0px;
-  line-height: 1.3;
-  padding-bottom: 5px;
-  padding-left: 0px;
-  padding-right: 0px;
-  padding-top: 5px;
-  -moz-box-sizing: border-box;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  -webkit-box-pack: justify;
-}
-
-.vue-lb-footer-info {
-  display: block;
-  flex: 1 1 0;
-  -webkit-flex: 1 1 0;
-  -ms-flex: 1 1 0;
-}
-
-.vue-lb-footer-count {
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 0.85em;
-  padding-left: 1em;
+  white-space: nowrap;
+  position: fixed;
+  display: inline-block;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  top: 0px;
 }
 
 .vue-lb-thumbnail {
-  bottom: 10px;
-  height: 50px;
-  padding: 0 50px;
-  text-align: center;
-  white-space: nowrap;
-  display: inline-block;
-  position: relative;
-}
-
-.vue-lb-modal-thumbnail {
   background-position: center;
   background-size: cover;
-  border-radius: 2px;
+  border-radius: 4px;
   box-shadow: inset 0 0 0 1px hsla(0,0%,100%,.2);
   cursor: pointer;
   display: inline-block;
   height: 50px;
-  margin: 2px;
+  margin: 2px 2px 0 2px;
   overflow: hidden;
   width: 50px;
 }
 
-.vue-lb-modal-thumbnail-active {
+.vue-lb-thumbnail-active {
   background-position: center;
   background-size: cover;
-  border-radius: 2px;
+  border-radius: 4px;
   box-shadow: inset 0 0 0 2px white;
   cursor: pointer;
   display: inline-block;
   height: 50px;
-  margin: 2px;
+  margin: 2px 2px 0 2px;
   overflow: hidden;
   width: 50px;
 }
 
-.vue-lb-thumbnail-arrow {
-  height: 54px;
-  width: 40px;
-  background: none;
+.vue-lb-footer {
+  box-sizing: border-box;
+  color: white;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  line-height: 1.3;
+  padding: 10px;
+  justify-content: space-between;
+  text-align: left;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.vue-lb-footer-count {
+  flex-shrink: 0;
+  padding-left: 1em;
+}
+
+.vue-lb-close {
+  background: rgba(0, 0, 0, 0.2);
   border: none;
-  border-radius: 4px;
   cursor: pointer;
   outline: none;
-  padding: 10px;
-  position: absolute;
-  top: 50%;
-  -webkit-touch-callout: none;
-  user-select: none;
-  height: 50px;
-  margin-top: -25px;
-  width: 30px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-}
-
-.vue-lb-thumbnail-left {
-  left: 10px;
-}
-
-.vue-lb-thumbnail-right {
-  right: 10px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  vertical-align: bottom;
+  height: 65px;
+  width: 60px;
+  padding: 15px 12px 15px 20px;
+  border-bottom-left-radius: 50%;
 }
 
 .vue-lb-arrow {
-  background: none;
+  background: rgba(0, 0, 0, 0.2);
   border: none;
-  border-radius: 4px;
   cursor: pointer;
   outline: none;
   padding: 10px;
   position: absolute;
   top: 50%;
-  -webkit-touch-callout: none;
   user-select: none;
-  height: 120px;
+  height: 65px;
   margin-top: -60px;
-  width: 40px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+  width: 60px;
 }
 
-.vue-lb-left {
-  left: 10px;
-}
-
-.vue-lb-right {
-  right: 10px;
-}
-
-.vue-lb-open {
-  overflow: hidden;
-}
-
-.vue-lb-thumbnail-wrapper {
-  bottom: 10px;
-  height: 50px;
+.vue-lb-arrow-left {
   left: 0;
-  margin: 0 auto;
-  position: absolute;
+  padding-right: 20px;
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+}
+
+.vue-lb-arrow-right {
   right: 0;
-  text-align: center;
-  top: auto;
+  padding-left: 20px;
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
 }
 
 @media (min-width: 500px) {
@@ -243,43 +171,40 @@ img.vue-lb-modal-image {
 
 @media (min-width: 768px) {
   .vue-lb-arrow {
-      width: 70px;
+      width: 60px;
   }
 }
 
-/* transitions */
+/* image transitions */
 
-.vue-lb-modal-image-transition-enter-active,
-.vue-lb-modal-image-transition-leave-active {
+.vue-lb-image-transition-enter-active,
+.vue-lb-image-transition-leave-active {
   transition: opacity .2s ease;
 }
 
-.vue-lb-modal-image-transition-enter,
-.vue-lb-modal-image-transition-leave-to {
+.vue-lb-image-transition-enter,
+.vue-lb-image-transition-leave-to {
   opacity: 0;
 }
 
-.vue-lb-modal-image-no-transition-enter-active,
-.vue-lb-modal-image-no-transition-leave-active {
+.vue-lb-image-no-transition-enter-active,
+.vue-lb-image-no-transition-leave-active {
   transition: none;
 }
 
-.vue-lb-modal-image-no-transition-enter,
-.vue-lb-modal-image-no-transition-leave-to {
+.vue-lb-image-no-transition-enter,
+.vue-lb-image-no-transition-leave-to {
   opacity: 0;
 }
 
-.vue-lb-content-transition-enter-active,
-.vue-lb-content-transition-leave-active {
-  transition: opacity .2s ease;
+/* container transitions */
+
+.vue-lb-container-transition-enter-active,
+.vue-lb-container-transition-leave-active {
+  transition: opacity .3s ease;
 }
 
-.vue-lb-content-transition-enter,
-.vue-lb-content-transition-leave-to {
+.vue-lb-container-transition-enter,
+.vue-lb-container-transition-leave-to {
   opacity: 0;
-}
-
-
-.no-scroll {
-  overflow-y: hidden;
 }
