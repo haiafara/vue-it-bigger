@@ -2,7 +2,7 @@
   <div @click.stop="closeLightBox">
     <transition
       mode="out-in"
-      name="vue-lb-content-transition"
+      name="vue-lb-container-transition"
       @afterEnter="enableImageTransition"
       @beforeLeave="disableImageTransition"
     >
@@ -12,124 +12,101 @@
         ref="container"
         class="vue-lb-container"
       >
-        <div class="vue-lb-content">
-          <div class="vue-lb-header">
-            <span />
-            <button
-              v-if="closable"
-              type="button"
-              :title="closeText"
-              class="vue-lb-button-close"
-            >
-              <slot name="close">
-                <CloseIcon />
-              </slot>
-            </button> <!-- .vue-lb-button-close -->
-          </div> <!-- .vue-lb-header -->
-          <div
-            class="vue-lb-figure"
-            @click.stop
+        <div
+          class="vue-lb-content"
+          @click.stop
+        >
+          <transition
+            mode="out-in"
+            :name="imageTransitionName"
           >
-            <transition
-              mode="out-in"
-              :name="modalImageTransitionName"
+            <img
+              v-if="media[select].type !== 'video'"
+              :key="media[select].src"
+              :src="media[select].src"
+              :srcset="media[select].srcset || ''"
+              class="vue-lb-image"
+              :alt="media[select].caption"
             >
-              <img
-                v-if="media[select].type !== 'video'"
-                :key="media[select].src"
-                :src="media[select].src"
-                :srcset="media[select].srcset || ''"
-                class="vue-lb-modal-image"
-                :alt="media[select].caption"
+            <video
+              v-else
+              ref="video"
+              controls
+              :width="media[select].width"
+              :height="media[select].height"
+            >
+              <source
+                v-for="source in media[select].sources"
+                :key="source.src"
+                :src="source.src"
+                :type="source.type"
               >
-              <video
-                v-else
-                ref="video"
-                controls
-                :width="media[select].width"
-                :height="media[select].height"
-              >
-                <source
-                  v-for="source in media[select].sources"
-                  :key="source.src"
-                  :src="source.src"
-                  :type="source.type"
-                >
-              </video>
-            </transition>
-
-            <slot name="customCaption">
-              <div
-                v-show="showCaption"
-                class="vue-lb-info"
-                v-html="media[select].caption"
-              />
-            </slot>
-
-            <div class="vue-lb-footer">
-              <div class="vue-lb-footer-info" />
-              <div class="vue-lb-footer-count">
-                <slot
-                  name="footer"
-                  :current="select + 1"
-                  :total="media.length"
-                >
-                  {{ select + 1 }} / {{ media.length }}
-                </slot>
-              </div>
-            </div>
-          </div>
+            </video>
+          </transition>
         </div> <!-- .vue-lb-content -->
-        <div class="vue-lb-thumbnail-wrapper">
+
+        <div
+          v-if="showThumbs"
+          class="vue-lb-thumbnail-wrapper vue-lb-hideable"
+          :class="{ 'vue-lb-hidden': interactionIsIdle }"
+          @click.stop
+        >
           <div
-            v-if="showThumbs"
-            class="vue-lb-thumbnail"
+            v-for="(image, index) in imagesThumb"
+            v-show="index >= thumbIndex.begin && index <= thumbIndex.end"
+            :key="typeof image.thumb === 'string' ? `${image.thumb}${index}` : index"
+            :style="{ backgroundImage: 'url(' + image.thumb + ')' }"
+            :class="'vue-lb-thumbnail' + (select === index ? '-active' : '')"
+            @click.stop="showImage(index)"
           >
-            <button
-              v-if="media.length > 1"
-              type="button"
-              class="vue-lb-thumbnail-arrow vue-lb-thumbnail-left"
-              :title="previousThumbText"
-              @click.stop="previousImage()"
+            <slot
+              v-if="image.type"
+              name="videoIcon"
             >
-              <slot name="previousThumb">
-                <LeftArrowIcon />
-              </slot>
-            </button>
+              <VideoIcon />
+            </slot>
+          </div>
+        </div> <!-- .vue-lb-thumbnail-wrapper -->
 
+        <div
+          class="vue-lb-footer vue-lb-hideable"
+          :class="{ 'vue-lb-hidden': interactionIsIdle }"
+        >
+          <slot name="customCaption">
             <div
-              v-for="(image, index) in imagesThumb"
-              v-show="index >= thumbIndex.begin && index <= thumbIndex.end"
-              :key="typeof image.thumb === 'string' ? `${image.thumb}${index}` : index"
-              :style="{ backgroundImage: 'url(' + image.thumb + ')' }"
-              :class="'vue-lb-modal-thumbnail' + (select === index ? '-active' : '')"
-              @click.stop="showImage(index)"
-            >
-              <slot
-                v-if="image.type"
-                name="videoIcon"
-              >
-                <VideoIcon />
-              </slot>
-            </div>
+              v-show="showCaption"
+              v-html="media[select].caption"
+            />
+          </slot>
 
-            <button
-              v-if="media.length > 1"
-              type="button"
-              class="vue-lb-thumbnail-arrow vue-lb-thumbnail-right"
-              :title="nextThumbText"
-              @click.stop="nextImage()"
+          <div class="vue-lb-footer-count">
+            <slot
+              name="footer"
+              :current="select + 1"
+              :total="media.length"
             >
-              <slot name="nextThumb">
-                <RightArrowIcon />
-              </slot>
-            </button>
-          </div> <!-- .vue-lb-thumbnail -->
+              {{ select + 1 }} / {{ media.length }}
+            </slot>
+          </div>
         </div>
+
+        <button
+          v-if="closable"
+          type="button"
+          :title="closeText"
+          class="vue-lb-close vue-lb-hideable"
+          :class="{ 'vue-lb-hidden': interactionIsIdle }"
+        >
+          <slot name="close">
+            <CloseIcon />
+          </slot>
+        </button>
+
         <button
           v-if="media.length > 1"
           type="button"
-          class="vue-lb-arrow vue-lb-left"
+          class="vue-lb-arrow vue-lb-arrow-left vue-lb-hideable"
+          :class="{ 'vue-lb-hidden': interactionIsIdle }"
           :title="previousText"
           @click.stop="previousImage()"
         >
@@ -141,7 +118,8 @@
         <button
           v-if="media.length > 1"
           type="button"
-          class="vue-lb-arrow vue-lb-right"
+          class="vue-lb-arrow vue-lb-arrow-right vue-lb-hideable"
+          :class="{ 'vue-lb-hidden': interactionIsIdle }"
           :title="nextText"
           @click.stop="nextImage()"
         >
@@ -261,8 +239,10 @@ export default {
     return {
       select: this.startAt,
       lightBoxOn: this.showLightBox,
-      modalImageTransitionName: 'vue-lb-modal-image-no-transition',
+      interactionIsIdle: false,
+      imageTransitionName: 'vue-lb-image-no-transition',
       timer: null,
+      interactionTimer: null,
     }
   },
 
@@ -337,6 +317,10 @@ export default {
         this.nextImage()
       })
     }
+
+    this.$refs.container.addEventListener('mousedown', this.handleMouseActivity);
+    this.$refs.container.addEventListener('mousemove', this.handleMouseActivity);
+    this.$refs.container.addEventListener('touchmove', this.handleMouseActivity);
   },
 
   beforeDestroy() {
@@ -345,6 +329,10 @@ export default {
     if (this.autoPlay) {
       clearInterval(this.timer)
     }
+
+    this.$refs.container.removeEventListener('mousedown', this.handleMouseActivity);
+    this.$refs.container.removeEventListener('mousemove', this.handleMouseActivity);
+    this.$refs.container.removeEventListener('touchmove', this.handleMouseActivity);
   },
 
   methods: {
@@ -374,6 +362,7 @@ export default {
 
     showImage(index) {
       this.select = index
+      this.interactionIsIdle = false
       this.lightBoxOn = true
     },
 
@@ -399,11 +388,26 @@ export default {
     },
 
     enableImageTransition() {
-      this.modalImageTransitionName = 'vue-lb-modal-image-transition'
+      this.handleMouseActivity()
+      this.imageTransitionName = 'vue-lb-image-transition'
     },
 
     disableImageTransition() {
-      this.modalImageTransitionName = 'vue-lb-modal-image-no-transition'
+      this.imageTransitionName = 'vue-lb-image-no-transition'
+    },
+
+    handleMouseActivity() {
+      clearTimeout(this.interactionTimer);
+
+      if (this.interactionIsIdle) {
+        console.log('we are active')
+        this.interactionIsIdle = false
+      }
+
+      this.interactionTimer = setTimeout(() => {
+          console.log('we are idle')
+          this.interactionIsIdle = true
+      }, 3000);
     }
   },
 }
