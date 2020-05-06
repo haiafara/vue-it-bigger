@@ -400,12 +400,10 @@ export default {
       clearTimeout(this.interactionTimer);
 
       if (this.interactionIsIdle) {
-        console.log('we are active')
         this.interactionIsIdle = false
       }
 
       this.interactionTimer = setTimeout(() => {
-          console.log('we are idle')
           this.interactionIsIdle = true
       }, 3000);
     }
