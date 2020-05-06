@@ -316,11 +316,11 @@ export default {
       hammer.on('swipeleft', () => {
         this.nextImage()
       })
-    }
 
-    this.$refs.container.addEventListener('mousedown', this.handleMouseActivity);
-    this.$refs.container.addEventListener('mousemove', this.handleMouseActivity);
-    this.$refs.container.addEventListener('touchmove', this.handleMouseActivity);
+      this.$refs.container.addEventListener('mousedown', this.handleMouseActivity);
+      this.$refs.container.addEventListener('mousemove', this.handleMouseActivity);
+      this.$refs.container.addEventListener('touchmove', this.handleMouseActivity);
+    }
   },
 
   beforeDestroy() {
@@ -330,9 +330,11 @@ export default {
       clearInterval(this.timer)
     }
 
-    this.$refs.container.removeEventListener('mousedown', this.handleMouseActivity);
-    this.$refs.container.removeEventListener('mousemove', this.handleMouseActivity);
-    this.$refs.container.removeEventListener('touchmove', this.handleMouseActivity);
+    if (this.$refs.container) {
+      this.$refs.container.removeEventListener('mousedown', this.handleMouseActivity);
+      this.$refs.container.removeEventListener('mousemove', this.handleMouseActivity);
+      this.$refs.container.removeEventListener('touchmove', this.handleMouseActivity);
+    }
   },
 
   methods: {
