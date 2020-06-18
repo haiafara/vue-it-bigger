@@ -34,6 +34,7 @@
               controls
               :width="media[select].width"
               :height="media[select].height"
+              :autoplay="media[select].autoplay"
             >
               <source
                 v-for="source in media[select].sources"
@@ -338,28 +339,40 @@ export default {
   },
 
   methods: {
-    onToggleLightBox(value) {
+    onLightBoxOpen() {
+      this.$emit('onOpened')
+
       if (this.disableScroll) {
-        if (value) {
-          document.querySelector('html').classList.add('no-scroll')
-        } else {
-          document.querySelector('html').classList.remove('no-scroll')
-        }
+        document.querySelector('html').classList.add('no-scroll')
       }
 
-      if (value) {
-        document.querySelector('body').classList.add('vue-lb-open')
-      } else {
-        document.querySelector('body').classList.remove('vue-lb-open')
+      document.querySelector('body').classList.add('vue-lb-open')
+      document.addEventListener('keydown', this.addKeyEvent)
+
+      if (this.$refs.video && this.$refs.video.autoplay) {
+        this.$refs.video.play()
+      }
+    },
+
+    onLightBoxClose() {
+      this.$emit('onClosed')
+
+      if (this.disableScroll) {
+        document.querySelector('html').classList.remove('no-scroll')
       }
 
-      this.$emit('onOpened', value)
+      document.querySelector('body').classList.remove('vue-lb-open')
+      document.removeEventListener('keydown', this.addKeyEvent)
 
-      if (value) {
-        document.addEventListener('keydown', this.addKeyEvent)
-      } else {
-        document.removeEventListener('keydown', this.addKeyEvent)
+      if (this.$refs.video) {
+        this.$refs.video.pause()
+        this.$refs.video.currentTime = '0'
       }
+    },
+
+    onToggleLightBox(value) {
+      if (value) this.onLightBoxOpen()
+      else this.onLightBoxClose()
     },
 
     showImage(index) {

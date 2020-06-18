@@ -12,6 +12,48 @@ describe('LightBox', () => {
     test('does not render the container div', () => {
       expect(wrapper.find('.vue-lb-container').exists()).toBe(false)
     })
+
+    describe('onLightBoxOpen', () => {
+      wrapper.vm.onLightBoxOpen()
+
+      test('emits onOpened', () => {
+        expect(wrapper.emitted().onOpened).toBeTruthy()
+      })
+
+      test('adds the no-scroll class to the html element', () => {
+        expect(document.querySelector('html').classList.contains('no-scroll')).toBe(true)
+      })
+
+      test('adds the vue-lb-open class to the body element', () => {
+        expect(document.querySelector('body').classList.contains('vue-lb-open')).toBe(true)
+      })
+    })
+
+    describe('onLightBoxClose', () => {
+      wrapper.vm.onLightBoxClose()
+
+      test('emits onClosed', () => {
+        expect(wrapper.emitted().onClosed).toBeTruthy()
+      })
+    })
+
+    describe('onToggleLightBox(true)', () => {
+      wrapper.vm.onLightBoxOpen = jest.fn()
+      wrapper.vm.onToggleLightBox(true)
+
+      test('calls onLightBoxOpen', () => {
+        expect(wrapper.vm.onLightBoxOpen).toHaveBeenCalled()
+      })
+    })
+
+    describe('onToggleLightBox()', () => {
+      wrapper.vm.onLightBoxClose = jest.fn()
+      wrapper.vm.onToggleLightBox()
+
+      test('calls onLightBoxClose', () => {
+        expect(wrapper.vm.onLightBoxClose).toHaveBeenCalled()
+      })
+    })
   })
 
   describe('given one item in the media array', () => {
