@@ -13,9 +13,7 @@
       "lengthToLoadMore",
       "closeText",
       "previousText",
-      "nextText",
-      "previousThumbText",
-      "nextThumbText"
+      "nextText"
     ],
     "subtags": [],
     "description": "LightBox component"

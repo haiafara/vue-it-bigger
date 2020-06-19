@@ -224,16 +224,6 @@ export default {
       type: String,
       default: 'Next',
     },
-
-    previousThumbText: {
-      type: String,
-      default: 'Previous'
-    },
-
-    nextThumbText: {
-      type: String,
-      default: 'Next'
-    },
   },
 
   data() {

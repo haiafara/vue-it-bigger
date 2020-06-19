@@ -50,13 +50,5 @@
     "lightbox/nextText": {
         "description": "Text for the next image button",
         "type": "string"
-    },
-    "lightbox/previousThumbText": {
-        "description": "Text for the previous thumb image button",
-        "type": "string"
-    },
-    "lightbox/nextThumbText": {
-        "description": "Text for the next thumb image button",
-        "type": "string"
     }
 }
