@@ -4,7 +4,7 @@
 
 A simple image / video lightbox component for Vue.js. Based on [vue-image-lightbox](https://github.com/pexea12/vue-image-lightbox).
 
-[![Vue It Bigger Screenshot](https://imgur.com/xAmxoE1.jpg)](https://haiafara.github.io/vue-it-bigger/)
+[![Vue It Bigger Screenshot](https://imgur.com/89eZHa7.jpg)](https://haiafara.github.io/vue-it-bigger/)
 
 Click on the screenshot above for a **demo**.
 
