@@ -1,6 +1,9 @@
 # Vue It Bigger!
 
-[![npm](https://img.shields.io/npm/v/vue-it-bigger?color=%2341BB13)](https://www.npmjs.com/package/vue-it-bigger) [![Build Status](https://travis-ci.org/haiafara/vue-it-bigger.svg?branch=master)](https://travis-ci.org/haiafara/vue-it-bigger) [![Depfu](https://badges.depfu.com/badges/069e198b8d20824c7de448b3506afcde/overview.svg)](https://depfu.com/github/haiafara/vue-it-bigger?project_id=12241)
+[![npm](https://img.shields.io/npm/v/vue-it-bigger?color=%2341BB13)](https://www.npmjs.com/package/vue-it-bigger)
+[![Build Status](https://travis-ci.org/haiafara/vue-it-bigger.svg?branch=master)](https://travis-ci.org/haiafara/vue-it-bigger)
+[![codecov](https://codecov.io/gh/haiafara/vue-it-bigger/branch/master/graph/badge.svg)](https://codecov.io/gh/haiafara/vue-it-bigger)
+[![Depfu](https://badges.depfu.com/badges/069e198b8d20824c7de448b3506afcde/overview.svg)](https://depfu.com/github/haiafara/vue-it-bigger?project_id=12241)
 
 A simple image / video lightbox component for Vue.js. Based on [vue-image-lightbox](https://github.com/pexea12/vue-image-lightbox).
 
@@ -11,10 +14,10 @@ Click on the screenshot above for a **demo**.
 ## Features
 
 * Unobtrusive interface that disappears after a few seconds, reappears on mouse activity
-* Can display a thumbnail strip with all of the gallery's media
-* Can show an HTML capable caption under each image or video
+* Optional thumbnail strip with all of the gallery's media
+* Can show an HTML enabled caption under each image or video
 * Can play the slideshow automatically
-* All of the graphics (next, previous, close buttons) can be customized via slots
+* All of the graphics (previous, next and close buttons) can be customized via slots
 * Can skip to next / previous media programatically
 
 # Improvements over vue-image-lightbox
