@@ -2,7 +2,7 @@
   <div @click.stop="closeLightBox">
     <transition
       mode="out-in"
-      name="vue-lb-container-transition"
+      name="vib-container-transition"
       @afterEnter="enableImageTransition"
       @beforeLeave="disableImageTransition"
     >
@@ -10,10 +10,10 @@
         v-if="media && media.length > 0"
         v-show="lightBoxOn"
         ref="container"
-        class="vue-lb-container"
+        class="vib-container"
       >
         <div
-          class="vue-lb-content"
+          class="vib-content"
           @click.stop
         >
           <transition
@@ -25,7 +25,7 @@
               :key="media[select].src"
               :src="media[select].src"
               :srcset="media[select].srcset || ''"
-              class="vue-lb-image"
+              class="vib-image"
               :alt="media[select].caption"
             >
             <video
@@ -44,12 +44,12 @@
               >
             </video>
           </transition>
-        </div> <!-- .vue-lb-content -->
+        </div> <!-- .vib-content -->
 
         <div
           v-if="showThumbs"
-          class="vue-lb-thumbnail-wrapper vue-lb-hideable"
-          :class="{ 'vue-lb-hidden': interactionIsIdle }"
+          class="vib-thumbnail-wrapper vib-hideable"
+          :class="{ 'vib-hidden': interactionIsIdle }"
           @click.stop
         >
           <div
@@ -57,7 +57,7 @@
             v-show="index >= thumbIndex.begin && index <= thumbIndex.end"
             :key="typeof image.thumb === 'string' ? `${image.thumb}${index}` : index"
             :style="{ backgroundImage: 'url(' + image.thumb + ')' }"
-            :class="'vue-lb-thumbnail' + (select === index ? '-active' : '')"
+            :class="'vib-thumbnail' + (select === index ? '-active' : '')"
             @click.stop="showImage(index)"
           >
             <slot
@@ -67,11 +67,11 @@
               <VideoIcon />
             </slot>
           </div>
-        </div> <!-- .vue-lb-thumbnail-wrapper -->
+        </div> <!-- .vib-thumbnail-wrapper -->
 
         <div
-          class="vue-lb-footer vue-lb-hideable"
-          :class="{ 'vue-lb-hidden': interactionIsIdle }"
+          class="vib-footer vib-hideable"
+          :class="{ 'vib-hidden': interactionIsIdle }"
         >
           <slot name="customCaption">
             <div
@@ -80,7 +80,7 @@
             />
           </slot>
 
-          <div class="vue-lb-footer-count">
+          <div class="vib-footer-count">
             <slot
               name="footer"
               :current="select + 1"
@@ -95,8 +95,8 @@
           v-if="closable"
           type="button"
           :title="closeText"
-          class="vue-lb-close vue-lb-hideable"
-          :class="{ 'vue-lb-hidden': interactionIsIdle }"
+          class="vib-close vib-hideable"
+          :class="{ 'vib-hidden': interactionIsIdle }"
         >
           <slot name="close">
             <CloseIcon />
@@ -106,8 +106,8 @@
         <button
           v-if="media.length > 1"
           type="button"
-          class="vue-lb-arrow vue-lb-arrow-left vue-lb-hideable"
-          :class="{ 'vue-lb-hidden': interactionIsIdle }"
+          class="vib-arrow vib-arrow-left vib-hideable"
+          :class="{ 'vib-hidden': interactionIsIdle }"
           :title="previousText"
           @click.stop="previousImage()"
         >
@@ -119,8 +119,8 @@
         <button
           v-if="media.length > 1"
           type="button"
-          class="vue-lb-arrow vue-lb-arrow-right vue-lb-hideable"
-          :class="{ 'vue-lb-hidden': interactionIsIdle }"
+          class="vib-arrow vib-arrow-right vib-hideable"
+          :class="{ 'vib-hidden': interactionIsIdle }"
           :title="nextText"
           @click.stop="nextImage()"
         >
@@ -128,7 +128,7 @@
             <RightArrowIcon />
           </slot>
         </button>
-      </div> <!-- .vue-lb-container -->
+      </div> <!-- .vib-container -->
     </transition>
   </div>
 </template>
@@ -241,7 +241,7 @@ export default {
       select: this.startAt,
       lightBoxOn: this.showLightBox,
       interactionIsIdle: false,
-      imageTransitionName: 'vue-lb-image-no-transition',
+      imageTransitionName: 'vib-image-no-transition',
       timer: null,
       interactionTimer: null,
     }
@@ -346,7 +346,7 @@ export default {
         document.querySelector('html').classList.add('no-scroll')
       }
 
-      document.querySelector('body').classList.add('vue-lb-open')
+      document.querySelector('body').classList.add('vib-open')
       document.addEventListener('keydown', this.addKeyEvent)
 
       if (this.$refs.video && this.$refs.video.autoplay) {
@@ -361,7 +361,7 @@ export default {
         document.querySelector('html').classList.remove('no-scroll')
       }
 
-      document.querySelector('body').classList.remove('vue-lb-open')
+      document.querySelector('body').classList.remove('vib-open')
       document.removeEventListener('keydown', this.addKeyEvent)
 
       if (this.$refs.video) {
@@ -404,11 +404,11 @@ export default {
 
     enableImageTransition() {
       this.handleMouseActivity()
-      this.imageTransitionName = 'vue-lb-image-transition'
+      this.imageTransitionName = 'vib-image-transition'
     },
 
     disableImageTransition() {
-      this.imageTransitionName = 'vue-lb-image-no-transition'
+      this.imageTransitionName = 'vib-image-no-transition'
     },
 
     handleMouseActivity() {
