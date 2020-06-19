@@ -1,10 +1,10 @@
-# vue-image-lightbox-evolved
+# Vue It Bigger!
 
-[![npm](https://img.shields.io/npm/v/vue-image-lightbox-evolved?color=%2341BB13)](https://www.npmjs.com/package/vue-image-lightbox-evolved) [![Build Status](https://travis-ci.org/haiafara/vue-image-lightbox-evolved.svg?branch=master)](https://travis-ci.org/haiafara/vue-image-lightbox-evolved) [![Depfu](https://badges.depfu.com/badges/069e198b8d20824c7de448b3506afcde/overview.svg)](https://depfu.com/github/haiafara/vue-image-lightbox-evolved?project_id=12241)
+[![npm](https://img.shields.io/npm/v/vue-it-bigger?color=%2341BB13)](https://www.npmjs.com/package/vue-it-bigger) [![Build Status](https://travis-ci.org/haiafara/vue-it-bigger.svg?branch=master)](https://travis-ci.org/haiafara/vue-it-bigger) [![Depfu](https://badges.depfu.com/badges/069e198b8d20824c7de448b3506afcde/overview.svg)](https://depfu.com/github/haiafara/vue-it-bigger?project_id=12241)
 
 A simple image / video lightbox component for Vue.js. Based on [vue-image-lightbox](https://github.com/pexea12/vue-image-lightbox).
 
-[![Vue Image Lightbox Evolved Screenshot](https://imgur.com/xAmxoE1.jpg)](https://haiafara.github.io/vue-image-lightbox-evolved/)
+[![Vue It Bigger Screenshot](https://imgur.com/xAmxoE1.jpg)](https://haiafara.github.io/vue-it-bigger/)
 
 Click on the screenshot above for a **demo**.
 
@@ -34,8 +34,8 @@ Click on the screenshot above for a **demo**.
 Install the package:
 
 ```
-npm install vue-image-lightbox-evolved
-yarn add vue-image-lightbox-evolved
+npm install vue-it-bigger
+yarn add vue-it-bigger
 ```
 
 Then import it in your project at your entry point (`main.js` normally)
@@ -47,7 +47,7 @@ import Vue from 'vue'
 and use the lightbox:
 
 ```javascript
-import LightBox from 'vue-image-lightbox-evolved'
+import LightBox from 'vue-it-bigger'
 
 export default {
   components: {
@@ -60,17 +60,17 @@ export default {
 
 ```html
 <script src="path/to/vue.js"></script>
-<script src="path/to/dist/vue-image-lightbox-evolved.js"></script>
+<script src="path/to/dist/vue-it-bigger.js"></script>
 ```
 
 ## Usage
 
-You can simply view [App.vue](src/App.vue) to see how to use **vue-image-lightbox-evolved**
+You can simply view [App.vue](src/App.vue) to see how to use **vue-it-bigger**
 
 Import CSS style
 
 ```javascript
-require('vue-image-lightbox-evolved/dist/vue-image-lightbox-evolved.min.css')
+require('vue-it-bigger/dist/vue-it-bigger.min.css')
 // Use only when you are using Webpack
 ```
 
@@ -325,4 +325,4 @@ Most of the CSS belongs to [react-images](https://github.com/jossmac/react-image
 
 ### Contributors:
 
-Original author: [@pexea12](https://github.com/pexea12). Other contributors: check out the [contributors graph](https://github.com/haiafara/vue-image-lightbox-evolved/graphs/contributors).
+Original author: [@pexea12](https://github.com/pexea12). Other contributors: check out the [contributors graph](https://github.com/haiafara/vue-it-bigger/graphs/contributors).

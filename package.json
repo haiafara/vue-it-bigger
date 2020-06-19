@@ -1,5 +1,5 @@
 {
-  "name": "vue-image-lightbox-evolved",
+  "name": "vue-it-bigger",
   "description": "A simple image / video lightbox component for Vue.js. Based on vue-image-lightbox.",
   "version": "8.0.4",
   "author": "Janos Rusiczki <janos.rusiczki@gmail.com>",
@@ -7,7 +7,7 @@
     "Nguyen P. Thien Dzung <dzungnguyenvn@outlook.com>"
   ],
   "license": "MIT",
-  "main": "dist/vue-image-lightbox-evolved.min.js",
+  "main": "dist/vue-it-bigger.min.js",
   "files": [
     "dist",
     "src"
@@ -44,7 +44,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/haiafara/vue-image-lightbox-evolved"
+    "url": "https://github.com/haiafara/vue-it-bigger"
   },
   "keywords": [
     "vue",
@@ -57,9 +57,9 @@
     "video lightbox"
   ],
   "bugs": {
-    "url": "https://github.com/haiafara/vue-image-lightbox-evolved/issues"
+    "url": "https://github.com/haiafara/vue-it-bigger/issues"
   },
-  "homepage": "https://github.com/haiafara/vue-image-lightbox-evolved",
+  "homepage": "https://github.com/haiafara/vue-it-bigger",
   "dependencies": {
     "@babel/runtime": "^7.10.2",
     "babel-loader": "^8.1.0",

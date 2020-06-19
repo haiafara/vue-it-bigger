@@ -17,7 +17,7 @@ config.module.rules = (config.module.rules || []).concat([
 
 config.plugins = (config.plugins || []).concat([
   new HtmlWebpackPlugin({
-    title: 'Vue Image Lightbox Evolved',
+    title: 'Vue It Bigger!',
     fileName: 'index.html',
     template: path.resolve(__dirname, '../src/index.html'),
     inject: false,

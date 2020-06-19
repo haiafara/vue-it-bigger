@@ -1,4 +1,4 @@
-const imageDomain = 'https://vue-image-lightbox-evolved.rusiczki.net/'
+const imageDomain = 'https://vue-it-bigger.rusiczki.net/'
 
 const media = [
   {
