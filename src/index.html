@@ -6,9 +6,83 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <title>Vue It Bigger!</title>
+
+    <style>
+      body {
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+
+      .header,
+      .content,
+      .footer {
+        padding-right: 15px;
+        padding-left: 15px;
+      }
+
+      .header {
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e5e5e5;
+      }
+
+      .header h3 {
+        margin-top: 0;
+        margin-bottom: 0;
+        line-height: 40px;
+      }
+
+      .content {
+        margin: 0;
+      }
+
+      .footer {
+        margin-top: 20px;
+        padding-top: 19px;
+        color: #777;
+        border-top: 1px solid #e5e5e5;
+      }
+
+      @media (min-width: 768px) {
+        .container {
+          max-width: 730px;
+        }
+      }
+
+      @media screen and (min-width: 768px) {
+        .header,
+        .footer {
+          padding-right: 0;
+          padding-left: 0;
+        }
+        .header {
+          margin-bottom: 30px;
+        }
+        .footer {
+          margin-top: 30px;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="/">Demo</a></li>
+            <li role="presentation"><a href="https://github.com/haiafara/vue-it-bigger">GitHub</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Vue It Bigger!</h3>
+      </div>
+      <div class="row content">
+        <p>Click on any thumbnail below to open the lightbox.</p>
+        <div id="app"></div>
+      </div>
+      <div class="footer">
+        GitHub: <a href="https://github.com/haiafara/vue-it-bigger">haiafara/vue-it-bigger</a>
+      </div>
+    </div>
     <script src="build.js"></script>
   </body>
 </html>

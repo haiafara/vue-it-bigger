@@ -1,12 +1,10 @@
 <template>
   <div
     id="app"
-    style="background-color: yellow; padding: 0; margin: 0"
-    class="row"
   >
     <div>
       <ul
-        style="margin: 5px 0 0 5px; padding: 0"
+        style="margin: 0; padding: 0"
       >
         <li
           v-for="(image, index) in media"
@@ -15,7 +13,7 @@
         >
           <img
             :src="image.thumb"
-            style="height: 100px"
+            style="height: 100px; cursor: pointer"
             @click="openGallery(index)"
           >
         </li>
