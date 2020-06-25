@@ -30,6 +30,7 @@
             >
             <video
               v-else
+              :key="media[select].sources[0].src"
               ref="video"
               controls
               :width="media[select].width"
