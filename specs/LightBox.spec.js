@@ -10,7 +10,7 @@ describe('LightBox', () => {
     })
 
     test('does not render the container div', () => {
-      expect(wrapper.find('.vue-lb-container').exists()).toBe(false)
+      expect(wrapper.find('.vib-container').exists()).toBe(false)
     })
 
     describe('onLightBoxOpen', () => {
@@ -24,8 +24,8 @@ describe('LightBox', () => {
         expect(document.querySelector('html').classList.contains('no-scroll')).toBe(true)
       })
 
-      test('adds the vue-lb-open class to the body element', () => {
-        expect(document.querySelector('body').classList.contains('vue-lb-open')).toBe(true)
+      test('adds the vib-open class to the body element', () => {
+        expect(document.querySelector('body').classList.contains('vib-open')).toBe(true)
       })
     })
 
@@ -64,7 +64,7 @@ describe('LightBox', () => {
     })
 
     test('does render the container div', () => {
-      expect(wrapper.find('.vue-lb-container').exists()).toBe(true)
+      expect(wrapper.find('.vib-container').exists()).toBe(true)
     })
   })
 
@@ -81,11 +81,11 @@ describe('LightBox', () => {
     })
 
     test('renders the image', () => {
-      expect(wrapper.find('img.vue-lb-image').exists()).toBe(true)
+      expect(wrapper.find('img.vib-image').exists()).toBe(true)
     })
 
     test('renders one active thumbnail element', () => {
-      expect(wrapper.find('div.vue-lb-thumbnail-active').exists()).toBe(true)
+      expect(wrapper.find('div.vib-thumbnail-active').exists()).toBe(true)
     })
   })
 
@@ -111,7 +111,7 @@ describe('LightBox', () => {
     })
 
     test('renders one active thumbnail element', () => {
-      expect(wrapper.find('div.vue-lb-thumbnail-active').exists()).toBe(true)
+      expect(wrapper.find('div.vib-thumbnail-active').exists()).toBe(true)
     })
   })
 
@@ -138,11 +138,11 @@ describe('LightBox', () => {
     })
 
     test('the rendered image is the first image', () => {
-      expect(wrapper.find('img.vue-lb-image').element.src).toBe(media[0].src)
+      expect(wrapper.find('img.vib-image').element.src).toBe(media[0].src)
     })
 
     test('the active thumbnail is the first thumbnail', () => {
-      expect(wrapper.find('div.vue-lb-thumbnail-active').element.style.backgroundImage).toBe('url(' + media[0].thumb + ')')
+      expect(wrapper.find('div.vib-thumbnail-active').element.style.backgroundImage).toBe('url(' + media[0].thumb + ')')
     })
   })
 })

@@ -207,18 +207,6 @@ How to use:
       <td>Next</td>
       <td>Text for the next image button</td>
     </tr>
-    <tr>
-      <td>previousThumbText</td>
-      <td>String</td>
-      <td>Previous</td>
-      <td>Text for the previous thumb image button</td>
-    </tr>
-    <tr>
-      <td>nextThumbText</td>
-      <td>String</td>
-      <td>Next</td>
-      <td>Text for the next thumb image button</td>
-    </tr>
   </tbody>
 </table>
 
@@ -291,12 +279,6 @@ The previous button on the main image.
 
 #### next
 The next button on the main image.
-
-#### previousThumb
-The previous button on the thumbs list.
-
-#### nextThumb
-The next button on the thumbs list.
 
 #### customCaption
 The caption of the current image.
