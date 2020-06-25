@@ -27,7 +27,7 @@ Click on the screenshot above for a **demo**.
 * When opening the lightbox the media doesn't flicker
 * Moved caption bar and image counter off the media to the bottom of the screen
 * Moved thumbnails to the top of the screen
-* Previous and next buttons have a background for better visibility
+* All interface elements have a background for better visibility
 * Simpler CSS
 
 ## Installation
