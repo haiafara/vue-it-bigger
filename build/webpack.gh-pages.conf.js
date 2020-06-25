@@ -1,7 +1,9 @@
+const path = require('path')
+const webpack = require('webpack')
 const config = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const webpack = require('webpack')
-const path = require('path')
+
+config.output.path = path.resolve(__dirname, '../gh-pages')
 
 config.devtool = '#eval-source-map'
 

@@ -7,12 +7,23 @@ after_success:
   - bash <(curl -s https://codecov.io/bash)
 
 before_deploy:
+  - yarn build
   - yarn gh-pages
 
 deploy:
- provider: pages
- skip_cleanup: true
- github_token: $GITHUB_TOKEN
- local_dir: dist
- on:
-   branch: master
+  - provider: releases
+    skip_cleanup: true
+    draft: true
+    api_key: $GITHUB_TOKEN
+    file:
+      - "dist/vue-it-bigger.min.css"
+      - "dist/vue-it-bigger.min.js"
+      - "dist/vue-it-bigger.min.js.map"
+    on:
+      tags: true
+  - provider: pages
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN
+    local_dir: gh-pages
+    on:
+      branch: master

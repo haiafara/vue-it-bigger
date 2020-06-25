@@ -46,9 +46,14 @@ config.optimization = {
 }
 
 config.plugins = (config.plugins || []).concat([
-  new CopyWebpackPlugin([
-    { from: 'src/vetur', to: 'vetur' }
-  ]),
+  new CopyWebpackPlugin({
+    patterns: [
+      {
+        from: 'src/vetur',
+        to: 'vetur',
+      }
+    ]
+  }),
 
   new MiniCssExtractPlugin({
     filename: 'vue-it-bigger.min.css'
