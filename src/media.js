@@ -17,12 +17,12 @@ const media = [
   {
     thumb: imageDomain + '01-zell-am-see-thumbnail.jpg',
     src: imageDomain + '01-zell-am-see.jpg',
-    caption: 'Zell am See',
+    caption: 'Zell am See, Austria',
   },
   {
     thumb: imageDomain + '02-balea-lake-chalet-thumbnail.jpg',
     src: imageDomain + '02-balea-lake-chalet.jpg',
-    caption: 'Balea Lake Chalet',
+    caption: 'Balea Lake Chalet, Romania',
   },
   {
     thumb: imageDomain + '03-maybug-thumbnail.jpg',
@@ -32,12 +32,12 @@ const media = [
   {
     thumb: imageDomain + '04-rc-car-thumbnail.jpg',
     src: imageDomain + '04-rc-car.jpg',
-    caption: 'RC Car',
+    caption: 'An RC Car',
   },
   {
     thumb: imageDomain + '05-tourists-thumbnail.jpg',
     src: imageDomain + '05-tourists.jpg',
-    caption: 'Tourists',
+    caption: 'Two tourists on a mountain',
   },
   {
     thumb: imageDomain + '06-dog-thumbnail.jpg',
