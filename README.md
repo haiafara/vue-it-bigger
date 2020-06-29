@@ -23,12 +23,12 @@ Click on the screenshot above for a **demo**.
 # Improvements over vue-image-lightbox
 
 * Lightbox opens and closes with a short fade
-* Media's width is no longer limited
+* Media's width is no longer limited (stretches to the full width / height of the window)
 * When opening the lightbox the media doesn't flicker
 * Moved caption bar and image counter off the media to the bottom of the screen
-* Moved thumbnails to the top of the screen
+* Moved thumbnails to the top of the screen (as the bottom is now used by the caption bar)
 * All interface elements have a background for better visibility
-* Simpler CSS
+* Simplified CSS
 
 ## Installation
 
@@ -41,17 +41,20 @@ npm install vue-it-bigger
 yarn add vue-it-bigger
 ```
 
-Then import it in your project at your entry point (`main.js` normally)
+## Usage
 
-```javascript
-import Vue from 'vue'
-```
+You can view [App.vue](src/App.vue) or [the demo](https://haiafara.github.io/vue-it-bigger/) for an usage example.
 
-and use the lightbox:
+In the `<script>` section of your component import it:
 
 ```javascript
 import LightBox from 'vue-it-bigger'
+import('vue-it-bigger/dist/vue-it-bigger.min.css') // when using webpack
+```
 
+Add it to the list of used components:
+
+```javascript
 export default {
   components: {
     LightBox,
@@ -59,41 +62,23 @@ export default {
 }
 ```
 
-#### Browser global
-
-```html
-<script src="path/to/vue.js"></script>
-<script src="path/to/dist/vue-it-bigger.js"></script>
-```
-
-## Usage
-
-You can simply view [App.vue](src/App.vue) to see how to use **vue-it-bigger**
-
-Import CSS style
-
-```javascript
-require('vue-it-bigger/dist/vue-it-bigger.min.css')
-// Use only when you are using Webpack
-```
-
-How to use:
+Use it in the `<template>` section:
 
 ```html
 <LightBox :media="media"></LightBox>
 ```
 
-### Structure of the media prop:
+The `media` prop has the following structure
 
 ```javascript
 [
-  { // For image
+  { // For an image
     thumb: 'http://example.com/thumb.jpg',
     src: 'http://example.com/image.jpg',
     caption: 'caption to display. receive <html> <b>tag</b>', // Optional
     srcset: '...' // Optional for displaying responsive images
   },
-  { // For video
+  { // For a video
     thumb: 'https://s3-us-west-1.amazonaws.com/powr/defaults/image-slider2.jpg',
     sources: [
       {
@@ -101,7 +86,7 @@ How to use:
         type: 'video/mp4'
       }
     ],
-    type: "video",
+    type: 'video',
     caption: '<h4>Monsters Inc.</h4>',
     width: 800, // Required
     height: 600, // Required
@@ -304,10 +289,15 @@ npm run dev
 yarn dev
 ```
 
+After you add or modify something make sure the tests still pass:
+
+```
+npm run test
+yarn test
+```
+
 ## Credits
 
-Most of the CSS belongs to [react-images](https://github.com/jossmac/react-images)
-
-### Contributors:
-
-Original author: [@pexea12](https://github.com/pexea12). Other contributors: check out the [contributors graph](https://github.com/haiafara/vue-it-bigger/graphs/contributors).
+* Original CSS was based on [react-images](https://github.com/jossmac/react-images)
+* vue-image-lightbox authored by: [@pexea12](https://github.com/pexea12)
+* Other contributors: [contributors graph](https://github.com/haiafara/vue-it-bigger/graphs/contributors)
