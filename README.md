@@ -32,9 +32,7 @@ Click on the screenshot above for a **demo**.
 
 ## Installation
 
-#### NPM / Yarn
-
-Install the package:
+You know the drill:
 
 ```
 npm install vue-it-bigger
@@ -62,7 +60,7 @@ export default {
 }
 ```
 
-Use it in the `<template>` section:
+And use it in the `<template>` section:
 
 ```html
 <LightBox :media="media"></LightBox>
@@ -300,4 +298,4 @@ yarn test
 
 * Original CSS was based on [react-images](https://github.com/jossmac/react-images)
 * vue-image-lightbox authored by: [@pexea12](https://github.com/pexea12)
-* Other contributors: [contributors graph](https://github.com/haiafara/vue-it-bigger/graphs/contributors)
+* [Other contributors](https://github.com/haiafara/vue-it-bigger/graphs/contributors)
