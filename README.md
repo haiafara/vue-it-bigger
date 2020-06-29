@@ -73,7 +73,7 @@ The `media` prop has the following structure
   { // For an image
     thumb: 'http://example.com/thumb.jpg',
     src: 'http://example.com/image.jpg',
-    caption: 'caption to display. receive <html> <b>tag</b>', // Optional
+    caption: 'Caption to display. HTML <b>enabled</b>', // Optional
     srcset: '...' // Optional for displaying responsive images
   },
   { // For a video
