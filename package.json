@@ -61,15 +61,15 @@
   },
   "homepage": "https://github.com/haiafara/vue-it-bigger",
   "dependencies": {
-    "@babel/runtime": "^7.10.3",
+    "@babel/runtime": "^7.10.4",
     "babel-loader": "^8.1.0",
     "hammerjs": "^2.0.8",
     "terser-webpack-plugin": "^3.0.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.3",
-    "@babel/plugin-transform-runtime": "^7.10.3",
-    "@babel/preset-env": "^7.10.3",
+    "@babel/core": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
     "@vue/test-utils": "^1.0.0-beta.33",
     "babel-core": "^7.0.0-bridge.0",
     "copy-webpack-plugin": "6.0.2",
