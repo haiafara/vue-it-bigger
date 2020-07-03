@@ -38,7 +38,10 @@
       "!**/build/**",
       "!**/coverage/**",
       "!**/dist/**",
-      "!**/node_modules/**"
+      "!**/gh-pages/**",
+      "!**/node_modules/**",
+      "!**/specs/**",
+      "!**/src/*"
     ],
     "coverageDirectory": "./coverage/"
   },

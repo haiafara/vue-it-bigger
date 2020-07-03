@@ -8,7 +8,7 @@
     >
       <div
         v-if="media && media.length > 0"
-        v-show="lightBoxOn"
+        v-show="lightBoxShown"
         ref="container"
         class="vib-container"
       >
@@ -230,7 +230,7 @@ export default {
   data() {
     return {
       select: this.startAt,
-      lightBoxOn: this.showLightBox,
+      lightBoxShown: this.showLightBox,
       interactionIsIdle: false,
       imageTransitionName: 'vib-image-no-transition',
       timer: null,
@@ -266,7 +266,7 @@ export default {
   },
 
   watch: {
-    lightBoxOn(value) {
+    lightBoxShown(value) {
       if (document != null) {
         this.onToggleLightBox(value)
       }
@@ -296,7 +296,7 @@ export default {
       }, this.autoPlayTime)
     }
 
-    this.onToggleLightBox(this.lightBoxOn)
+    this.onToggleLightBox(this.lightBoxShown)
 
     if (this.$refs.container) {
       const hammer = new Hammer(this.$refs.container)
@@ -369,7 +369,7 @@ export default {
     showImage(index) {
       this.select = index
       this.interactionIsIdle = false
-      this.lightBoxOn = true
+      this.lightBoxShown = true
     },
 
     addKeyEvent(event) {
@@ -382,7 +382,7 @@ export default {
       if (this.$refs.video)
         this.$refs.video.pause();
       if (!this.closable) return;
-      this.$set(this, 'lightBoxOn', false)
+      this.$set(this, 'lightBoxShown', false)
     },
 
     nextImage() {
