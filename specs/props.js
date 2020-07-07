@@ -1,17 +1,17 @@
 const mediaWithOneImage = [
   {
-    thumb: 'test-thumb.jpg',
-    src: 'test-image.jpg'
+    thumb: 'http://test/test-thumb.jpg',
+    src: 'http://test/test-image.jpg'
   }
 ]
 
 const mediaWithOneVideo = [
   {
     type: 'video',
-    thumb: 'test-thumb.jpg',
+    thumb: 'http://test/test-thumb.jpg',
     sources: [
       {
-        src: 'test-video.mp4'
+        src: 'http://test/test-video.mp4'
       }
     ]
   }

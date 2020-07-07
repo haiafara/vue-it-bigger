@@ -78,6 +78,19 @@ describe('LightBox', () => {
         expect(wrapper.vm.onLightBoxClose).toHaveBeenCalled()
       })
     })
+
+    describe('when the component is destroyed', () => {
+      let container
+
+      beforeEach(() => {
+        document.removeEventListener = jest.fn()
+        wrapper.destroy()
+      })
+
+      test('removeEventListener is called on the document', () => {
+        expect(document.removeEventListener).toHaveBeenCalledTimes(1)
+      })
+    })
   })
 
   describe('given one item in the media array', () => {
@@ -210,8 +223,26 @@ describe('LightBox', () => {
         expect(wrapper.findAll('.vib-thumbnail-wrapper div:not([style*="display: none"])').at(6).element.style.backgroundImage).toBe('url(' + mediaWithNineImages[7].thumb + ')')
       })
     })
-  })
 
+    describe('when the component is destroyed', () => {
+      let container
+
+      beforeEach(() => {
+        jest.useFakeTimers()
+        container = wrapper.findComponent({ ref: 'container' }).element
+        container.removeEventListener = jest.fn()
+        wrapper.destroy()
+      })
+
+      test('clearInterval is not called', () => {
+        expect(clearInterval).not.toHaveBeenCalled()
+      })
+
+      test('removeEventListener is called on the container 3 times', () => {
+        expect(container.removeEventListener).toHaveBeenCalledTimes(3)
+      })
+    })
+  })
 
   describe('when the lightbox is not open on component mount', () => {
     let wrapper
@@ -219,7 +250,7 @@ describe('LightBox', () => {
     beforeEach(() => {
       wrapper = mount(LightBox, {
         propsData: {
-          media: mediaWithOneImage,
+          media: mediaWithNineImages,
           showLightBox: false
         }
       })
@@ -229,8 +260,58 @@ describe('LightBox', () => {
       expect(wrapper.find('.vib-container').element.style.display).toBe('none')
     })
 
-    describe('showImage', () => {
+    describe('showImage(1)', () => {
+      beforeEach(() => {
+        wrapper.vm.showImage(1)
+      })
 
+      test('the container div is displayed', () => {
+        expect(wrapper.find('.vib-container').element.style.display).toBe('')
+      })
+
+      test('the rendered image is the second image from the media array', () => {
+        expect(wrapper.find('img.vib-image').element.src).toBe(mediaWithNineImages[1].src)
+      })
+
+      describe('showImage(0)', () => {
+        beforeEach(() => {
+          wrapper.vm.showImage(0)
+        })
+
+        test('the rendered image is the first image from the media array', () => {
+          expect(wrapper.find('img.vib-image').element.src).toBe(mediaWithNineImages[0].src)
+        })
+      })
     })
+  })
+
+  describe('when the lightbox is opened with autoplay', () => {
+    let wrapper
+
+    beforeEach(() => {
+      jest.useFakeTimers()
+      wrapper = mount(LightBox, {
+        propsData: {
+          media: mediaWithNineImages,
+          autoPlay: true
+        }
+      })
+    })
+
+    test('setInterval is called once', () => {
+      expect(setInterval).toHaveBeenCalledTimes(1)
+      expect(setInterval).toHaveBeenLastCalledWith(wrapper.vm.nextImage, 3000)
+    })
+
+    describe('when the component is destroyed', () => {
+      beforeEach(() => {
+        wrapper.destroy()
+      })
+
+      test('clearInterval is called once', () => {
+        expect(clearInterval).toHaveBeenCalledTimes(1)
+      })
+    })
+
   })
 })
