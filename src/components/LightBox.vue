@@ -142,6 +142,7 @@ import VideoIcon from './VideoIcon'
 
 let Hammer
 
+// istanbul ignore else
 if (typeof window !== 'undefined') {
   Hammer = require('hammerjs')
 }
@@ -267,6 +268,7 @@ export default {
 
   watch: {
     lightBoxShown(value) {
+      // istanbul ignore else
       if (document != null) {
         this.onToggleLightBox(value)
       }
@@ -291,9 +293,7 @@ export default {
 
   mounted() {
     if (this.autoPlay) {
-      this.timer = setInterval(() => {
-        this.nextImage()
-      }, this.autoPlayTime)
+      this.timer = setInterval(this.nextImage, this.autoPlayTime)
     }
 
     this.onToggleLightBox(this.lightBoxShown)
@@ -301,13 +301,8 @@ export default {
     if (this.$refs.container) {
       const hammer = new Hammer(this.$refs.container)
 
-      hammer.on('swiperight', () => {
-        this.previousImage()
-      })
-
-      hammer.on('swipeleft', () => {
-        this.nextImage()
-      })
+      hammer.on('swiperight', this.previousImage)
+      hammer.on('swipeleft', this.nextImage)
 
       this.$refs.container.addEventListener('mousedown', this.handleMouseActivity);
       this.$refs.container.addEventListener('mousemove', this.handleMouseActivity);
