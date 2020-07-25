@@ -149,6 +149,12 @@ The `media` prop has the following structure
       <td>Time to stop at an image before move on to next image</td>
     </tr>
     <tr>
+      <td>interfaceHideTime</td>
+      <td>Number</td>
+      <td>3000 (ms)</td>
+      <td>Time after which the interface is hidden</td>
+    </tr>
+    <tr>
       <td>showCaption</td>
       <td>Boolean</td>
       <td>false</td>
