@@ -45,11 +45,11 @@
 
 .vib-content {
   position: relative;
-  margin: 0px;
+  margin: 0;
   display: block;
 }
 
-img.vib-image {
+.vib-image {
   cursor: pointer;
   max-height: calc(100vh);
   cursor: pointer;
@@ -207,4 +207,20 @@ img.vib-image {
 .vib-container-transition-enter,
 .vib-container-transition-leave-to {
   opacity: 0;
+}
+
+.video-background {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  width: calc(90vw);
+  height: calc(90vh);
+}
+
+.video-background iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
