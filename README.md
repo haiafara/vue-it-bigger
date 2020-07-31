@@ -299,3 +299,7 @@ yarn test
 * Original CSS was based on [react-images](https://github.com/jossmac/react-images)
 * vue-image-lightbox authored by [@pexea12](https://github.com/pexea12)
 * [Other contributors](https://github.com/haiafara/vue-it-bigger/graphs/contributors)
+
+## License
+
+This project is licensed under the the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
