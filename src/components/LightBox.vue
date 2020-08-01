@@ -368,9 +368,17 @@ export default {
     },
 
     addKeyEvent(event) {
-      if (event.keyCode === 37) this.previousImage() // left arrow
-      if (event.keyCode === 39) this.nextImage() // right arrow
-      if (event.keyCode === 27) this.closeLightBox() // esc
+      switch (event.keyCode) {
+        case 37: // left arrow
+          this.previousImage()
+          break
+        case 39: // right arrow
+          this.nextImage()
+          break
+        case 27: // esc
+          this.closeLightBox()
+          break
+      }
     },
 
     closeLightBox() {

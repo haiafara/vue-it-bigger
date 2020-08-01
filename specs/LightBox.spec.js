@@ -140,6 +140,10 @@ describe('LightBox', () => {
       })
     })
 
+    afterEach(() => {
+      wrapper.destroy()
+    })
+
     test('renders one video element', () => {
       expect(wrapper.find('video').exists()).toBe(true)
     })
@@ -240,6 +244,51 @@ describe('LightBox', () => {
 
       test('removeEventListener is called on the container 3 times', () => {
         expect(container.removeEventListener).toHaveBeenCalledTimes(3)
+      })
+    })
+  })
+
+  describe('keypresses', () => {
+    let wrapper
+
+    beforeEach(() => {
+      wrapper = mount(LightBox, {
+        propsData: {
+          media: mediaWithOneImage
+        }
+      })
+    })
+
+    describe('left arrow', () => {
+      beforeEach(() => {
+        wrapper.vm.previousImage = jest.fn()
+        document.dispatchEvent(new KeyboardEvent('keydown', { 'keyCode': 37 }))
+      })
+
+      test('calls previousImage', () => {
+        expect(wrapper.vm.previousImage).toHaveBeenCalled()
+      })
+    })
+
+    describe('right arrow', () => {
+      beforeEach(() => {
+        wrapper.vm.nextImage = jest.fn()
+        document.dispatchEvent(new KeyboardEvent('keydown', { 'keyCode': 39 }))
+      })
+
+      test('calls nextImage', () => {
+        expect(wrapper.vm.nextImage).toHaveBeenCalled()
+      })
+    })
+
+    describe('esc', () => {
+      beforeEach(() => {
+        wrapper.vm.closeLightBox = jest.fn()
+        document.dispatchEvent(new KeyboardEvent('keydown', { 'keyCode': 27 }))
+      })
+
+      test('calls closeLightBox', () => {
+        expect(wrapper.vm.closeLightBox).toHaveBeenCalled()
       })
     })
   })
