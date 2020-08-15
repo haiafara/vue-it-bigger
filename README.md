@@ -92,7 +92,43 @@ The `media` prop has the following structure
   }
 ]
 ```
+## Using it with NuxtJs
 
+Create a file under plugins directory with following contents
+
+lightbox.js
+
+
+```
+import Vue from 'vue'
+
+import LightBox from 'vue-it-bigger'
+import('vue-it-bigger/dist/vue-it-bigger.min.css')
+
+const plugin = {
+  install() {
+    Vue.component('LightBox', LightBox)
+  },
+}
+
+Vue.use(plugin)
+
+```
+Add the plugin in nuxt.config.js
+```
+plugins: [{ src: '~/plugins/lightbox.js', ssr: false }]
+```
+Use like below in any of your component
+
+```
+<no-ssr placeholder="Loading...">
+          <!-- this component will only be rendered on client-side -->
+          <LightBox
+            :media="lightBoxMedia"
+          ></LightBox>
+        </no-ssr>
+
+```
 ## Options
 
 ### Properties
