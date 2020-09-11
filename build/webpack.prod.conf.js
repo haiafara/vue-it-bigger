@@ -2,7 +2,6 @@ const webpack = require('webpack')
 const config = require('./webpack.base.conf')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
@@ -46,15 +45,6 @@ config.optimization = {
 }
 
 config.plugins = (config.plugins || []).concat([
-  new CopyWebpackPlugin({
-    patterns: [
-      {
-        from: 'src/vetur',
-        to: 'vetur',
-      }
-    ]
-  }),
-
   new MiniCssExtractPlugin({
     filename: 'vue-it-bigger.min.css'
   }),
