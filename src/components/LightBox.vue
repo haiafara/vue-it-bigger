@@ -74,7 +74,10 @@
           class="vib-footer vib-hideable"
           :class="{ 'vib-hidden': interactionIsIdle }"
         >
-          <slot name="customCaption">
+          <slot
+            name="customCaption"
+            :currentMedia="currentMedia"
+          >
             <div
               v-show="showCaption"
               v-html="currentMedia.caption"
