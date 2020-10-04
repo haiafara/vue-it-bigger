@@ -21,24 +21,24 @@
             :name="imageTransitionName"
           >
             <img
-              v-if="media[select].type !== 'video'"
-              :key="media[select].src"
-              :src="media[select].src"
-              :srcset="media[select].srcset || ''"
+              v-if="currentMedia.type !== 'video'"
+              :key="currentMedia.src"
+              :src="currentMedia.src"
+              :srcset="currentMedia.srcset || ''"
               class="vib-image"
-              :alt="media[select].caption"
+              :alt="currentMedia.caption"
             >
             <video
               v-else
-              :key="media[select].sources[0].src"
+              :key="currentMedia.sources[0].src"
               ref="video"
               controls
-              :width="media[select].width"
-              :height="media[select].height"
-              :autoplay="media[select].autoplay"
+              :width="currentMedia.width"
+              :height="currentMedia.height"
+              :autoplay="currentMedia.autoplay"
             >
               <source
-                v-for="source in media[select].sources"
+                v-for="source in currentMedia.sources"
                 :key="source.src"
                 :src="source.src"
                 :type="source.type"
@@ -77,7 +77,7 @@
           <slot name="customCaption">
             <div
               v-show="showCaption"
-              v-html="media[select].caption"
+              v-html="currentMedia.caption"
             />
           </slot>
 
@@ -240,6 +240,10 @@ export default {
   },
 
   computed: {
+    currentMedia() {
+      return this.media[this.select]
+    },
+
     thumbIndex() {
       const halfDown = Math.floor(this.nThumbs / 2)
 
