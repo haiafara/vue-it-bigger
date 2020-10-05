@@ -50,7 +50,7 @@
         <div
           v-if="showThumbs"
           class="vib-thumbnail-wrapper vib-hideable"
-          :class="{ 'vib-hidden': interactionIsIdle }"
+          :class="{ 'vib-hidden': controlsHidden }"
           @click.stop
         >
           <div
@@ -72,7 +72,7 @@
 
         <div
           class="vib-footer vib-hideable"
-          :class="{ 'vib-hidden': interactionIsIdle }"
+          :class="{ 'vib-hidden': controlsHidden }"
         >
           <slot
             name="customCaption"
@@ -100,7 +100,7 @@
           type="button"
           :title="closeText"
           class="vib-close vib-hideable"
-          :class="{ 'vib-hidden': interactionIsIdle }"
+          :class="{ 'vib-hidden': controlsHidden }"
         >
           <slot name="close">
             <CloseIcon />
@@ -111,7 +111,7 @@
           v-if="media.length > 1"
           type="button"
           class="vib-arrow vib-arrow-left vib-hideable"
-          :class="{ 'vib-hidden': interactionIsIdle }"
+          :class="{ 'vib-hidden': controlsHidden }"
           :title="previousText"
           @click.stop="previousImage()"
         >
@@ -124,7 +124,7 @@
           v-if="media.length > 1"
           type="button"
           class="vib-arrow vib-arrow-right vib-hideable"
-          :class="{ 'vib-hidden': interactionIsIdle }"
+          :class="{ 'vib-hidden': controlsHidden }"
           :title="nextText"
           @click.stop="nextImage()"
         >
@@ -235,7 +235,7 @@ export default {
     return {
       select: this.startAt,
       lightBoxShown: this.showLightBox,
-      interactionIsIdle: false,
+      controlsHidden: false,
       imageTransitionName: 'vib-image-no-transition',
       timer: null,
       interactionTimer: null,
@@ -370,7 +370,7 @@ export default {
 
     showImage(index) {
       this.select = index
-      this.interactionIsIdle = false
+      this.controlsHidden = false
       this.lightBoxShown = true
     },
 
@@ -415,12 +415,12 @@ export default {
     handleMouseActivity() {
       clearTimeout(this.interactionTimer);
 
-      if (this.interactionIsIdle) {
-        this.interactionIsIdle = false
+      if (this.controlsHidden) {
+        this.controlsHidden = false
       }
 
       this.interactionTimer = setTimeout(() => {
-          this.interactionIsIdle = true
+          this.controlsHidden = true
       }, 3000);
     }
   },
