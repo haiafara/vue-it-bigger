@@ -172,24 +172,45 @@ describe('LightBox', () => {
         describe('when controls are shown', () => {
           beforeEach(() => {
             wrapper.setData({ controlsHidden: false })
-            wrapper.findComponent({ ref: 'container' }).trigger('mousemove')
           })
 
-          test('leaves controlsHidden to be false', () => {
-            expect(wrapper.vm.controlsHidden).toBe(false)
-          })
-
-          test('setTimeout is called once', () => {
-            expect(setTimeout).toHaveBeenCalledTimes(1)
-          })
-
-          describe('when timeout is reached', () => {
+          describe('when interface is not hovered', () => {
             beforeEach(() => {
-              jest.runOnlyPendingTimers()
+              wrapper.setData({ interfaceHovered: false })
+              wrapper.findComponent({ ref: 'container' }).trigger('mousemove')
             })
 
-            test('controls are hidden', () => {
-              expect(wrapper.vm.controlsHidden).toBe(true)
+            test('leaves controlsHidden to be false', () => {
+              expect(wrapper.vm.controlsHidden).toBe(false)
+            })
+
+            test('setTimeout is called once', () => {
+              expect(setTimeout).toHaveBeenCalledTimes(1)
+            })
+
+            describe('when timeout is reached', () => {
+              beforeEach(() => {
+                jest.runOnlyPendingTimers()
+              })
+
+              test('controls are hidden', () => {
+                expect(wrapper.vm.controlsHidden).toBe(true)
+              })
+            })
+          })
+
+          describe('when interface is hovered', () => {
+            beforeEach(() => {
+              wrapper.setData({ interfaceHovered: true })
+              wrapper.findComponent({ ref: 'container' }).trigger('mousemove')
+            })
+
+            test('leaves controlsHidden to be false', () => {
+              expect(wrapper.vm.controlsHidden).toBe(false)
+            })
+
+            test('setTimeout is not called', () => {
+              expect(setTimeout).not.toHaveBeenCalled()
             })
           })
         })

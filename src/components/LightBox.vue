@@ -444,7 +444,7 @@ export default {
 
     startInteractionTimer() {
       this.interactionTimer = setTimeout(() => {
-        this.interactionIsIdle = true
+        this.controlsHidden = true
       }, this.interfaceHideTime)
     },
 
