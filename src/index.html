@@ -33,11 +33,13 @@
 
       .content {
         margin-top: 20px;
-        margin: 0;
+      }
+
+      #app {
+        margin-bottom: 20px;
       }
 
       .footer {
-        margin-top: 20px;
         padding-top: 19px;
         color: #777;
         border-top: 1px solid #e5e5e5;
@@ -56,18 +58,12 @@
           padding-right: 0;
           padding-left: 0;
         }
-        .content {
-          margin-top: 30px;
-        }
-        .footer {
-          margin-top: 10px;
-        }
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <div class="header clearfix">
+      <div class="row header clearfix">
         <nav>
           <ul class="nav nav-pills pull-right">
             <li role="presentation" class="active"><a href="/">Demo</a></li>
@@ -77,13 +73,10 @@
         <h3>Vue It Bigger!</h3>
       </div>
       <div class="row content">
-        <p>Click on any thumbnail below to open the lightbox.</p>
+        <p>Click on any thumbnail below to open the lightbox. The code for this example is in <a href="https://github.com/haiafara/vue-it-bigger/blob/master/src/App.vue">App.vue</a>.</p>
         <div id="app"></div>
       </div>
-      <div class="row content">
-        <p>Code for the above is in <a href="https://github.com/haiafara/vue-it-bigger/blob/master/src/App.vue">App.vue</a>.</p>
-      </div>
-      <div class="footer">
+      <div class="row footer">
         All images (except the video) by <a href="https://www.flickr.com/photos/janos">János Rusiczki</a>.
       </div>
     </div>

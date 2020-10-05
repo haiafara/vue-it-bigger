@@ -21,24 +21,24 @@
             :name="imageTransitionName"
           >
             <img
-              v-if="media[select].type !== 'video'"
-              :key="media[select].src"
-              :src="media[select].src"
-              :srcset="media[select].srcset || ''"
+              v-if="currentMedia.type !== 'video'"
+              :key="currentMedia.src"
+              :src="currentMedia.src"
+              :srcset="currentMedia.srcset || ''"
               class="vib-image"
-              :alt="media[select].caption"
+              :alt="currentMedia.caption"
             >
             <video
               v-else
-              :key="media[select].sources[0].src"
+              :key="currentMedia.sources[0].src"
               ref="video"
               controls
-              :width="media[select].width"
-              :height="media[select].height"
-              :autoplay="media[select].autoplay"
+              :width="currentMedia.width"
+              :height="currentMedia.height"
+              :autoplay="currentMedia.autoplay"
             >
               <source
-                v-for="source in media[select].sources"
+                v-for="source in currentMedia.sources"
                 :key="source.src"
                 :src="source.src"
                 :type="source.type"
@@ -50,7 +50,7 @@
         <div
           v-if="showThumbs"
           class="vib-thumbnail-wrapper vib-hideable"
-          :class="{ 'vib-hidden': interactionIsIdle }"
+          :class="{ 'vib-hidden': controlsHidden }"
           @click.stop
           @mouseover="interfaceHovered = true"
           @mouseleave="interfaceHovered = false"
@@ -74,14 +74,17 @@
 
         <div
           class="vib-footer vib-hideable"
-          :class="{ 'vib-hidden': interactionIsIdle }"
+          :class="{ 'vib-hidden': controlsHidden }"
           @mouseover="interfaceHovered = true"
           @mouseleave="interfaceHovered = false"
         >
-          <slot name="customCaption">
+          <slot
+            name="customCaption"
+            :currentMedia="currentMedia"
+          >
             <div
               v-show="showCaption"
-              v-html="media[select].caption"
+              v-html="currentMedia.caption"
             />
           </slot>
 
@@ -101,7 +104,7 @@
           type="button"
           :title="closeText"
           class="vib-close vib-hideable"
-          :class="{ 'vib-hidden': interactionIsIdle }"
+          :class="{ 'vib-hidden': controlsHidden }"
           @mouseover="interfaceHovered = true"
           @mouseleave="interfaceHovered = false"
         >
@@ -114,7 +117,7 @@
           v-if="media.length > 1"
           type="button"
           class="vib-arrow vib-arrow-left vib-hideable"
-          :class="{ 'vib-hidden': interactionIsIdle }"
+          :class="{ 'vib-hidden': controlsHidden }"
           :title="previousText"
           @click.stop="previousImage()"
           @mouseover="interfaceHovered = true"
@@ -129,7 +132,7 @@
           v-if="media.length > 1"
           type="button"
           class="vib-arrow vib-arrow-right vib-hideable"
-          :class="{ 'vib-hidden': interactionIsIdle }"
+          :class="{ 'vib-hidden': controlsHidden }"
           :title="nextText"
           @click.stop="nextImage()"
           @mouseover="interfaceHovered = true"
@@ -247,7 +250,7 @@ export default {
     return {
       select: this.startAt,
       lightBoxShown: this.showLightBox,
-      interactionIsIdle: false,
+      controlsHidden: false,
       imageTransitionName: 'vib-image-no-transition',
       timer: null,
       interactionTimer: null,
@@ -256,6 +259,10 @@ export default {
   },
 
   computed: {
+    currentMedia() {
+      return this.media[this.select]
+    },
+
     thumbIndex() {
       const halfDown = Math.floor(this.nThumbs / 2)
 
@@ -379,14 +386,22 @@ export default {
 
     showImage(index) {
       this.select = index
-      this.interactionIsIdle = false
+      this.controlsHidden = false
       this.lightBoxShown = true
     },
 
     addKeyEvent(event) {
-      if (event.keyCode === 37) this.previousImage() // left arrow
-      if (event.keyCode === 39) this.nextImage() // right arrow
-      if (event.keyCode === 27) this.closeLightBox() // esc
+      switch (event.keyCode) {
+        case 37: // left arrow
+          this.previousImage()
+          break
+        case 39: // right arrow
+          this.nextImage()
+          break
+        case 27: // esc
+          this.closeLightBox()
+          break
+      }
     },
 
     closeLightBox() {
@@ -416,8 +431,8 @@ export default {
     handleMouseActivity() {
       clearTimeout(this.interactionTimer);
 
-      if (this.interactionIsIdle) {
-        this.interactionIsIdle = false
+      if (this.controlsHidden) {
+        this.controlsHidden = false
       }
 
       if (this.interfaceHovered) {

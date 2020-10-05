@@ -1,7 +1,7 @@
 {
   "name": "vue-it-bigger",
   "description": "A simple image / video lightbox component for Vue.js. Based on vue-image-lightbox.",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "author": "Janos Rusiczki <janos.rusiczki@gmail.com>",
   "contributors": [
     "Nguyen P. Thien Dzung <dzungnguyenvn@outlook.com>"
@@ -64,39 +64,35 @@
   },
   "homepage": "https://github.com/haiafara/vue-it-bigger",
   "dependencies": {
-    "@babel/runtime": "^7.10.5",
+    "@babel/runtime": "^7.11.2",
     "babel-loader": "^8.1.0",
     "hammerjs": "^2.0.8",
-    "terser-webpack-plugin": "^3.0.7"
+    "terser-webpack-plugin": "^4.2.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.5",
-    "@babel/plugin-transform-runtime": "^7.10.5",
-    "@babel/preset-env": "^7.10.4",
+    "@babel/core": "^7.11.6",
+    "@babel/plugin-transform-runtime": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
     "@vue/test-utils": "^1.0.0-beta.33",
     "babel-core": "^7.0.0-bridge.0",
-    "copy-webpack-plugin": "6.0.3",
-    "css-loader": "3.6.0",
-    "eslint": "^7.5.0",
+    "copy-webpack-plugin": "6.1.0",
+    "css-loader": "4.3.0",
+    "eslint": "^7.10.0",
     "eslint-plugin-vue": "^6.2.2",
-    "file-loader": "^6.0.0",
-    "html-webpack-plugin": "^4.3.0",
-    "jest": "^26.1.0",
-    "mini-css-extract-plugin": "^0.9.0",
-    "optimize-css-assets-webpack-plugin": "5.0.3",
+    "file-loader": "^6.1.0",
+    "html-webpack-plugin": "^4.5.0",
+    "jest": "^26.4.2",
+    "mini-css-extract-plugin": "^0.11.3",
+    "optimize-css-assets-webpack-plugin": "5.0.4",
     "rimraf": "^3.0.2",
-    "style-loader": "^1.2.1",
+    "style-loader": "^1.3.0",
     "url-loader": "^4.1.0",
-    "vue": "^2.6.10",
-    "vue-jest": "^3.0.6",
+    "vue": "^2.6.12",
+    "vue-jest": "^3.0.7",
     "vue-loader": "^15.9.3",
-    "vue-template-compiler": "^2.6.10",
-    "webpack": "4.43.0",
+    "vue-template-compiler": "^2.6.12",
+    "webpack": "4.44.1",
     "webpack-cli": "3.3.12",
     "webpack-dev-server": "3.11.0"
-  },
-  "vetur": {
-    "tags": "dist/vetur/tags.json",
-    "attributes": "dist/vetur/attributes.json"
   }
 }
