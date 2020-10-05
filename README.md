@@ -274,7 +274,7 @@ The content of the close button.
 #### footer
 The content of the footer under the image.
 
-##### slot-scopes
+##### Slot props
 <table>
   <thead>
     <tr>
@@ -292,7 +292,7 @@ The content of the footer under the image.
     <tr>
       <td>total</td>
       <td>integer</td>
-      <td>Numbers of the images</td>
+      <td>Number of images</td>
     </tr>
   </tbody>
 </table>
@@ -305,6 +305,39 @@ The next button on the main image.
 
 #### customCaption
 The caption of the current image.
+
+##### Slot props
+<table>
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>type</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>currentMedia</td>
+      <td>Object</td>
+      <td>The currently displayed object from the media array</td>
+    </tr>
+  </tbody>
+</table>
+
+Usage example:
+
+```javascript
+<LightBox
+  ref="customCaptionLightbox"
+  :media="media"
+  :show-caption="true"
+>
+  <template v-slot:customCaption="slotProps">
+    {{ slotProps.currentMedia.caption }}<br>
+    There could be some description here.
+  </template>
+</LightBox>
+```
 
 #### videoIcon
 The Icon used for videos
