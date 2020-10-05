@@ -52,6 +52,8 @@
           class="vib-thumbnail-wrapper vib-hideable"
           :class="{ 'vib-hidden': controlsHidden }"
           @click.stop
+          @mouseover="interfaceHovered = true"
+          @mouseleave="interfaceHovered = false"
         >
           <div
             v-for="(image, index) in imagesThumb"
@@ -73,6 +75,8 @@
         <div
           class="vib-footer vib-hideable"
           :class="{ 'vib-hidden': controlsHidden }"
+          @mouseover="interfaceHovered = true"
+          @mouseleave="interfaceHovered = false"
         >
           <slot
             name="customCaption"
@@ -101,6 +105,8 @@
           :title="closeText"
           class="vib-close vib-hideable"
           :class="{ 'vib-hidden': controlsHidden }"
+          @mouseover="interfaceHovered = true"
+          @mouseleave="interfaceHovered = false"
         >
           <slot name="close">
             <CloseIcon />
@@ -114,6 +120,8 @@
           :class="{ 'vib-hidden': controlsHidden }"
           :title="previousText"
           @click.stop="previousImage()"
+          @mouseover="interfaceHovered = true"
+          @mouseleave="interfaceHovered = false"
         >
           <slot name="previous">
             <LeftArrowIcon />
@@ -127,6 +135,8 @@
           :class="{ 'vib-hidden': controlsHidden }"
           :title="nextText"
           @click.stop="nextImage()"
+          @mouseover="interfaceHovered = true"
+          @mouseleave="interfaceHovered = false"
         >
           <slot name="next">
             <RightArrowIcon />
@@ -205,6 +215,11 @@ export default {
       default: 3000,
     },
 
+    interfaceHideTime: {
+      type: Number,
+      default: 3000,
+    },
+
     showCaption: {
       type: Boolean,
       default: false,
@@ -239,6 +254,7 @@ export default {
       imageTransitionName: 'vib-image-no-transition',
       timer: null,
       interactionTimer: null,
+      interfaceHovered: false,
     }
   },
 
@@ -419,10 +435,22 @@ export default {
         this.controlsHidden = false
       }
 
+      if (this.interfaceHovered) {
+        this.stopInteractionTimer()
+      } else {
+        this.startInteractionTimer()
+      }
+    },
+
+    startInteractionTimer() {
       this.interactionTimer = setTimeout(() => {
-          this.controlsHidden = true
-      }, 3000);
-    }
+        this.controlsHidden = true
+      }, this.interfaceHideTime)
+    },
+
+    stopInteractionTimer() {
+      this.interactionTimer = null
+    },
   },
 }
 </script>
