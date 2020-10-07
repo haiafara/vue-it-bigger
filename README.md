@@ -92,6 +92,46 @@ The `media` prop has the following structure
   }
 ]
 ```
+## Using it with NuxtJs
+
+Create a file named `lightbox.js` under the `plugins` directory with following contents:
+
+```javascript
+import Vue from 'vue'
+
+import LightBox from 'vue-it-bigger'
+import('vue-it-bigger/dist/vue-it-bigger.min.css')
+
+const plugin = {
+  install() {
+    Vue.component('LightBox', LightBox)
+  },
+}
+
+Vue.use(plugin)
+```
+
+Add the plugin in `nuxt.config.js`:
+
+```javascript
+plugins: [
+  {
+    src: '~/plugins/lightbox.js',
+    ssr: false
+  }
+]
+```
+
+Use it in any of your components:
+
+```html
+<no-ssr placeholder="Loading...">
+  <!-- this component will only be rendered on client-side -->
+  <LightBox
+    :media="lightBoxMedia"
+  ></LightBox>
+</no-ssr>
+```
 
 ## Options
 
@@ -147,6 +187,12 @@ The `media` prop has the following structure
       <td>Number</td>
       <td>3000 (ms)</td>
       <td>Time to stop at an image before move on to next image</td>
+    </tr>
+    <tr>
+      <td>interfaceHideTime</td>
+      <td>Number</td>
+      <td>3000 (ms)</td>
+      <td>Time after which the interface is hidden</td>
     </tr>
     <tr>
       <td>showCaption</td>
@@ -234,7 +280,7 @@ The content of the close button.
 #### footer
 The content of the footer under the image.
 
-##### slot-scopes
+##### Slot props
 <table>
   <thead>
     <tr>
@@ -252,7 +298,7 @@ The content of the footer under the image.
     <tr>
       <td>total</td>
       <td>integer</td>
-      <td>Numbers of the images</td>
+      <td>Number of images</td>
     </tr>
   </tbody>
 </table>
@@ -265,6 +311,39 @@ The next button on the main image.
 
 #### customCaption
 The caption of the current image.
+
+##### Slot props
+<table>
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>type</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>currentMedia</td>
+      <td>Object</td>
+      <td>The currently displayed object from the media array</td>
+    </tr>
+  </tbody>
+</table>
+
+Usage example:
+
+```javascript
+<LightBox
+  ref="customCaptionLightbox"
+  :media="media"
+  :show-caption="true"
+>
+  <template v-slot:customCaption="slotProps">
+    {{ slotProps.currentMedia.caption }}<br>
+    There could be some description here.
+  </template>
+</LightBox>
+```
 
 #### videoIcon
 The Icon used for videos
@@ -299,3 +378,7 @@ yarn test
 * Original CSS was based on [react-images](https://github.com/jossmac/react-images)
 * vue-image-lightbox authored by [@pexea12](https://github.com/pexea12)
 * [Other contributors](https://github.com/haiafara/vue-it-bigger/graphs/contributors)
+
+## License
+
+This project is licensed under the the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
