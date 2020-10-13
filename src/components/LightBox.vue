@@ -34,10 +34,11 @@
             >
               <iframe
                 :src="'https://www.youtube.com/embed/' + media[select].id + '?showinfo=0'"
-                width="560" height="315"
+                width="560"
+                height="315"
                 frameborder="0"
-                allowfullscreen>
-              </iframe>
+                allowfullscreen
+              />
             </div>
             <video
               v-else-if="currentMedia.type == 'video'"
