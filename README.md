@@ -22,6 +22,7 @@ Click on the screenshot above for a **demo**.
 
 # Improvements over vue-image-lightbox
 
+* Allows embedding YouTube videos
 * Lightbox opens and closes with a short fade
 * Media's width is no longer limited (stretches to the full width / height of the window)
 * When opening the lightbox the media doesn't flicker
@@ -66,17 +67,25 @@ And use it in the `<template>` section:
 <LightBox :media="media"></LightBox>
 ```
 
-The `media` prop has the following structure
+The `media` prop has the following structure:
 
 ```javascript
 [
   { // For an image
+    type: 'image', // Can be omitted for image
     thumb: 'http://example.com/thumb.jpg',
     src: 'http://example.com/image.jpg',
     caption: 'Caption to display. HTML <b>enabled</b>', // Optional
     srcset: '...' // Optional for displaying responsive images
   },
-  { // For a video
+  { // For a YouTube video
+    type: 'youtube',
+    thumb: 'https://img.youtube.com/vi/WsptdUFthWI/hqdefault.jpg',
+    id: 'WsptdUFthWI',
+    caption: 'HTML <b>enabled</b> caption to display' // Optional
+  },
+  { // For a video that can be played in the <video> tag
+    type: 'video',
     thumb: 'https://s3-us-west-1.amazonaws.com/powr/defaults/image-slider2.jpg',
     sources: [
       {
@@ -84,11 +93,10 @@ The `media` prop has the following structure
         type: 'video/mp4'
       }
     ],
-    type: 'video',
     caption: '<h4>Monsters Inc.</h4>',
     width: 800, // Required
     height: 600, // Required
-    autoplay: true, // Optional: Autoplay video when the lightbox opens
+    autoplay: true // Optional: Autoplay video when the lightbox opens
   }
 ]
 ```
@@ -375,6 +383,7 @@ yarn test
 
 ## Credits
 
+* Thanks [@anavsv](https://github.com/anavsv) for helping with the YouTube embed styling
 * Original CSS was based on [react-images](https://github.com/jossmac/react-images)
 * vue-image-lightbox authored by [@pexea12](https://github.com/pexea12)
 * [Other contributors](https://github.com/haiafara/vue-it-bigger/graphs/contributors)
