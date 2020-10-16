@@ -248,8 +248,9 @@ export default {
 
   data() {
     return {
-      select: this.startAt,
-      lightBoxShown: this.showLightBox,
+      selectData: null,
+      //select: this.startAt,
+      // lightBoxShown: this.showLightBox,
       controlsHidden: false,
       imageTransitionName: 'vib-image-no-transition',
       timer: null,
@@ -259,10 +260,27 @@ export default {
   },
 
   computed: {
+    lightBoxShown:{
+      get(){ return this.showLightBox},
+      set(value){
+        this.$emit('toggleLightBox', value)
+      }
+    },
     currentMedia() {
       return this.media[this.select]
     },
-
+    select:{
+      get(){
+        if(this.selectData==null){
+          return this.startAt
+        } else {
+          return this.selectData
+        }
+      },
+      set(someVal){
+        this.selectData = someVal
+      }
+    },
     thumbIndex() {
       const halfDown = Math.floor(this.nThumbs / 2)
 
@@ -408,7 +426,8 @@ export default {
       if (this.$refs.video)
         this.$refs.video.pause();
       if (!this.closable) return;
-      this.$set(this, 'lightBoxShown', false)
+      //this.$set(this, 'lightBoxShown', false)
+      this.$emit('toggleLightBox', false)
     },
 
     nextImage() {

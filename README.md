@@ -1,4 +1,4 @@
-# Vue It Bigger!
+# FORK of Vue It Bigger!
 
 [![npm](https://img.shields.io/npm/v/vue-it-bigger?color=%2341BB13)](https://www.npmjs.com/package/vue-it-bigger)
 [![Build Status](https://travis-ci.org/haiafara/vue-it-bigger.svg?branch=master)](https://travis-ci.org/haiafara/vue-it-bigger)
@@ -11,43 +11,48 @@ A simple image / video lightbox component for Vue.js. Based on [vue-image-lightb
 
 Click on the screenshot above for a **demo**.
 
+## why I bother to fork it:
+
+- Parameter `show-light-box` is now reactive, whitch is easier to toggle LightBox from parent
+- Parameter `start-at` is reactive as well
+
 ## Features
 
-* Unobtrusive interface that disappears after a few seconds, reappears on mouse activity
-* Optional thumbnail strip with all of the gallery's media
-* Can show an HTML enabled caption under each image or video
-* Can play the slideshow automatically
-* All of the graphics (previous, next and close buttons) can be customized via slots
-* Can skip to next / previous media programatically
+- Unobtrusive interface that disappears after a few seconds, reappears on mouse activity
+- Optional thumbnail strip with all of the gallery's media
+- Can show an HTML enabled caption under each image or video
+- Can play the slideshow automatically
+- All of the graphics (previous, next and close buttons) can be customized via slots
+- Can skip to next / previous media programatically
 
 # Improvements over vue-image-lightbox
 
-* Lightbox opens and closes with a short fade
-* Media's width is no longer limited (stretches to the full width / height of the window)
-* When opening the lightbox the media doesn't flicker
-* Moved caption bar and image counter off the media to the bottom of the screen
-* Moved thumbnails to the top of the screen (as the bottom is now used by the caption bar)
-* All interface elements have a background for better visibility
-* Simplified CSS
+- Lightbox opens and closes with a short fade
+- Media's width is no longer limited (stretches to the full width / height of the window)
+- When opening the lightbox the media doesn't flicker
+- Moved caption bar and image counter off the media to the bottom of the screen
+- Moved thumbnails to the top of the screen (as the bottom is now used by the caption bar)
+- All interface elements have a background for better visibility
+- Simplified CSS
 
 ## Installation
 
 You know the drill:
 
 ```
-npm install vue-it-bigger
-yarn add vue-it-bigger
+npm install vue-it-bigger-vladfork
+yarn add vue-it-bigger-vladfork
 ```
 
 ## Usage
 
-You can view [App.vue](src/App.vue) or [the demo](https://haiafara.github.io/vue-it-bigger/) for an usage example.
+You can view [App.vue](src/App.vue) or [the demo](https://haiafara.github.io/vue-it-bigger-vladfork/) for an usage example.
 
 In the `<script>` section of your component import it:
 
 ```javascript
-import LightBox from 'vue-it-bigger'
-import('vue-it-bigger/dist/vue-it-bigger.min.css') // when using webpack
+import LightBox from "vue-it-bigger-vladfork";
+import("vue-it-bigger-vladfork/dist/vue-it-bigger.min.css"); // when using webpack
 ```
 
 Add it to the list of used components:
@@ -55,60 +60,102 @@ Add it to the list of used components:
 ```javascript
 export default {
   components: {
-    LightBox,
-  },
-}
+    LightBox
+  }
+};
 ```
 
 And use it in the `<template>` section:
 
 ```html
-<LightBox :media="media"></LightBox>
+<LightBox
+  :media="media"
+  :show-light-box="showLightBox"
+  :start-at="lbStartAt"
+  @toggleLightBox="toggleLightBox"
+></LightBox>
 ```
 
 The `media` prop has the following structure
 
 ```javascript
 [
-  { // For an image
-    thumb: 'http://example.com/thumb.jpg',
-    src: 'http://example.com/image.jpg',
-    caption: 'Caption to display. HTML <b>enabled</b>', // Optional
-    srcset: '...' // Optional for displaying responsive images
+  {
+    // For an image
+    thumb: "http://example.com/thumb.jpg",
+    src: "http://example.com/image.jpg",
+    caption: "Caption to display. HTML <b>enabled</b>", // Optional
+    srcset: "..." // Optional for displaying responsive images
   },
-  { // For a video
-    thumb: 'https://s3-us-west-1.amazonaws.com/powr/defaults/image-slider2.jpg',
+  {
+    // For a video
+    thumb: "https://s3-us-west-1.amazonaws.com/powr/defaults/image-slider2.jpg",
     sources: [
       {
-        src: 'https://www.w3schools.com/html/mov_bbb.mp4',
-        type: 'video/mp4'
+        src: "https://www.w3schools.com/html/mov_bbb.mp4",
+        type: "video/mp4"
       }
     ],
-    type: 'video',
-    caption: '<h4>Monsters Inc.</h4>',
+    type: "video",
+    caption: "<h4>Monsters Inc.</h4>",
     width: 800, // Required
     height: 600, // Required
-    autoplay: true, // Optional: Autoplay video when the lightbox opens
+    autoplay: true // Optional: Autoplay video when the lightbox opens
   }
-]
+];
 ```
+
+`data` variables:
+
+```javascript
+  data () {
+    return {
+      media: [
+        ...
+      ]
+      showLightBox: false,
+      lbStartAt: 0,
+      ...
+    }
+  },
+```
+
+add toggle method to `methods`:
+
+```javascript
+    toggleLightBox(v) {
+      this.showLightBox = v || false
+    },
+```
+
+to show the LightBox use a `method` something like:
+
+```javascript
+  openGallery(index) {
+    this.lbStartAt = index || 0
+    this.showLightBox = true
+  }
+```
+
+Where `index` is the Index of image you want to pop up
+
 ## Using it with NuxtJs
 
 Create a file named `lightbox.js` under the `plugins` directory with following contents:
 
 ```javascript
-import Vue from 'vue'
+import Vue from "vue";
 
-import LightBox from 'vue-it-bigger'
-import('vue-it-bigger/dist/vue-it-bigger.min.css')
+import LightBox from "vue-it-bigger-vladfork";
+import("vue-it-bigger-vladfork/dist/vue-it-bigger-vladfork.min.css");
 
 const plugin = {
   install() {
-    Vue.component('LightBox', LightBox)
-  },
-}
+    Vue.component("LightBox", LightBox);
+  }
+};
 
-Vue.use(plugin)
+Vue.use(plugin);
 ```
 
 Add the plugin in `nuxt.config.js`:
@@ -116,10 +163,10 @@ Add the plugin in `nuxt.config.js`:
 ```javascript
 plugins: [
   {
-    src: '~/plugins/lightbox.js',
+    src: "~/plugins/lightbox.js",
     ssr: false
   }
-]
+];
 ```
 
 Use it in any of your components:
@@ -127,15 +174,14 @@ Use it in any of your components:
 ```html
 <no-ssr placeholder="Loading...">
   <!-- this component will only be rendered on client-side -->
-  <LightBox
-    :media="lightBoxMedia"
-  ></LightBox>
+  <LightBox :media="lightBoxMedia" ....></LightBox>
 </no-ssr>
 ```
 
 ## Options
 
 ### Properties
+
 <table>
   <thead>
     <tr>
@@ -240,6 +286,7 @@ Use it in any of your components:
 </table>
 
 ### Methods
+
 <table>
   <thead>
     <tr>
@@ -275,12 +322,15 @@ Use it in any of your components:
 ### Slots
 
 #### close
+
 The content of the close button.
 
 #### footer
+
 The content of the footer under the image.
 
 ##### Slot props
+
 <table>
   <thead>
     <tr>
@@ -304,15 +354,19 @@ The content of the footer under the image.
 </table>
 
 #### previous
+
 The previous button on the main image.
 
 #### next
+
 The next button on the main image.
 
 #### customCaption
+
 The caption of the current image.
 
 ##### Slot props
+
 <table>
   <thead>
     <tr>
@@ -346,6 +400,7 @@ Usage example:
 ```
 
 #### videoIcon
+
 The Icon used for videos
 
 ### Events
@@ -375,9 +430,9 @@ yarn test
 
 ## Credits
 
-* Original CSS was based on [react-images](https://github.com/jossmac/react-images)
-* vue-image-lightbox authored by [@pexea12](https://github.com/pexea12)
-* [Other contributors](https://github.com/haiafara/vue-it-bigger/graphs/contributors)
+- Original CSS was based on [react-images](https://github.com/jossmac/react-images)
+- vue-image-lightbox authored by [@pexea12](https://github.com/pexea12)
+- [Other contributors](https://github.com/haiafara/vue-it-bigger/graphs/contributors)
 
 ## License
 

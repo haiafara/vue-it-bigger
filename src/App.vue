@@ -23,7 +23,9 @@
         ref="lightbox"
         :media="media"
         :show-caption="true"
-        :show-light-box="false"
+        :show-light-box="showLightBox"
+        :start-at="lbStartAt"
+        @toggleLightBox="toggleLightBox"
       />
     </div>
   </div>
@@ -42,12 +44,19 @@ export default {
   data () {
     return {
       media,
+      showLightBox: false,
+      lbStartAt: 0
     }
   },
 
   methods: {
+    toggleLightBox(v) {
+      this.showLightBox = v || false
+    },
     openGallery(index) {
-      this.$refs.lightbox.showImage(index)
+      this.lbStartAt = index || 0
+      this.showLightBox = true
+      //this.$refs.lightbox.showImage(index)
     }
   }
 }
