@@ -7,6 +7,8 @@
 
 A simple image / video lightbox component for Vue.js. Forked from [vue-it-bigger](https://github.com/haiafara/vue-it-bigger).
 
+This version is also using [vue-pinch-zoom](https://github.com/drozhzhin-n-e/vue-pinch-zoom)
+
 [![Vue It Bigger Screenshot](https://imgur.com/89eZHa7.jpg)](https://haiafara.github.io/vue-it-bigger/)
 
 Click on the screenshot above for a **demo**.
@@ -18,6 +20,7 @@ Click on the screenshot above for a **demo**.
 
 ## Features
 
+- NEW: pinch to zoom
 - Unobtrusive interface that disappears after a few seconds, reappears on mouse activity
 - Optional thumbnail strip with all of the gallery's media
 - Can show an HTML enabled caption under each image or video
@@ -427,6 +430,11 @@ After you add or modify something make sure the tests still pass:
 npm run test
 yarn test
 ```
+
+## ToDo
+
+- Improve documentation
+- Add pinch to zoom options
 
 ## Credits
 
