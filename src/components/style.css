@@ -51,10 +51,20 @@
 @media (max-width: 500px) {
   .vib-content {
     height: 100vh;
+    min-width: 100%;
   }
   .pinch-zoom-wrapper {
     height: 100vh;
+    min-width: 100%;
   }
+}
+.pinch-zoom-wrapper {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.pinch-zoom-content {
+  min-height: 100vh;
+  min-width: 100vw;
 }
 
 img.vib-image {

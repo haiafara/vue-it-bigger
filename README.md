@@ -13,10 +13,12 @@ This version is also using [vue-pinch-zoom](https://github.com/drozhzhin-n-e/vue
 
 Click on the screenshot above for a **demo**.
 
-## Why I bother to fork it:
+## Why I bother to fork it?:
 
 - Parameter `show-light-box` is now reactive, whitch is easier to toggle LightBox from parent
 - Parameter `start-at` is reactive as well
+- Pinch to zoom added, which is useful for mobile view
+-
 
 ## Features
 

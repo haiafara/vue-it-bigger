@@ -21,7 +21,7 @@
             >
               <img
                 :key="currentMedia.src"
-                :src="currentMedia.src"
+                v-lazy="currentMedia.src"
                 :srcset="currentMedia.srcset || ''"
                 class="vib-image"
                 :alt="currentMedia.caption"

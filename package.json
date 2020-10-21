@@ -1,7 +1,7 @@
 {
   "name": "vue-it-bigger-vladfork",
   "description": "A simple image / video lightbox component for Vue.js. Based on vue-it-bigger.",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "author": "Vladimir Mitrofanov <vld.mitrofanov@gmail.com>",
   "contributors": [
     "Nguyen P. Thien Dzung <dzungnguyenvn@outlook.com>",
@@ -69,6 +69,7 @@
     "babel-loader": "^8.1.0",
     "hammerjs": "^2.0.8",
     "terser-webpack-plugin": "^4.2.3",
+    "vue-lazyload": "^1.3.3",
     "vue-pinch-zoom": "^1.0.1"
   },
   "devDependencies": {
