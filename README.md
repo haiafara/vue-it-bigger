@@ -9,7 +9,7 @@ A simple image / video lightbox component for Vue.js. Forked from [vue-it-bigger
 
 This version is also using [vue-pinch-zoom](https://github.com/drozhzhin-n-e/vue-pinch-zoom)
 
-[![Vue It Bigger Screenshot](https://imgur.com/89eZHa7.jpg)](https://haiafara.github.io/vue-it-bigger/)
+[![Vue It Bigger Screenshot](https://imgur.com/89eZHa7.jpg)](https://vue-it-bigger-vladfork.netlify.app)
 
 Click on the screenshot above for a **demo**.
 
