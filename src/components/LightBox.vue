@@ -12,22 +12,21 @@
         ref="container"
         class="vib-container"
       >
-        <div
-          class="vib-content"
-          @click.stop
-        >
-          <transition
-            mode="out-in"
-            :name="imageTransitionName"
-          >
-            <img
+        <div class="vib-content" @click.stop>
+          <transition mode="out-in" :name="imageTransitionName">
+            <PinchZoom
               v-if="currentMedia.type !== 'video'"
-              :key="currentMedia.src"
-              :src="currentMedia.src"
-              :srcset="currentMedia.srcset || ''"
-              class="vib-image"
-              :alt="currentMedia.caption"
+              :auto-height="true"
+              :auto-zoom-out="true"
             >
+              <img
+                :key="currentMedia.src"
+                :src="currentMedia.src"
+                :srcset="currentMedia.srcset || ''"
+                class="vib-image"
+                :alt="currentMedia.caption"
+              />
+            </PinchZoom>
             <video
               v-else
               :key="currentMedia.sources[0].src"
@@ -42,10 +41,11 @@
                 :key="source.src"
                 :src="source.src"
                 :type="source.type"
-              >
+              />
             </video>
           </transition>
-        </div> <!-- .vib-content -->
+        </div>
+        <!-- .vib-content -->
 
         <div
           v-if="showThumbs"
@@ -58,19 +58,19 @@
           <div
             v-for="(image, index) in imagesThumb"
             v-show="index >= thumbIndex.begin && index <= thumbIndex.end"
-            :key="typeof image.thumb === 'string' ? `${image.thumb}${index}` : index"
+            :key="
+              typeof image.thumb === 'string' ? `${image.thumb}${index}` : index
+            "
             :style="{ backgroundImage: 'url(' + image.thumb + ')' }"
             :class="'vib-thumbnail' + (select === index ? '-active' : '')"
             @click.stop="showImage(index)"
           >
-            <slot
-              v-if="image.type"
-              name="videoIcon"
-            >
+            <slot v-if="image.type" name="videoIcon">
               <VideoIcon />
             </slot>
           </div>
-        </div> <!-- .vib-thumbnail-wrapper -->
+        </div>
+        <!-- .vib-thumbnail-wrapper -->
 
         <div
           class="vib-footer vib-hideable"
@@ -78,22 +78,12 @@
           @mouseover="interfaceHovered = true"
           @mouseleave="interfaceHovered = false"
         >
-          <slot
-            name="customCaption"
-            :currentMedia="currentMedia"
-          >
-            <div
-              v-show="showCaption"
-              v-html="currentMedia.caption"
-            />
+          <slot name="customCaption" :currentMedia="currentMedia">
+            <div v-show="showCaption" v-html="currentMedia.caption" />
           </slot>
 
           <div class="vib-footer-count">
-            <slot
-              name="footer"
-              :current="select + 1"
-              :total="media.length"
-            >
+            <slot name="footer" :current="select + 1" :total="media.length">
               {{ select + 1 }} / {{ media.length }}
             </slot>
           </div>
@@ -142,22 +132,24 @@
             <RightArrowIcon />
           </slot>
         </button>
-      </div> <!-- .vib-container -->
+      </div>
+      <!-- .vib-container -->
     </transition>
   </div>
 </template>
 
 <script>
-import LeftArrowIcon from './LeftArrowIcon'
-import RightArrowIcon from './RightArrowIcon'
-import CloseIcon from './CloseIcon'
-import VideoIcon from './VideoIcon'
+import LeftArrowIcon from "./LeftArrowIcon";
+import RightArrowIcon from "./RightArrowIcon";
+import CloseIcon from "./CloseIcon";
+import VideoIcon from "./VideoIcon";
+import PinchZoom from "vue-pinch-zoom";
 
-let Hammer
+let Hammer;
 
 // istanbul ignore else
-if (typeof window !== 'undefined') {
-  Hammer = require('hammerjs')
+if (typeof window !== "undefined") {
+  Hammer = require("hammerjs");
 }
 
 export default {
@@ -166,63 +158,64 @@ export default {
     RightArrowIcon,
     CloseIcon,
     VideoIcon,
+    PinchZoom
   },
 
   props: {
     media: {
       type: Array,
-      required: true,
+      required: true
     },
 
     disableScroll: {
       type: Boolean,
-      default: true,
+      default: true
     },
 
     showLightBox: {
       type: Boolean,
-      default: true,
+      default: true
     },
 
     closable: {
       type: Boolean,
-      default: true,
+      default: true
     },
 
     startAt: {
       type: Number,
-      default: 0,
+      default: 0
     },
 
     nThumbs: {
       type: Number,
-      default: 7,
+      default: 7
     },
 
     showThumbs: {
       type: Boolean,
-      default: true,
+      default: true
     },
 
     // Mode
     autoPlay: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     autoPlayTime: {
       type: Number,
-      default: 3000,
+      default: 3000
     },
 
     interfaceHideTime: {
       type: Number,
-      default: 3000,
+      default: 3000
     },
 
     showCaption: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     lengthToLoadMore: {
@@ -232,18 +225,18 @@ export default {
 
     closeText: {
       type: String,
-      default: 'Close (Esc)'
+      default: "Close (Esc)"
     },
 
     previousText: {
       type: String,
-      default: 'Previous',
+      default: "Previous"
     },
 
     nextText: {
       type: String,
-      default: 'Next',
-    },
+      default: "Next"
+    }
   },
 
   data() {
@@ -252,227 +245,246 @@ export default {
       //select: this.startAt,
       // lightBoxShown: this.showLightBox,
       controlsHidden: false,
-      imageTransitionName: 'vib-image-no-transition',
+      imageTransitionName: "vib-image-no-transition",
       timer: null,
       interactionTimer: null,
-      interfaceHovered: false,
-    }
+      interfaceHovered: false
+    };
   },
 
   computed: {
-    lightBoxShown:{
-      get(){ return this.showLightBox},
-      set(value){
-        this.$emit('toggleLightBox', value)
+    lightBoxShown: {
+      get() {
+        return this.showLightBox;
+      },
+      set(value) {
+        this.$emit("toggleLightBox", value);
       }
     },
     currentMedia() {
-      return this.media[this.select]
+      return this.media[this.select];
     },
-    select:{
-      get(){
-        if(this.selectData==null){
-          return this.startAt
+    select: {
+      get() {
+        if (this.selectData == null) {
+          return this.startAt;
         } else {
-          return this.selectData
+          return this.selectData;
         }
       },
-      set(someVal){
-        this.selectData = someVal
+      set(someVal) {
+        this.selectData = someVal;
       }
     },
     thumbIndex() {
-      const halfDown = Math.floor(this.nThumbs / 2)
+      const halfDown = Math.floor(this.nThumbs / 2);
 
       if (this.select >= halfDown && this.select < this.media.length - halfDown)
         return {
-          begin: this.select - halfDown + (1 - this.nThumbs % 2),
-          end: this.select + halfDown,
-        }
+          begin: this.select - halfDown + (1 - (this.nThumbs % 2)),
+          end: this.select + halfDown
+        };
 
       if (this.select < halfDown)
         return {
           begin: 0,
-          end: this.nThumbs - 1,
-        }
+          end: this.nThumbs - 1
+        };
 
       return {
         begin: this.media.length - this.nThumbs,
-        end: this.media.length - 1,
-      }
+        end: this.media.length - 1
+      };
     },
 
     imagesThumb() {
-      return this.media.map(({ thumb, type }) => ({ thumb, type }))
-    },
+      return this.media.map(({ thumb, type }) => ({ thumb, type }));
+    }
   },
 
   watch: {
     lightBoxShown(value) {
       // istanbul ignore else
       if (document != null) {
-        this.onToggleLightBox(value)
+        this.onToggleLightBox(value);
       }
     },
 
     select() {
-      this.$emit('onImageChanged', this.select)
+      this.$emit("onImageChanged", this.select);
 
       if (this.select >= this.media.length - this.lengthToLoadMore - 1)
-        this.$emit('onLoad')
+        this.$emit("onLoad");
 
-      if (this.select === this.media.length - 1)
-        this.$emit('onLastIndex')
+      if (this.select === this.media.length - 1) this.$emit("onLastIndex");
 
-      if (this.select === 0)
-        this.$emit('onFirstIndex')
+      if (this.select === 0) this.$emit("onFirstIndex");
 
-      if (this.select === this.startAt)
-        this.$emit('onStartIndex')
-    },
+      if (this.select === this.startAt) this.$emit("onStartIndex");
+    }
   },
 
   mounted() {
     if (this.autoPlay) {
-      this.timer = setInterval(this.nextImage, this.autoPlayTime)
+      this.timer = setInterval(this.nextImage, this.autoPlayTime);
     }
 
-    this.onToggleLightBox(this.lightBoxShown)
+    this.onToggleLightBox(this.lightBoxShown);
 
     if (this.$refs.container) {
-      const hammer = new Hammer(this.$refs.container)
+      const hammer = new Hammer(this.$refs.container);
 
-      hammer.on('swiperight', this.previousImage)
-      hammer.on('swipeleft', this.nextImage)
+      hammer.on("swiperight", this.previousImage);
+      hammer.on("swipeleft", this.nextImage);
 
-      this.$refs.container.addEventListener('mousedown', this.handleMouseActivity);
-      this.$refs.container.addEventListener('mousemove', this.handleMouseActivity);
-      this.$refs.container.addEventListener('touchmove', this.handleMouseActivity);
+      this.$refs.container.addEventListener(
+        "mousedown",
+        this.handleMouseActivity
+      );
+      this.$refs.container.addEventListener(
+        "mousemove",
+        this.handleMouseActivity
+      );
+      this.$refs.container.addEventListener(
+        "touchmove",
+        this.handleMouseActivity
+      );
     }
   },
 
   beforeDestroy() {
-    document.removeEventListener('keydown', this.addKeyEvent)
+    document.removeEventListener("keydown", this.addKeyEvent);
 
     if (this.autoPlay) {
-      clearInterval(this.timer)
+      clearInterval(this.timer);
     }
 
     if (this.$refs.container) {
-      this.$refs.container.removeEventListener('mousedown', this.handleMouseActivity);
-      this.$refs.container.removeEventListener('mousemove', this.handleMouseActivity);
-      this.$refs.container.removeEventListener('touchmove', this.handleMouseActivity);
+      this.$refs.container.removeEventListener(
+        "mousedown",
+        this.handleMouseActivity
+      );
+      this.$refs.container.removeEventListener(
+        "mousemove",
+        this.handleMouseActivity
+      );
+      this.$refs.container.removeEventListener(
+        "touchmove",
+        this.handleMouseActivity
+      );
     }
   },
 
   methods: {
     onLightBoxOpen() {
-      this.$emit('onOpened')
+      this.$emit("onOpened");
 
       if (this.disableScroll) {
-        document.querySelector('html').classList.add('no-scroll')
+        document.querySelector("html").classList.add("no-scroll");
       }
 
-      document.querySelector('body').classList.add('vib-open')
-      document.addEventListener('keydown', this.addKeyEvent)
+      document.querySelector("body").classList.add("vib-open");
+      document.addEventListener("keydown", this.addKeyEvent);
 
       if (this.$refs.video && this.$refs.video.autoplay) {
-        this.$refs.video.play()
+        this.$refs.video.play();
       }
     },
 
     onLightBoxClose() {
-      this.$emit('onClosed')
+      this.$emit("onClosed");
 
       if (this.disableScroll) {
-        document.querySelector('html').classList.remove('no-scroll')
+        document.querySelector("html").classList.remove("no-scroll");
       }
 
-      document.querySelector('body').classList.remove('vib-open')
-      document.removeEventListener('keydown', this.addKeyEvent)
+      document.querySelector("body").classList.remove("vib-open");
+      document.removeEventListener("keydown", this.addKeyEvent);
 
       if (this.$refs.video) {
-        this.$refs.video.pause()
-        this.$refs.video.currentTime = '0'
+        this.$refs.video.pause();
+        this.$refs.video.currentTime = "0";
       }
     },
 
     onToggleLightBox(value) {
-      if (value) this.onLightBoxOpen()
-      else this.onLightBoxClose()
+      if (value) this.onLightBoxOpen();
+      else this.onLightBoxClose();
     },
 
     showImage(index) {
-      this.select = index
-      this.controlsHidden = false
-      this.lightBoxShown = true
+      this.select = index;
+      this.controlsHidden = false;
+      this.lightBoxShown = true;
     },
 
     addKeyEvent(event) {
       switch (event.keyCode) {
         case 37: // left arrow
-          this.previousImage()
-          break
+          this.previousImage();
+          break;
         case 39: // right arrow
-          this.nextImage()
-          break
+          this.nextImage();
+          break;
         case 27: // esc
-          this.closeLightBox()
-          break
+          this.closeLightBox();
+          break;
       }
     },
 
     closeLightBox() {
-      if (this.$refs.video)
-        this.$refs.video.pause();
+      if (this.$refs.video) this.$refs.video.pause();
       if (!this.closable) return;
       //this.$set(this, 'lightBoxShown', false)
-      this.$emit('toggleLightBox', false)
+      this.$emit("toggleLightBox", false);
     },
 
     nextImage() {
-      this.$set(this, 'select', (this.select + 1) % this.media.length)
+      this.$set(this, "select", (this.select + 1) % this.media.length);
     },
 
     previousImage() {
-      this.$set(this, 'select', (this.select + this.media.length - 1) % this.media.length)
+      this.$set(
+        this,
+        "select",
+        (this.select + this.media.length - 1) % this.media.length
+      );
     },
 
     enableImageTransition() {
-      this.handleMouseActivity()
-      this.imageTransitionName = 'vib-image-transition'
+      this.handleMouseActivity();
+      this.imageTransitionName = "vib-image-transition";
     },
 
     disableImageTransition() {
-      this.imageTransitionName = 'vib-image-no-transition'
+      this.imageTransitionName = "vib-image-no-transition";
     },
 
     handleMouseActivity() {
       clearTimeout(this.interactionTimer);
 
       if (this.controlsHidden) {
-        this.controlsHidden = false
+        this.controlsHidden = false;
       }
 
       if (this.interfaceHovered) {
-        this.stopInteractionTimer()
+        this.stopInteractionTimer();
       } else {
-        this.startInteractionTimer()
+        this.startInteractionTimer();
       }
     },
 
     startInteractionTimer() {
       this.interactionTimer = setTimeout(() => {
-        this.controlsHidden = true
-      }, this.interfaceHideTime)
+        this.controlsHidden = true;
+      }, this.interfaceHideTime);
     },
 
     stopInteractionTimer() {
-      this.interactionTimer = null
-    },
-  },
-}
+      this.interactionTimer = null;
+    }
+  }
+};
 </script>
 
-<style src="./style.css">
-</style>
+<style src="./style.css"></style>

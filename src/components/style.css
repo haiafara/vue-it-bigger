@@ -9,7 +9,7 @@
 }
 
 .vib-hideable {
-  transition: opacity .5s ease;
+  transition: opacity 0.5s ease;
 }
 
 .vib-hidden {
@@ -48,6 +48,14 @@
   margin: 0px;
   display: block;
 }
+@media (max-width: 500px) {
+  .vib-content {
+    height: 100vh;
+  }
+  .pinch-zoom-wrapper {
+    height: 100vh;
+  }
+}
 
 img.vib-image {
   cursor: pointer;
@@ -79,7 +87,7 @@ img.vib-image {
   background-position: center;
   background-size: cover;
   border-radius: 4px;
-  box-shadow: inset 0 0 0 1px hsla(0,0%,100%,.2);
+  box-shadow: inset 0 0 0 1px hsla(0, 0%, 100%, 0.2);
   cursor: pointer;
   display: inline-block;
   height: 50px;
@@ -171,7 +179,7 @@ img.vib-image {
 
 @media (min-width: 768px) {
   .vib-arrow {
-      width: 60px;
+    width: 60px;
   }
 }
 
@@ -179,7 +187,7 @@ img.vib-image {
 
 .vib-image-transition-enter-active,
 .vib-image-transition-leave-active {
-  transition: opacity .2s ease;
+  transition: opacity 0.2s ease;
 }
 
 .vib-image-transition-enter,
@@ -201,7 +209,7 @@ img.vib-image {
 
 .vib-container-transition-enter-active,
 .vib-container-transition-leave-active {
-  transition: opacity .3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .vib-container-transition-enter,

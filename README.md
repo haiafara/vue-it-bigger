@@ -5,13 +5,13 @@
 [![codecov](https://codecov.io/gh/haiafara/vue-it-bigger/branch/master/graph/badge.svg)](https://codecov.io/gh/haiafara/vue-it-bigger)
 [![Depfu](https://badges.depfu.com/badges/069e198b8d20824c7de448b3506afcde/overview.svg)](https://depfu.com/github/haiafara/vue-it-bigger?project_id=12241)
 
-A simple image / video lightbox component for Vue.js. Based on [vue-image-lightbox](https://github.com/pexea12/vue-image-lightbox).
+A simple image / video lightbox component for Vue.js. Forked from [vue-it-bigger](https://github.com/haiafara/vue-it-bigger).
 
 [![Vue It Bigger Screenshot](https://imgur.com/89eZHa7.jpg)](https://haiafara.github.io/vue-it-bigger/)
 
 Click on the screenshot above for a **demo**.
 
-## why I bother to fork it:
+## Why I bother to fork it:
 
 - Parameter `show-light-box` is now reactive, whitch is easier to toggle LightBox from parent
 - Parameter `start-at` is reactive as well
