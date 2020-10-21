@@ -17,7 +17,7 @@
             <PinchZoom
               v-if="currentMedia.type !== 'video'"
               :auto-height="true"
-              :auto-zoom-out="true"
+              :auto-zoom-out="false"
             >
               <img
                 :key="currentMedia.src"
@@ -305,6 +305,9 @@ export default {
   watch: {
     lightBoxShown(value) {
       // istanbul ignore else
+      if (value) {
+        this.select = this.startAt;
+      }
       if (document != null) {
         this.onToggleLightBox(value);
       }
