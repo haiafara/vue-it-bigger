@@ -18,11 +18,12 @@ Click on the screenshot above for a **demo**.
 - Parameter `show-light-box` is now reactive, whitch is easier to toggle LightBox from parent
 - Parameter `start-at` is reactive as well
 - Pinch to zoom added, which is useful for mobile view
--
+- Lazy-load added. Currently with default image only
 
 ## Features
 
 - NEW: pinch to zoom
+- NEW: lazy-loader
 - Unobtrusive interface that disappears after a few seconds, reappears on mouse activity
 - Optional thumbnail strip with all of the gallery's media
 - Can show an HTML enabled caption under each image or video
@@ -57,7 +58,7 @@ In the `<script>` section of your component import it:
 
 ```javascript
 import LightBox from "vue-it-bigger-vladfork";
-import("vue-it-bigger-vladfork/dist/vue-it-bigger.min.css"); // when using webpack
+import("vue-it-bigger-vladfork/dist/vue-it-bigger-vladfork.min.css"); // when using webpack
 ```
 
 Add it to the list of used components:
