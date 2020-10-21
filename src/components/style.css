@@ -54,8 +54,8 @@
     min-width: 100%;
   }
   .pinch-zoom-wrapper {
-    /*height: 100vh;*/
-    min-width: 100vw;
+    height: 100vh;
+    min-width: 100%;
   }
 }
 .pinch-zoom-wrapper {
