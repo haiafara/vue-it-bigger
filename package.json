@@ -65,7 +65,7 @@
   "homepage": "https://github.com/haiafara/vue-it-bigger",
   "dependencies": {
     "@babel/runtime": "^7.12.0",
-    "babel-loader": "^8.2.1",
+    "babel-loader": "^8.2.2",
     "hammerjs": "^2.0.8",
     "terser-webpack-plugin": "^4.2.3"
   },
