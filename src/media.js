@@ -2,6 +2,12 @@ const imageDomain = 'https://vue-it-bigger.rusiczki.net/'
 
 const media = [
   {
+    type: 'youtube',
+    id: 'WsptdUFthWI',
+    thumb: 'https://img.youtube.com/vi/WsptdUFthWI/hqdefault.jpg',
+    caption: 'Closer - The Chainsmokers ft. Halsey (Boyce Avenue ft. Sarah Hyland cover) on Spotify & Apple'
+  },
+  {
     thumb: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRx1TQ3PfnhWmLUWcxrGj3atDCZVTVBKetMOWVVQ4ipIStW03pY',
     sources: [
       {

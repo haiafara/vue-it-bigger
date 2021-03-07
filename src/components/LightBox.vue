@@ -21,15 +21,27 @@
             :name="imageTransitionName"
           >
             <img
-              v-if="currentMedia.type !== 'video'"
+              v-if="currentMedia.type == undefined || currentMedia.type == 'image'"
               :key="currentMedia.src"
               :src="currentMedia.src"
               :srcset="currentMedia.srcset || ''"
               class="vib-image"
               :alt="currentMedia.caption"
             >
+            <div
+              v-else-if="media[select].type == 'youtube'"
+              class="video-background"
+            >
+              <iframe
+                :src="'https://www.youtube.com/embed/' + media[select].id + '?showinfo=0'"
+                width="560"
+                height="315"
+                frameborder="0"
+                allowfullscreen
+              />
+            </div>
             <video
-              v-else
+              v-else-if="currentMedia.type == 'video'"
               :key="currentMedia.sources[0].src"
               ref="video"
               controls
