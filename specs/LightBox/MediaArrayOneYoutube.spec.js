@@ -1,16 +1,16 @@
 import { mount } from '@vue/test-utils'
 import LightBox from '@/LightBox'
 
-import { mediaWithOneVideo } from '../props'
+import { mediaWithOneYoutube } from '../props'
 
 describe('LightBox', () => {
-  describe('given one video in the media array', () => {
+  describe('given one youtube in the media array', () => {
     let wrapper
 
     beforeEach(() => {
       wrapper = mount(LightBox, {
         propsData: {
-          media: mediaWithOneVideo
+          media: mediaWithOneYoutube
         }
       })
     })
@@ -19,8 +19,12 @@ describe('LightBox', () => {
       wrapper.destroy()
     })
 
-    test('renders one video element', () => {
-      expect(wrapper.find('video').exists()).toBe(true)
+    test('renders one div element with the video-background class', () => {
+      expect(wrapper.find('div.video-background').exists()).toBe(true)
+    })
+
+    test('renders one iframe element', () => {
+      expect(wrapper.find('div.video-background iframe').exists()).toBe(true)
     })
 
     test('renders one active thumbnail element', () => {

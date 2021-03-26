@@ -76,7 +76,7 @@
             @click.stop="showImage(index)"
           >
             <slot
-              v-if="image.type"
+              v-if="image.type == 'video' || image.type == 'youtube'"
               name="videoIcon"
             >
               <VideoIcon />

@@ -1,16 +1,16 @@
 import { mount } from '@vue/test-utils'
 import LightBox from '@/LightBox'
 
-import { mediaWithOneImage } from '../props'
+import { mediaWithOneImageWithoutType } from '../props'
 
 describe('LightBox', () => {
-  describe('given one image in the media array', () => {
+  describe('given one image without type specified in the media array', () => {
     let wrapper
 
     beforeEach(() => {
       wrapper = mount(LightBox, {
         propsData: {
-          media: mediaWithOneImage
+          media: mediaWithOneImageWithoutType
         }
       })
     })
@@ -21,6 +21,10 @@ describe('LightBox', () => {
 
     test('renders one active thumbnail element', () => {
       expect(wrapper.find('div.vib-thumbnail-active').exists()).toBe(true)
+    })
+
+    test('the thumbnail does not have the video icon', () => {
+      expect(wrapper.find('div.vib-thumbnail-active svg').exists()).toBe(false)
     })
 
     describe('keypresses', () => {
