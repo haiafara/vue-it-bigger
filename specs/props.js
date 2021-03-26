@@ -1,9 +1,18 @@
-const mediaWithOneImage = [
+const mediaWithOneImageWithoutType = [
   {
     thumb: 'http://test/test-thumb.jpg',
     src: 'http://test/test-image.jpg'
   }
 ]
+
+const mediaWithOneImageWithType = [
+  {
+    thumb: 'http://test/test-thumb.jpg',
+    src: 'http://test/test-image.jpg',
+    type: 'image'
+  }
+]
+
 
 const mediaWithOneVideo = [
   {
@@ -14,6 +23,14 @@ const mediaWithOneVideo = [
         src: 'http://test/test-video.mp4'
       }
     ]
+  }
+]
+
+const mediaWithOneYoutube = [
+  {
+    type: 'youtube',
+    thumb: 'http://test/test-thumb.jpg',
+    id: 'testid'
   }
 ]
 
@@ -56,4 +73,4 @@ const mediaWithNineImages = [
   }
 ]
 
-export { mediaWithOneImage, mediaWithOneVideo, mediaWithNineImages }
+export { mediaWithOneImageWithoutType, mediaWithOneImageWithType, mediaWithOneVideo, mediaWithOneYoutube, mediaWithNineImages }
