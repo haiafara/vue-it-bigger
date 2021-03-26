@@ -11,7 +11,7 @@ config.output.library = 'Lightbox'
 
 config.entry = path.resolve(__dirname, '../src/components/LightBox.vue')
 
-config.devtool = '#source-map'
+config.devtool = 'source-map'
 
 config.module.rules.push({
   test: /\.css$/,
@@ -25,7 +25,6 @@ config.optimization = {
   minimize: true,
   minimizer: [
     new TerserPlugin({
-      sourceMap: true,
       terserOptions: {
         warnings: false,
         compress: {

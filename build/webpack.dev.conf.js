@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
 const path = require('path')
 
-config.devtool = '#eval-source-map'
+config.devtool = 'eval-source-map'
 
 config.devServer = {
   host: 'localhost',

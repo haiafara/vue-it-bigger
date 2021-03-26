@@ -53,12 +53,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new VueLoaderPlugin(),
-
-    new webpack.optimize.OccurrenceOrderPlugin(),
-
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-    })
+    new VueLoaderPlugin()
   ],
 }

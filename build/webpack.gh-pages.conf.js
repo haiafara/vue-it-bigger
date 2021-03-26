@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 config.output.path = path.resolve(__dirname, '../gh-pages')
 
-config.devtool = '#eval-source-map'
+config.devtool = 'eval-source-map'
 
 config.module.rules = (config.module.rules || []).concat([
   {
