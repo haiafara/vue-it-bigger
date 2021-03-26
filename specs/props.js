@@ -13,7 +13,6 @@ const mediaWithOneImageWithType = [
   }
 ]
 
-
 const mediaWithOneVideo = [
   {
     type: 'video',
