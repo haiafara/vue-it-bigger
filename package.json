@@ -76,7 +76,7 @@
     "@vue/test-utils": "^1.0.0-beta.33",
     "babel-core": "^7.0.0-bridge.0",
     "copy-webpack-plugin": "8.1.0",
-    "css-loader": "4.3.0",
+    "css-loader": "5.2.0",
     "eslint": "^7.22.0",
     "eslint-plugin-vue": "^6.2.2",
     "file-loader": "^6.2.0",
