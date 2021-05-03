@@ -304,12 +304,13 @@ export default {
   watch: {
     showLightBox(value) {
       this.lightBoxShown = value
+    },
+    lightBoxShown(value) {
       // istanbul ignore else
       if (document != null) {
         this.onToggleLightBox(value)
       }
     },
-
     select() {
       this.$emit('onImageChanged', this.select)
 
