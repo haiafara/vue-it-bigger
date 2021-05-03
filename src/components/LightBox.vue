@@ -302,7 +302,8 @@ export default {
   },
 
   watch: {
-    lightBoxShown(value) {
+    showLightBox(value) {
+      this.lightBoxShown = value
       // istanbul ignore else
       if (document != null) {
         this.onToggleLightBox(value)
