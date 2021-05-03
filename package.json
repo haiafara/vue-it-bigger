@@ -17,7 +17,8 @@
     "build": "rimraf dist && webpack --progress --config build/webpack.prod.conf.js --mode production",
     "gh-pages": "webpack --config build/webpack.gh-pages.conf.js --mode production",
     "lint": "eslint --ext .js,.vue src/",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "yarn add rimraf && npm run build"
   },
   "jest": {
     "moduleFileExtensions": [
