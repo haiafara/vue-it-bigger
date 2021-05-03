@@ -18,7 +18,7 @@
     "gh-pages": "webpack --config build/webpack.gh-pages.conf.js --mode production",
     "lint": "eslint --ext .js,.vue src/",
     "test": "jest",
-    "prepare": "yarn install && npm run build"
+    "prepare": "npm run build"
   },
   "jest": {
     "moduleFileExtensions": [
