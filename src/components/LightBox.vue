@@ -302,6 +302,9 @@ export default {
   },
 
   watch: {
+    startAt(value) {
+      this.select = value
+    },
     showLightBox(value) {
       this.lightBoxShown = value
     },
