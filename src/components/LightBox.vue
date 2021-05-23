@@ -394,6 +394,14 @@ export default {
         this.$refs.video.pause()
         this.$refs.video.currentTime = '0'
       }
+      
+      let iframes = document.querySelectorAll('iframe')
+      if(iframes.length) {
+        for(let i = 0; i < iframes.length; i++) {
+          let src = iframes[i].getAttribute('src')
+          iframes[i].setAttribute('src', src)
+        }
+      }      
     },
 
     onToggleLightBox(value) {
