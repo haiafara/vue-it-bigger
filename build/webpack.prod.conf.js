@@ -2,7 +2,7 @@ const webpack = require('webpack')
 const config = require('./webpack.base.conf')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
-const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
 config.output.filename = 'vue-it-bigger.min.js'
@@ -40,18 +40,13 @@ config.optimization = {
         },
       },
     }),
+    new CssMinimizerPlugin(),
   ],
 }
 
 config.plugins = (config.plugins || []).concat([
   new MiniCssExtractPlugin({
     filename: 'vue-it-bigger.min.css'
-  }),
-
-  new OptimizeCSSPlugin({
-    cssProcessorOptions: {
-      safe: true,
-    }
   }),
 ])
 
