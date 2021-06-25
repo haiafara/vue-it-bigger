@@ -1,16 +1,16 @@
 import { mount } from '@vue/test-utils'
 import LightBox from '@/LightBox'
 
-import { mediaWithOneVideo } from '../props'
+import { mediaWithOneVideoWithoutAutoplay } from '../props'
 
 describe('LightBox', () => {
-  describe('given one video in the media array', () => {
+  describe('given one video without autoplay in the media array', () => {
     let wrapper
 
     beforeEach(() => {
       wrapper = mount(LightBox, {
         propsData: {
-          media: mediaWithOneVideo
+          media: mediaWithOneVideoWithoutAutoplay
         }
       })
     })

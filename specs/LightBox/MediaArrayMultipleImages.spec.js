@@ -85,7 +85,7 @@ describe('LightBox', () => {
       let container
 
       beforeEach(() => {
-        jest.useFakeTimers()
+        jest.useFakeTimers('legacy')
         container = wrapper.findComponent({ ref: 'container' }).element
         container.removeEventListener = jest.fn()
         wrapper.destroy()

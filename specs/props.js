@@ -13,10 +13,23 @@ const mediaWithOneImageWithType = [
   }
 ]
 
-const mediaWithOneVideo = [
+const mediaWithOneVideoWithoutAutoplay = [
   {
     type: 'video',
     thumb: 'http://test/test-thumb.jpg',
+    sources: [
+      {
+        src: 'http://test/test-video.mp4'
+      }
+    ]
+  }
+]
+
+const mediaWithOneVideoWithAutoplay = [
+  {
+    type: 'video',
+    thumb: 'http://test/test-thumb.jpg',
+    autoplay: true,
     sources: [
       {
         src: 'http://test/test-video.mp4'
@@ -72,4 +85,4 @@ const mediaWithNineImages = [
   }
 ]
 
-export { mediaWithOneImageWithoutType, mediaWithOneImageWithType, mediaWithOneVideo, mediaWithOneYoutube, mediaWithNineImages }
+export { mediaWithOneImageWithoutType, mediaWithOneImageWithType,  mediaWithOneVideoWithoutAutoplay, mediaWithOneVideoWithAutoplay, mediaWithOneYoutube, mediaWithNineImages }
