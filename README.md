@@ -260,7 +260,7 @@ Use it in any of your components:
     <tr>
       <td>nextImage</td>
       <td>()</td>
-      <th>Move to next image</th>
+      <td>Move to next image</td>
     </tr>
     <tr>
       <td>previousImage</td>
