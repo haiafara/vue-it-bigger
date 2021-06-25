@@ -20,6 +20,7 @@
     "test": "jest"
   },
   "jest": {
+    "testEnvironment": "jsdom",
     "moduleFileExtensions": [
       "js",
       "json",
