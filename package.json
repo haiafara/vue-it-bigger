@@ -87,7 +87,7 @@
     "jest": "^27.1.0",
     "mini-css-extract-plugin": "^1.6.2",
     "rimraf": "^3.0.2",
-    "style-loader": "^2.0.0",
+    "style-loader": "^3.2.1",
     "url-loader": "^4.1.1",
     "vue": "^2.6.14",
     "vue-jest": "^3.0.7",
