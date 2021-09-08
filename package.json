@@ -69,7 +69,7 @@
     "babel-loader": "^8.2.2",
     "chokidar": "3.5.2",
     "hammerjs": "^2.0.8",
-    "terser-webpack-plugin": "^5.2.0"
+    "terser-webpack-plugin": "^5.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
