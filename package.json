@@ -84,7 +84,7 @@
     "eslint-plugin-vue": "^7.20.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
-    "jest": "^27.5.0",
+    "jest": "^27.5.1",
     "mini-css-extract-plugin": "^2.5.3",
     "rimraf": "^3.0.2",
     "style-loader": "^3.3.1",
