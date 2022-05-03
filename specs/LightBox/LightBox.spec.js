@@ -49,7 +49,7 @@ describe('LightBox', () => {
     let wrapper
 
     beforeEach(() => {
-      jest.useFakeTimers()
+      jest.useFakeTimers('legacy')
       wrapper = mount(LightBox, {
         propsData: {
           media: mediaWithNineImages,
