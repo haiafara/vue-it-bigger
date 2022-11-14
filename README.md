@@ -37,6 +37,7 @@ You know the drill:
 
 ```
 npm install vue-it-bigger
+# or
 yarn add vue-it-bigger
 ```
 
