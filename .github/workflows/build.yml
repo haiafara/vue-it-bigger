@@ -23,4 +23,4 @@ jobs:
         run: yarn test
       - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v3
-        if: matrix.node-version == 19.x
+        if: matrix.node-version == '19.x'
