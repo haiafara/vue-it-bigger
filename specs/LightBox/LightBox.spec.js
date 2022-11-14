@@ -49,7 +49,9 @@ describe('LightBox', () => {
     let wrapper
 
     beforeEach(() => {
-      jest.useFakeTimers('legacy')
+      jest.useFakeTimers()
+      jest.spyOn(global, 'setInterval')
+      jest.spyOn(global, 'clearInterval')
       wrapper = mount(LightBox, {
         propsData: {
           media: mediaWithNineImages,
