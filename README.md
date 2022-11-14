@@ -35,7 +35,7 @@ Click on the screenshot above for a **demo**.
 
 You know the drill:
 
-```
+```bash
 npm install vue-it-bigger
 # or
 yarn add vue-it-bigger
