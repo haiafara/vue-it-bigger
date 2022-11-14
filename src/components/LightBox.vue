@@ -92,7 +92,7 @@
         >
           <slot
             name="customCaption"
-            :currentMedia="currentMedia"
+            :current-media="currentMedia"
           >
             <div
               v-show="showCaption"
