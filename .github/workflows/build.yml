@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 17.x, 18.x, 19.x]
+        node-version: [18.x, 19.x]
 
     steps:
       - name: Checkout code
@@ -22,5 +22,5 @@ jobs:
       - name: Run the tests
         run: yarn test
       - name: Upload coverage report to Codecov
-        uses: codecov/codecov-action@v3
         if: matrix.node-version == '19.x'
+        uses: codecov/codecov-action@v3
