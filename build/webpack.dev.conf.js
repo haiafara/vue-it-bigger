@@ -1,7 +1,8 @@
-const config = require('./webpack.base.conf')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const webpack = require('webpack')
 const path = require('path')
+const webpack = require('webpack')
+const config = require('./webpack.base.conf')
+
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 config.devtool = 'eval-source-map'
 
@@ -9,9 +10,10 @@ config.devServer = {
   host: 'localhost',
   port: 1805,
   historyApiFallback: true,
-  hotOnly: true,
-  overlay: true,
-  noInfo: true,
+  hot: 'only',
+  client: {
+    overlay: true,
+  }
 }
 
 config.module.rules = (config.module.rules || []).concat([

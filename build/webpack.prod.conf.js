@@ -1,7 +1,8 @@
+const path = require('path')
 const webpack = require('webpack')
 const config = require('./webpack.base.conf')
+
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const path = require('path')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
@@ -24,6 +25,7 @@ config.module.rules.push({
 config.optimization = {
   minimize: true,
   minimizer: [
+    new CssMinimizerPlugin(),
     new TerserPlugin({
       terserOptions: {
         warnings: false,
@@ -40,7 +42,6 @@ config.optimization = {
         },
       },
     }),
-    new CssMinimizerPlugin(),
   ],
 }
 

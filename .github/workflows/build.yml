@@ -19,6 +19,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install packages
         run: yarn install
+      - name: Run the linter
+        run: yarn lint
       - name: Run the tests
         run: yarn test
       - name: Upload coverage report to Codecov
