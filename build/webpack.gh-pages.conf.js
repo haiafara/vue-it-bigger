@@ -1,11 +1,11 @@
 const path = require('path')
 const webpack = require('webpack')
 const config = require('./webpack.base.conf')
+
+const TerserPlugin = require('terser-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 config.output.path = path.resolve(__dirname, '../gh-pages')
-
-config.devtool = 'eval-source-map'
 
 config.module.rules = (config.module.rules || []).concat([
   {
@@ -16,6 +16,20 @@ config.module.rules = (config.module.rules || []).concat([
     ],
   },
 ])
+
+config.optimization = {
+  minimize: true,
+  minimizer: [
+    new TerserPlugin({
+      extractComments: false,
+      terserOptions: {
+        format: {
+          comments: false,
+        },
+      },
+    }),
+  ],
+},
 
 config.plugins = (config.plugins || []).concat([
   new HtmlWebpackPlugin({
