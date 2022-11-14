@@ -64,7 +64,8 @@ describe('LightBox', () => {
 
     describe('mouse movement', () => {
       beforeEach(() => {
-        jest.useFakeTimers('legacy')
+        jest.useFakeTimers()
+        jest.spyOn(global, 'setTimeout')
       })
 
       describe('moving the mouse', () => {
