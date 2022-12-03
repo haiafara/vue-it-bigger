@@ -80,7 +80,7 @@
     "copy-webpack-plugin": "11.0.0",
     "css-loader": "6.7.2",
     "css-minimizer-webpack-plugin": "^4.2.2",
-    "eslint": "^8.28.0",
+    "eslint": "^8.29.0",
     "eslint-plugin-vue": "^9.8.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
