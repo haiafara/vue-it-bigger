@@ -386,7 +386,7 @@ yarn test
 
 1. Make sure everything works locally by running `yarn dev`
 2. Bump the version in [package.json](package.json)
-3. Draft a new release on the releases page
+3. Draft a new release on the [releases page](https://github.com/haiafara/vue-it-bigger/releases)
     - Create a tag with the prefix **v** and the version, eg: **v0.3.0**
     - Prefix the release title with the tag, eg: **v0.3.0 - An awesome release**
 4. Publish the release
