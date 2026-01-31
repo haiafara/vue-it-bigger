@@ -1,11 +1,10 @@
 # Vue It Bigger!
 
 [![npm](https://img.shields.io/npm/v/vue-it-bigger?color=%2341BB13)](https://www.npmjs.com/package/vue-it-bigger)
-[![Build Status](https://travis-ci.com/haiafara/vue-it-bigger.svg?branch=master)](https://travis-ci.com/haiafara/vue-it-bigger)
 [![codecov](https://codecov.io/gh/haiafara/vue-it-bigger/branch/master/graph/badge.svg)](https://codecov.io/gh/haiafara/vue-it-bigger)
 [![Depfu](https://badges.depfu.com/badges/d97efabdc36483941354cb65cd36ed01/overview.svg)](https://depfu.com/github/haiafara/vue-it-bigger?project_id=13757)
 
-A simple image / (YouTube) video lightbox component for Vue.js 2. Based on [vue-image-lightbox](https://github.com/pexea12/vue-image-lightbox).
+A simple image / (YouTube) video lightbox component for Vue.js 3. Based on [vue-image-lightbox](https://github.com/pexea12/vue-image-lightbox).
 
 [![Vue It Bigger Screenshot](https://imgur.com/89eZHa7.jpg)](https://haiafara.github.io/vue-it-bigger/)
 
@@ -43,13 +42,13 @@ yarn add vue-it-bigger
 
 ## Usage
 
-You can view [App.vue](src/App.vue) or [the demo](https://haiafara.github.io/vue-it-bigger/) for an usage example.
+You can view [App.vue](demo/App.vue) or [the demo](https://haiafara.github.io/vue-it-bigger/) for an usage example.
 
 In the `<script>` section of your component import it:
 
 ```javascript
 import LightBox from 'vue-it-bigger'
-import('vue-it-bigger/dist/vue-it-bigger.min.css') // when using webpack
+import 'vue-it-bigger/dist/vue-it-bigger.css'
 ```
 
 Add it to the list of used components:
@@ -101,45 +100,28 @@ The `media` prop has the following structure:
   }
 ]
 ```
-## Using it with NuxtJs
+## Using it with Nuxt 3
 
-Create a file named `lightbox.js` under the `plugins` directory with following contents:
+Create a file named `lightbox.client.js` under the `plugins` directory with following contents:
 
 ```javascript
-import Vue from 'vue'
-
 import LightBox from 'vue-it-bigger'
-import('vue-it-bigger/dist/vue-it-bigger.min.css')
+import 'vue-it-bigger/dist/vue-it-bigger.css'
 
-const plugin = {
-  install() {
-    Vue.component('LightBox', LightBox)
-  },
-}
-
-Vue.use(plugin)
-```
-
-Add the plugin in `nuxt.config.js`:
-
-```javascript
-plugins: [
-  {
-    src: '~/plugins/lightbox.js',
-    ssr: false
-  }
-]
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.vueApp.component('LightBox', LightBox)
+})
 ```
 
 Use it in any of your components:
 
 ```html
-<no-ssr placeholder="Loading...">
+<ClientOnly>
   <!-- this component will only be rendered on client-side -->
   <LightBox
     :media="lightBoxMedia"
   ></LightBox>
-</no-ssr>
+</ClientOnly>
 ```
 
 ## Options
@@ -366,29 +348,37 @@ The Icon used for videos
 - `onStartIndex`: Emit when the current image is at the `startAt` index (specified in the properties).
 - `onLoad`: Emit when there are `lengthToLoadMore` images left in the array (specified in the properties). For example, if `lengthToLoadMore = 2` and there are 7 images in your array, when you reach index 4 (which means there are 2 images left which are not discovered yet), this event will be emitted. After that, if the image array are updated and there are totally 15 images, the event will be emitted at index 12.
 
-## Development (NPM / Yarn)
+## Development
 
 Clone the repository, cd into it and run:
 
-```
-npm run dev
+```bash
+yarn install
 yarn dev
 ```
 
+The demo app will be available at http://localhost:1805
+
 After you add or modify something make sure the tests still pass:
 
-```
-npm run test
+```bash
 yarn test
+yarn lint
+```
+
+To build the library:
+
+```bash
+yarn build
 ```
 
 ## Release
 
-1. Make sure everything works locally by running `yarn dev`
+1. Make sure everything works locally by running `yarn dev`, `yarn build`, and `yarn test`
 2. Bump the version in [package.json](package.json)
 3. Draft a new release on the [releases page](https://github.com/haiafara/vue-it-bigger/releases)
-    - Create a tag with the prefix **v** and the version, eg: **v0.3.0**
-    - Prefix the release title with the tag, eg: **v0.3.0 - An awesome release**
+    - Create a tag with the prefix **v** and the version, eg: **v1.0.0**
+    - Prefix the release title with the tag, eg: **v1.0.0 - Vue 3 Migration**
 4. Publish the release
 
 ## Credits

@@ -22,10 +22,6 @@
   align-items: center;
   background-color: rgba(0, 0, 0, 0.85);
   box-sizing: border-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
   height: 100%;
   justify-content: center;
@@ -34,13 +30,6 @@
   top: 0px;
   width: 100%;
   z-index: 2000;
-  -webkit-align-items: center;
-  -moz-box-sizing: border-box;
-  -webkit-justify-content: center;
-  -ms-flex-align: center;
-  -webkit-box-align: center;
-  -ms-flex-pack: center;
-  -webkit-box-pack: center;
 }
 
 .vib-content {
@@ -52,15 +41,11 @@
 .vib-image {
   cursor: pointer;
   max-height: calc(100vh);
-  cursor: pointer;
   display: block;
   height: auto;
   margin: 0 auto;
   max-width: 100%;
   user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
 }
 
 .vib-thumbnail-wrapper {
@@ -182,7 +167,7 @@
   transition: opacity .2s ease;
 }
 
-.vib-image-transition-enter,
+.vib-image-transition-enter-from,
 .vib-image-transition-leave-to {
   opacity: 0;
 }
@@ -192,7 +177,7 @@
   transition: none;
 }
 
-.vib-image-no-transition-enter,
+.vib-image-no-transition-enter-from,
 .vib-image-no-transition-leave-to {
   opacity: 0;
 }
@@ -204,7 +189,7 @@
   transition: opacity .3s ease;
 }
 
-.vib-container-transition-enter,
+.vib-container-transition-enter-from,
 .vib-container-transition-leave-to {
   opacity: 0;
 }

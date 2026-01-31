@@ -1,5 +1,6 @@
+import { describe, test, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import LightBox from '@/LightBox'
+import LightBox from '@/LightBox.vue'
 
 import { mediaWithOneImageWithoutType } from '../props'
 
@@ -9,7 +10,7 @@ describe('LightBox', () => {
 
     beforeEach(() => {
       wrapper = mount(LightBox, {
-        propsData: {
+        props: {
           media: mediaWithOneImageWithoutType
         }
       })
@@ -30,8 +31,8 @@ describe('LightBox', () => {
     describe('keypresses', () => {
       describe('left arrow', () => {
         beforeEach(() => {
-          wrapper.vm.previousImage = jest.fn()
-          document.dispatchEvent(new KeyboardEvent('keydown', { 'keyCode': 37 }))
+          wrapper.vm.previousImage = vi.fn()
+          document.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'ArrowLeft' }))
         })
 
         test('calls previousImage', () => {
@@ -41,8 +42,8 @@ describe('LightBox', () => {
 
       describe('right arrow', () => {
         beforeEach(() => {
-          wrapper.vm.nextImage = jest.fn()
-          document.dispatchEvent(new KeyboardEvent('keydown', { 'keyCode': 39 }))
+          wrapper.vm.nextImage = vi.fn()
+          document.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'ArrowRight' }))
         })
 
         test('calls nextImage', () => {
@@ -52,8 +53,8 @@ describe('LightBox', () => {
 
       describe('esc', () => {
         beforeEach(() => {
-          wrapper.vm.closeLightBox = jest.fn()
-          document.dispatchEvent(new KeyboardEvent('keydown', { 'keyCode': 27 }))
+          wrapper.vm.closeLightBox = vi.fn()
+          document.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'Escape' }))
         })
 
         test('calls closeLightBox', () => {
@@ -64,20 +65,20 @@ describe('LightBox', () => {
 
     describe('mouse movement', () => {
       beforeEach(() => {
-        jest.useFakeTimers()
-        jest.spyOn(global, 'setTimeout')
+        vi.useFakeTimers()
+        vi.spyOn(global, 'setTimeout')
       })
 
       describe('moving the mouse', () => {
         describe('when controls are shown', () => {
           beforeEach(() => {
-            wrapper.setData({ controlsHidden: false })
+            wrapper.vm.controlsHidden = false
           })
 
           describe('when interface is not hovered', () => {
             beforeEach(() => {
-              wrapper.setData({ interfaceHovered: false })
-              wrapper.findComponent({ ref: 'container' }).trigger('mousemove')
+              wrapper.vm.interfaceHovered = false
+              wrapper.find('.vib-container').trigger('mousemove')
             })
 
             test('leaves controlsHidden to be false', () => {
@@ -90,7 +91,7 @@ describe('LightBox', () => {
 
             describe('when timeout is reached', () => {
               beforeEach(() => {
-                jest.runOnlyPendingTimers()
+                vi.runOnlyPendingTimers()
               })
 
               test('controls are hidden', () => {
@@ -101,8 +102,8 @@ describe('LightBox', () => {
 
           describe('when interface is hovered', () => {
             beforeEach(() => {
-              wrapper.setData({ interfaceHovered: true })
-              wrapper.findComponent({ ref: 'container' }).trigger('mousemove')
+              wrapper.vm.interfaceHovered = true
+              wrapper.find('.vib-container').trigger('mousemove')
             })
 
             test('leaves controlsHidden to be false', () => {
@@ -117,8 +118,8 @@ describe('LightBox', () => {
 
         describe('when controls are hidden', () => {
           beforeEach(() => {
-            wrapper.setData({ controlsHidden: true })
-            wrapper.findComponent({ ref: 'container' }).trigger('mousemove')
+            wrapper.vm.controlsHidden = true
+            wrapper.find('.vib-container').trigger('mousemove')
           })
 
           test('sets controlsHidden to false', () => {
@@ -134,12 +135,12 @@ describe('LightBox', () => {
 
     describe('transitions', () => {
       beforeEach(() => {
-        wrapper.setData({ imageTransitionName: 'test' })
+        wrapper.vm.imageTransitionName = 'test'
       })
 
       describe('.enableImageTransition', () => {
         beforeEach(() => {
-          wrapper.vm.handleMouseActivity = jest.fn()
+          wrapper.vm.handleMouseActivity = vi.fn()
           wrapper.vm.enableImageTransition()
         })
 

@@ -1,5 +1,6 @@
+import { describe, test, expect, beforeEach, afterEach } from 'vitest'
 import { mount } from '@vue/test-utils'
-import LightBox from '@/LightBox'
+import LightBox from '@/LightBox.vue'
 
 import { mediaWithOneYoutube } from '../props'
 
@@ -9,14 +10,14 @@ describe('LightBox', () => {
 
     beforeEach(() => {
       wrapper = mount(LightBox, {
-        propsData: {
+        props: {
           media: mediaWithOneYoutube
         }
       })
     })
 
     afterEach(() => {
-      wrapper.destroy()
+      wrapper.unmount()
     })
 
     test('renders one div element with the video-background class', () => {

@@ -1,5 +1,6 @@
+import { describe, test, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import LightBox from '@/LightBox'
+import LightBox from '@/LightBox.vue'
 
 import { mediaWithNineImages } from '../props'
 
@@ -9,7 +10,7 @@ describe('LightBox', () => {
 
     beforeEach(() => {
       wrapper = mount(LightBox, {
-        propsData: {
+        props: {
           media: mediaWithNineImages
         }
       })
@@ -20,7 +21,7 @@ describe('LightBox', () => {
     })
 
     test('the active thumbnail is the first thumbnail from the media array', () => {
-      expect(wrapper.find('div.vib-thumbnail-active').element.style.backgroundImage).toBe('url(' + mediaWithNineImages[0].thumb + ')')
+      expect(wrapper.find('div.vib-thumbnail-active').element.style.backgroundImage).toBe(`url("${mediaWithNineImages[0].thumb}")`)
     })
 
     // thumbnails
@@ -38,7 +39,7 @@ describe('LightBox', () => {
     })
 
     test('the last thumbnail displayed is the seventh from the media array', () => {
-      expect(wrapper.findAll('.vib-thumbnail-wrapper div:not([style*="display: none"])').at(6).element.style.backgroundImage).toBe('url(' + mediaWithNineImages[6].thumb + ')')
+      expect(wrapper.findAll('.vib-thumbnail-wrapper div:not([style*="display: none"])').at(6).element.style.backgroundImage).toBe(`url("${mediaWithNineImages[6].thumb}")`)
     })
 
     describe('showImage with the last image index', () => {
@@ -53,15 +54,15 @@ describe('LightBox', () => {
       })
 
       test('the active thumbnail is the one with the given index from the media array', () => {
-        expect(wrapper.find('div.vib-thumbnail-active').element.style.backgroundImage).toBe('url(' + mediaWithNineImages[imageIndex].thumb + ')')
+        expect(wrapper.find('div.vib-thumbnail-active').element.style.backgroundImage).toBe(`url("${mediaWithNineImages[imageIndex].thumb}")`)
       })
 
       test('the first thumbnail displayed is the third from the media array', () => {
-        expect(wrapper.findAll('.vib-thumbnail-wrapper div:not([style*="display: none"])').at(0).element.style.backgroundImage).toBe('url(' + mediaWithNineImages[2].thumb + ')')
+        expect(wrapper.findAll('.vib-thumbnail-wrapper div:not([style*="display: none"])').at(0).element.style.backgroundImage).toBe(`url("${mediaWithNineImages[2].thumb}")`)
       })
 
       test('the last thumbnail displayed is the ninth from the media array', () => {
-        expect(wrapper.findAll('.vib-thumbnail-wrapper div:not([style*="display: none"])').at(6).element.style.backgroundImage).toBe('url(' + mediaWithNineImages[8].thumb + ')')
+        expect(wrapper.findAll('.vib-thumbnail-wrapper div:not([style*="display: none"])').at(6).element.style.backgroundImage).toBe(`url("${mediaWithNineImages[8].thumb}")`)
       })
     })
 
@@ -73,11 +74,11 @@ describe('LightBox', () => {
       })
 
       test('the first thumbnail displayed is the second from the media array', () => {
-        expect(wrapper.findAll('.vib-thumbnail-wrapper div:not([style*="display: none"])').at(0).element.style.backgroundImage).toBe('url(' + mediaWithNineImages[1].thumb + ')')
+        expect(wrapper.findAll('.vib-thumbnail-wrapper div:not([style*="display: none"])').at(0).element.style.backgroundImage).toBe(`url("${mediaWithNineImages[1].thumb}")`)
       })
 
       test('the last thumbnail displayed is the eigth from the media array', () => {
-        expect(wrapper.findAll('.vib-thumbnail-wrapper div:not([style*="display: none"])').at(6).element.style.backgroundImage).toBe('url(' + mediaWithNineImages[7].thumb + ')')
+        expect(wrapper.findAll('.vib-thumbnail-wrapper div:not([style*="display: none"])').at(6).element.style.backgroundImage).toBe(`url("${mediaWithNineImages[7].thumb}")`)
       })
     })
 
@@ -85,19 +86,19 @@ describe('LightBox', () => {
       let container
 
       beforeEach(() => {
-        jest.useFakeTimers()
-        jest.spyOn(global, 'clearInterval')
-        container = wrapper.findComponent({ ref: 'container' }).element
-        container.removeEventListener = jest.fn()
-        wrapper.destroy()
+        vi.useFakeTimers()
+        vi.spyOn(global, 'clearInterval')
+        container = wrapper.find('.vib-container').element
+        container.removeEventListener = vi.fn()
+        wrapper.unmount()
       })
 
       test('clearInterval is not called', () => {
         expect(clearInterval).not.toHaveBeenCalled()
       })
 
-      test('removeEventListener is called on the container 3 times', () => {
-        expect(container.removeEventListener).toHaveBeenCalledTimes(3)
+      test('removeEventListener is called on the container 5 times', () => {
+        expect(container.removeEventListener).toHaveBeenCalledTimes(5)
       })
     })
   })

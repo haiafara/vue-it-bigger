@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import LightBox from 'components/LightBox'
+import LightBox from 'vue-it-bigger'
 
 import media from './media'
 
