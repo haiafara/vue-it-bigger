@@ -1,5 +1,6 @@
+import { describe, test, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import LightBox from '@/LightBox'
+import LightBox from '@/LightBox.vue'
 
 describe('LightBox', () => {
   describe('given an empty media array', () => {
@@ -7,7 +8,7 @@ describe('LightBox', () => {
 
     beforeEach(() => {
       wrapper = mount(LightBox, {
-        propsData: {
+        props: {
           media: [],
           showLightBox: false
         }
@@ -57,7 +58,7 @@ describe('LightBox', () => {
 
     describe('onToggleLightBox(true)', () => {
       beforeEach(() => {
-        wrapper.vm.onLightBoxOpen = jest.fn()
+        wrapper.vm.onLightBoxOpen = vi.fn()
         wrapper.vm.onToggleLightBox(true)
       })
 
@@ -68,7 +69,7 @@ describe('LightBox', () => {
 
     describe('onToggleLightBox()', () => {
       beforeEach(() => {
-        wrapper.vm.onLightBoxClose = jest.fn()
+        wrapper.vm.onLightBoxClose = vi.fn()
         wrapper.vm.onToggleLightBox()
       })
 
@@ -78,11 +79,9 @@ describe('LightBox', () => {
     })
 
     describe('when the component is destroyed', () => {
-      let container
-
       beforeEach(() => {
-        document.removeEventListener = jest.fn()
-        wrapper.destroy()
+        document.removeEventListener = vi.fn()
+        wrapper.unmount()
       })
 
       test('removeEventListener is called on the document', () => {

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue It Bigger!</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.5;
+      }
+
+      .container {
+        max-width: 730px;
+        margin: 0 auto;
+      }
+
+      .header {
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e5e5e5;
+        margin-bottom: 20px;
+      }
+
+      .header h1 {
+        margin: 0 0 10px 0;
+        font-size: 2em;
+      }
+
+      .header nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 15px;
+      }
+
+      .header nav a {
+        color: #0066cc;
+        text-decoration: none;
+      }
+
+      .header nav a:hover {
+        text-decoration: underline;
+      }
+
+      .content {
+        margin-bottom: 20px;
+      }
+
+      .content p {
+        margin-top: 0;
+      }
+
+      .footer {
+        padding-top: 19px;
+        color: #777;
+        border-top: 1px solid #e5e5e5;
+        margin-top: 20px;
+      }
+
+      .footer a {
+        color: #0066cc;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Vue It Bigger!</h1>
+        <nav>
+          <ul>
+            <li><a href="/vue-it-bigger/">Demo</a></li>
+            <li><a href="https://github.com/haiafara/vue-it-bigger">GitHub</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="content">
+        <p>Click on any thumbnail below to open the lightbox. The code for this example is in <a href="https://github.com/haiafara/vue-it-bigger/blob/master/demo/App.vue">App.vue</a>.</p>
+        <div id="app"></div>
+      </div>
+      <div class="footer">
+        All images by <a href="https://photos.rusiczki.net">János Rusiczki</a>.
+      </div>
+    </div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

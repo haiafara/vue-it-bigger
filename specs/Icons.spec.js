@@ -1,8 +1,8 @@
 import { mount } from '@vue/test-utils'
-import CloseIcon from '@/CloseIcon'
-import LeftArrowIcon from '@/LeftArrowIcon'
-import RightArrowIcon from '@/RightArrowIcon'
-import VideoIcon from '@/VideoIcon'
+import CloseIcon from '@/CloseIcon.vue'
+import LeftArrowIcon from '@/LeftArrowIcon.vue'
+import RightArrowIcon from '@/RightArrowIcon.vue'
+import VideoIcon from '@/VideoIcon.vue'
 
 describe('CloseIcon', () => {
   const wrapper = mount(CloseIcon)

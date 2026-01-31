@@ -1,5 +1,6 @@
+import { describe, test, expect, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
-import LightBox from '@/LightBox'
+import LightBox from '@/LightBox.vue'
 
 import { mediaWithOneImageWithType } from '../props'
 
@@ -9,7 +10,7 @@ describe('LightBox', () => {
 
     beforeEach(() => {
       wrapper = mount(LightBox, {
-        propsData: {
+        props: {
           media: mediaWithOneImageWithType
         }
       })

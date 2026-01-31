@@ -1,5 +1,6 @@
+import { describe, test, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import LightBox from '@/LightBox'
+import LightBox from '@/LightBox.vue'
 
 import { mediaWithNineImages } from '../props'
 
@@ -9,7 +10,7 @@ describe('LightBox', () => {
 
     beforeEach(() => {
       wrapper = mount(LightBox, {
-        propsData: {
+        props: {
           media: mediaWithNineImages,
           showLightBox: false
         }
@@ -49,11 +50,11 @@ describe('LightBox', () => {
     let wrapper
 
     beforeEach(() => {
-      jest.useFakeTimers()
-      jest.spyOn(global, 'setInterval')
-      jest.spyOn(global, 'clearInterval')
+      vi.useFakeTimers()
+      vi.spyOn(global, 'setInterval')
+      vi.spyOn(global, 'clearInterval')
       wrapper = mount(LightBox, {
-        propsData: {
+        props: {
           media: mediaWithNineImages,
           autoPlay: true
         }
@@ -67,7 +68,7 @@ describe('LightBox', () => {
 
     describe('when the component is destroyed', () => {
       beforeEach(() => {
-        wrapper.destroy()
+        wrapper.unmount()
       })
 
       test('clearInterval is called once', () => {

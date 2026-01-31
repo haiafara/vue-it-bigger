@@ -1,5 +1,6 @@
+import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import LightBox from '@/LightBox'
+import LightBox from '@/LightBox.vue'
 
 import { mediaWithOneVideoWithAutoplay } from '../props'
 
@@ -7,23 +8,23 @@ describe('LightBox', () => {
   describe('given one video with autoplay in the media array', () => {
     let wrapper
 
-    const pauseStub = jest
+    const pauseStub = vi
       .spyOn(window.HTMLMediaElement.prototype, 'pause')
       .mockImplementation(() => {})
-    const playStub = jest
+    const playStub = vi
       .spyOn(window.HTMLMediaElement.prototype, 'play')
       .mockImplementation(() => {})
 
     beforeEach(() => {
       wrapper = mount(LightBox, {
-        propsData: {
+        props: {
           media: mediaWithOneVideoWithAutoplay
         }
       })
     })
 
     afterEach(() => {
-      wrapper.destroy()
+      wrapper.unmount()
     })
 
     describe('showImage', () => {

@@ -160,17 +160,10 @@
 </template>
 
 <script>
-import LeftArrowIcon from './LeftArrowIcon'
-import RightArrowIcon from './RightArrowIcon'
-import CloseIcon from './CloseIcon'
-import VideoIcon from './VideoIcon'
-
-let Hammer
-
-// istanbul ignore else
-if (typeof window !== 'undefined') {
-  Hammer = require('hammerjs')
-}
+import LeftArrowIcon from './LeftArrowIcon.vue'
+import RightArrowIcon from './RightArrowIcon.vue'
+import CloseIcon from './CloseIcon.vue'
+import VideoIcon from './VideoIcon.vue'
 
 export default {
   components: {
@@ -179,6 +172,16 @@ export default {
     CloseIcon,
     VideoIcon,
   },
+
+  emits: [
+    'onImageChanged',
+    'onLoad',
+    'onLastIndex',
+    'onFirstIndex',
+    'onStartIndex',
+    'onOpened',
+    'onClosed',
+  ],
 
   props: {
     media: {
@@ -267,6 +270,8 @@ export default {
       timer: null,
       interactionTimer: null,
       interfaceHovered: false,
+      touchStartX: 0,
+      touchStartY: 0,
     }
   },
 
@@ -334,18 +339,16 @@ export default {
     this.onToggleLightBox(this.lightBoxShown)
 
     if (this.$refs.container) {
-      const hammer = new Hammer(this.$refs.container)
-
-      hammer.on('swiperight', this.previousImage)
-      hammer.on('swipeleft', this.nextImage)
-
+      // Native touch event swipe detection
+      this.$refs.container.addEventListener('touchstart', this.handleTouchStart);
+      this.$refs.container.addEventListener('touchend', this.handleTouchEnd);
       this.$refs.container.addEventListener('mousedown', this.handleMouseActivity);
       this.$refs.container.addEventListener('mousemove', this.handleMouseActivity);
       this.$refs.container.addEventListener('touchmove', this.handleMouseActivity);
     }
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     document.removeEventListener('keydown', this.addKeyEvent)
 
     if (this.autoPlay) {
@@ -356,6 +359,8 @@ export default {
       this.$refs.container.removeEventListener('mousedown', this.handleMouseActivity);
       this.$refs.container.removeEventListener('mousemove', this.handleMouseActivity);
       this.$refs.container.removeEventListener('touchmove', this.handleMouseActivity);
+      this.$refs.container.removeEventListener('touchstart', this.handleTouchStart);
+      this.$refs.container.removeEventListener('touchend', this.handleTouchEnd);
     }
   },
 
@@ -403,14 +408,14 @@ export default {
     },
 
     addKeyEvent(event) {
-      switch (event.keyCode) {
-        case 37: // left arrow
+      switch (event.key) {
+        case 'ArrowLeft':
           this.previousImage()
           break
-        case 39: // right arrow
+        case 'ArrowRight':
           this.nextImage()
           break
-        case 27: // esc
+        case 'Escape':
           this.closeLightBox()
           break
       }
@@ -420,15 +425,15 @@ export default {
       if (this.$refs.video)
         this.$refs.video.pause();
       if (!this.closable) return;
-      this.$set(this, 'lightBoxShown', false)
+      this.lightBoxShown = false
     },
 
     nextImage() {
-      this.$set(this, 'select', (this.select + 1) % this.media.length)
+      this.select = (this.select + 1) % this.media.length
     },
 
     previousImage() {
-      this.$set(this, 'select', (this.select + this.media.length - 1) % this.media.length)
+      this.select = (this.select + this.media.length - 1) % this.media.length
     },
 
     enableImageTransition() {
@@ -462,6 +467,27 @@ export default {
 
     stopInteractionTimer() {
       this.interactionTimer = null
+    },
+
+    handleTouchStart(event) {
+      this.touchStartX = event.touches[0].clientX
+      this.touchStartY = event.touches[0].clientY
+    },
+
+    handleTouchEnd(event) {
+      const touchEndX = event.changedTouches[0].clientX
+      const touchEndY = event.changedTouches[0].clientY
+      const deltaX = touchEndX - this.touchStartX
+      const deltaY = touchEndY - this.touchStartY
+
+      // Detect horizontal swipe (more horizontal than vertical movement)
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+        if (deltaX > 0) {
+          this.previousImage()
+        } else {
+          this.nextImage()
+        }
+      }
     },
   },
 }
