@@ -127,141 +127,33 @@ Use it in any of your components:
 ## Options
 
 ### Properties
-<table>
-  <thead>
-    <tr>
-      <th>name</th>
-      <th>type</th>
-      <th>default</th>
-      <th>description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>media</td>
-      <td>Array</td>
-      <td>required</td>
-      <td>Media array to display</td>
-    </tr>
-    <tr>
-      <td>showLightBox</td>
-      <td>Boolean</td>
-      <td>true</td>
-      <td>Whether to show lightbox or not at the beginning</td>
-    </tr>
-    <tr>
-      <td>startAt</td>
-      <td>Number</td>
-      <td>0</td>
-      <td>Index of the image that you want to start at</td>
-    </tr>
-    <tr>
-      <td>nThumbs</td>
-      <td>Number</td>
-      <td>7</td>
-      <td>Number of thumbnail images</td>
-    </tr>
-    <tr>
-      <td>showThumbs</td>
-      <td>Boolean</td>
-      <td>true</td>
-      <td>Whether to show thumbnails or not</td>
-    </tr>
-    <tr>
-      <td>autoPlay</td>
-      <td>Boolean</td>
-      <td>false</td>
-      <td>Move to next image automatically</td>
-    </tr>
-    <tr>
-      <td>autoPlayTime</td>
-      <td>Number</td>
-      <td>3000 (ms)</td>
-      <td>Time to stop at an image before move on to next image</td>
-    </tr>
-    <tr>
-      <td>interfaceHideTime</td>
-      <td>Number</td>
-      <td>3000 (ms)</td>
-      <td>Time after which the interface is hidden</td>
-    </tr>
-    <tr>
-      <td>showCaption</td>
-      <td>Boolean</td>
-      <td>false</td>
-      <td>Whether to show caption or not</td>
-    </tr>
-    <tr>
-      <td>disableScroll</td>
-      <td>Boolean</td>
-      <td>true</td>
-      <td>set to `true` to avoid scrolling views behind lightbox</td>
-    </tr>
-    <tr>
-      <td>lengthToLoadMore</td>
-      <td>Number</td>
-      <td>0</td>
-      <td>Minimum length unto end to emit load more event</td>
-    </tr>
-    <tr>
-      <td>closable</td>
-      <td>Boolean</td>
-      <td>true</td>
-      <td>Display the close button at the right top corner or not. ESC clicking-close will also be disabled if closable is set to false.</td>
-    </tr>
-    <tr>
-      <td>closeText</td>
-      <td>String</td>
-      <td>Close (Esc)</td>
-      <td>Text for the close button</td>
-    </tr>
-    <tr>
-      <td>previousText</td>
-      <td>String</td>
-      <td>Previous</td>
-      <td>Text for the previous image button</td>
-    </tr>
-    <tr>
-      <td>nextText</td>
-      <td>String</td>
-      <td>Next</td>
-      <td>Text for the next image button</td>
-    </tr>
-  </tbody>
-</table>
+
+| name | type | default | description |
+|------|------|---------|-------------|
+| media | Array | required | Media array to display |
+| showLightBox | Boolean | true | Whether to show lightbox or not at the beginning |
+| startAt | Number | 0 | Index of the image that you want to start at |
+| nThumbs | Number | 7 | Number of thumbnail images |
+| showThumbs | Boolean | true | Whether to show thumbnails or not |
+| autoPlay | Boolean | false | Move to next image automatically |
+| autoPlayTime | Number | 3000 (ms) | Time to stop at an image before move on to next image |
+| interfaceHideTime | Number | 3000 (ms) | Time after which the interface is hidden |
+| showCaption | Boolean | false | Whether to show caption or not |
+| disableScroll | Boolean | true | set to `true` to avoid scrolling views behind lightbox |
+| lengthToLoadMore | Number | 0 | Minimum length unto end to emit load more event |
+| closable | Boolean | true | Display the close button at the right top corner or not. ESC clicking-close will also be disabled if closable is set to false. |
+| closeText | String | Close (Esc) | Text for the close button |
+| previousText | String | Previous | Text for the previous image button |
+| nextText | String | Next | Text for the next image button |
 
 ### Methods
-<table>
-  <thead>
-    <tr>
-      <th>name</th>
-      <th>arguments</th>
-      <th>description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>nextImage</td>
-      <td>()</td>
-      <td>Move to next image</td>
-    </tr>
-    <tr>
-      <td>previousImage</td>
-      <td>()</td>
-      <td>Move to previous image</td>
-    </tr>
-    <tr>
-      <td>closeLightBox</td>
-      <td>()</td>
-      <td>Close lightbox</td>
-    </tr>
-    <tr>
-      <td>showImage</td>
-      <td>(index)</td>
-      <td>Show the image at index</td>
-    </tr>
-  </tbody>
-</table>
+
+| name | arguments | description |
+|------|-----------|-------------|
+| nextImage | () | Move to next image |
+| previousImage | () | Move to previous image |
+| closeLightBox | () | Close lightbox |
+| showImage | (index) | Show the image at index |
 
 ### Slots
 
@@ -272,27 +164,11 @@ The content of the close button.
 The content of the footer under the image.
 
 ##### Slot props
-<table>
-  <thead>
-    <tr>
-      <th>name</th>
-      <th>type</th>
-      <th>description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>current</td>
-      <td>integer</td>
-      <td>Number of the current image displayed</td>
-    </tr>
-    <tr>
-      <td>total</td>
-      <td>integer</td>
-      <td>Number of images</td>
-    </tr>
-  </tbody>
-</table>
+
+| name | type | description |
+|------|------|-------------|
+| current | integer | Number of the current image displayed |
+| total | integer | Number of images |
 
 #### previous
 The previous button on the main image.
@@ -304,22 +180,10 @@ The next button on the main image.
 The caption of the current image.
 
 ##### Slot props
-<table>
-  <thead>
-    <tr>
-      <th>name</th>
-      <th>type</th>
-      <th>description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>currentMedia</td>
-      <td>Object</td>
-      <td>The currently displayed object from the media array</td>
-    </tr>
-  </tbody>
-</table>
+
+| name | type | description |
+|------|------|-------------|
+| currentMedia | Object | The currently displayed object from the media array |
 
 Usage example:
 

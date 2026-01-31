@@ -4,3 +4,4 @@ coverage/
 dist/
 gh-pages/
 node_modules/
+.claude
