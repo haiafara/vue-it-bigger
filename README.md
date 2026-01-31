@@ -237,10 +237,14 @@ yarn build
 
 1. Make sure everything works locally by running `yarn dev`, `yarn build`, and `yarn test`
 2. Bump the version in [package.json](package.json)
-3. Draft a new release on the [releases page](https://github.com/haiafara/vue-it-bigger/releases)
+3. Add an entry for the new version in [CHANGELOG.md](CHANGELOG.md) following the [Keep a Changelog](https://keepachangelog.com/) format
+4. Commit and push the changes to master
+5. Draft a new release on the [releases page](https://github.com/haiafara/vue-it-bigger/releases)
     - Create a tag with the prefix **v** and the version, eg: **v1.0.0**
     - Prefix the release title with the tag, eg: **v1.0.0 - Vue 3 Migration**
-4. Publish the release
+6. Publish the release
+
+The publish workflow will automatically validate that the release tag matches the version in `package.json` and that `CHANGELOG.md` has an entry for the version, then build and publish to npm.
 
 ## Credits
 
