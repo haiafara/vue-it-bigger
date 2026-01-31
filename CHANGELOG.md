@@ -16,18 +16,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ESLint flat config format
 - CI workflows for Node.js 20.x/22.x with latest action versions
 - Demo application in dedicated `demo/` directory
+- Explicit emits declaration for all component events
+- Enhanced publish workflow with version validation and changelog check
+- Separate deploy-demo job for GitHub Pages deployment
+- New npm scripts: `build:demo`, `preview`, `test:watch`, `test:coverage`
+- `vue3` keyword to package.json
+- Coverage reporting with Vitest
 
 ### Changed
 - **BREAKING**: Requires Vue 3.3.0 or higher
 - **BREAKING**: CSS import path changed from `vue-it-bigger/dist/vue-it-bigger.min.css` to `vue-it-bigger/dist/vue-it-bigger.css`
+- **BREAKING**: Component lifecycle hook `beforeDestroy` renamed to `beforeUnmount`
 - Replaced Webpack with Vite for build system
 - Replaced Jest with Vitest for testing
 - Removed legacy CSS vendor prefixes
+- Updated keyboard event handling from `event.keyCode` to `event.key`
+- Removed `$set` usage (Vue 3 reactivity improvements)
+- Updated Vue 3 transition class names (`enter` → `enter-from`)
+- Updated icon component imports to include `.vue` extension
+- Converted HTML tables to markdown tables in README for better formatting
+- Removed prominent references to vue-image-lightbox from README and package.json
+- Updated to `@vue/test-utils` v2
+- Added `type: "module"` to package.json
 
 ### Removed
 - Hammerjs dependency (replaced with native touch events)
 - Webpack build configuration
 - Jest testing framework
+- `jsconfig.json` file
+- Contributors list from package.json
 
 ## [0.3.2] - 2023-01-20
 
