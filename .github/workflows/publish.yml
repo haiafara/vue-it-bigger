@@ -48,7 +48,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm install
 
       - name: Validate package.json version matches tag
         run: |
@@ -87,10 +87,10 @@ jobs:
           fi
 
       - name: Build the package
-        run: yarn build
+        run: npm run build
 
       - name: Publish the package to npmjs.org
-        run: npm publish --provenance --access public
+        run: npm publish
 
   deploy-demo:
     name: Deploy demo to GitHub Pages
@@ -107,10 +107,10 @@ jobs:
           node-version: '22.x'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm install
 
       - name: Build the demo
-        run: yarn build:demo
+        run: npm run build:demo
 
       - name: Publish the demo to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
