@@ -17,7 +17,6 @@
           @click.stop
         >
           <transition
-            mode="out-in"
             :name="imageTransitionName"
           >
             <img
@@ -266,7 +265,8 @@ export default {
       select: this.startAt,
       lightBoxShown: this.showLightBox,
       controlsHidden: false,
-      imageTransitionName: 'vib-image-no-transition',
+      imageTransitionsEnabled: false,
+      slideDirection: 'next',
       timer: null,
       interactionTimer: null,
       interfaceHovered: false,
@@ -276,6 +276,13 @@ export default {
   },
 
   computed: {
+    imageTransitionName() {
+      if (!this.imageTransitionsEnabled) return 'vib-image-no-transition'
+      return this.slideDirection === 'next'
+        ? 'vib-image-slide-next'
+        : 'vib-image-slide-prev'
+    },
+
     currentMedia() {
       return this.media[this.select]
     },
@@ -328,6 +335,8 @@ export default {
 
       if (this.select === this.startAt)
         this.$emit('onStartIndex')
+
+      this.preloadAdjacentImages()
     },
   },
 
@@ -378,6 +387,8 @@ export default {
       if (this.$refs.video && this.$refs.video.autoplay) {
         this.$refs.video.play()
       }
+
+      this.preloadAdjacentImages()
     },
 
     onLightBoxClose() {
@@ -402,6 +413,7 @@ export default {
     },
 
     showImage(index) {
+      this.slideDirection = index > this.select ? 'next' : 'prev'
       this.select = index
       this.controlsHidden = false
       this.lightBoxShown = true
@@ -429,20 +441,22 @@ export default {
     },
 
     nextImage() {
+      this.slideDirection = 'next'
       this.select = (this.select + 1) % this.media.length
     },
 
     previousImage() {
+      this.slideDirection = 'prev'
       this.select = (this.select + this.media.length - 1) % this.media.length
     },
 
     enableImageTransition() {
       this.handleMouseActivity()
-      this.imageTransitionName = 'vib-image-transition'
+      this.imageTransitionsEnabled = true
     },
 
     disableImageTransition() {
-      this.imageTransitionName = 'vib-image-no-transition'
+      this.imageTransitionsEnabled = false
     },
 
     handleMouseActivity() {
@@ -467,6 +481,25 @@ export default {
 
     stopInteractionTimer() {
       this.interactionTimer = null
+    },
+
+    preloadAdjacentImages() {
+      const len = this.media.length
+      if (len <= 1) return
+
+      const nextIndex = (this.select + 1) % len
+      const prevIndex = (this.select + len - 1) % len
+
+      ;[nextIndex, prevIndex].forEach(index => {
+        const item = this.media[index]
+        if (item.type === undefined || item.type === 'image') {
+          const img = new Image()
+          img.src = item.src
+          if (item.srcset) {
+            img.srcset = item.srcset
+          }
+        }
+      })
     },
 
     handleTouchStart(event) {

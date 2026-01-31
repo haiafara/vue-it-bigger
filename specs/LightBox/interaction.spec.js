@@ -5,7 +5,9 @@ import LightBox from '@/LightBox.vue'
 import {
   mediaWithOneImageWithoutType,
   mediaWithNineImages,
-  mediaWithOneVideoWithAutoplay
+  mediaWithOneVideoWithAutoplay,
+  mediaWithTwoImagesWithType,
+  mediaWithTwoImagesWithSrcset
 } from '../fixtures'
 
 /* global HTMLMediaElement, Event, MouseEvent */
@@ -358,8 +360,8 @@ describe('LightBox - Interaction', () => {
         }
       })
 
-      // Set transition to something else first
-      wrapper.vm.imageTransitionName = 'vib-image-transition'
+      // Enable transitions first
+      wrapper.vm.imageTransitionsEnabled = true
 
       // Call the method directly to test it
       wrapper.vm.disableImageTransition()
@@ -376,13 +378,13 @@ describe('LightBox - Interaction', () => {
 
       const handleMouseActivitySpy = vi.spyOn(wrapper.vm, 'handleMouseActivity')
 
-      // Set transition to no-transition first
-      wrapper.vm.imageTransitionName = 'vib-image-no-transition'
+      // Ensure transitions are disabled first
+      wrapper.vm.imageTransitionsEnabled = false
 
       // Call the method directly to test it
       wrapper.vm.enableImageTransition()
 
-      expect(wrapper.vm.imageTransitionName).toBe('vib-image-transition')
+      expect(wrapper.vm.imageTransitionName).toMatch(/^vib-image-slide-(next|prev)$/)
       expect(handleMouseActivitySpy).toHaveBeenCalled()
     })
   })
@@ -440,6 +442,74 @@ describe('LightBox - Interaction', () => {
 
     test('close button is not rendered', () => {
       expect(wrapper.find('.vib-close').exists()).toBe(false)
+    })
+  })
+
+  describe('preloadAdjacentImages', () => {
+    test('preloads srcset when available on adjacent images', () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithTwoImagesWithSrcset
+        }
+      })
+
+      const imageSpy = vi.spyOn(globalThis, 'Image').mockImplementation(() => ({}))
+
+      wrapper.vm.preloadAdjacentImages()
+
+      expect(imageSpy).toHaveBeenCalled()
+      const createdImage = imageSpy.mock.results[0].value
+      expect(createdImage.src).toBe(mediaWithTwoImagesWithSrcset[1].src)
+      expect(createdImage.srcset).toBe(mediaWithTwoImagesWithSrcset[1].srcset)
+
+      imageSpy.mockRestore()
+    })
+
+    test('preloads adjacent images with explicit type "image"', () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithTwoImagesWithType
+        }
+      })
+
+      const imageSpy = vi.spyOn(globalThis, 'Image').mockImplementation(() => ({}))
+
+      wrapper.vm.preloadAdjacentImages()
+
+      expect(imageSpy).toHaveBeenCalled()
+      const createdImage = imageSpy.mock.results[0].value
+      expect(createdImage.src).toBe(mediaWithTwoImagesWithType[1].src)
+
+      imageSpy.mockRestore()
+    })
+  })
+
+  describe('slide direction', () => {
+    test('imageTransitionName returns slide-prev when direction is prev', () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithNineImages
+        }
+      })
+
+      wrapper.vm.imageTransitionsEnabled = true
+      wrapper.vm.slideDirection = 'prev'
+
+      expect(wrapper.vm.imageTransitionName).toBe('vib-image-slide-prev')
+    })
+
+    test('showImage sets direction to prev when target index is before current', () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithNineImages,
+          startAt: 5
+        }
+      })
+
+      wrapper.vm.showImage(2)
+
+      expect(wrapper.vm.slideDirection).toBe('prev')
+      expect(wrapper.vm.select).toBe(2)
     })
   })
 })
