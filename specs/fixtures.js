@@ -85,4 +85,77 @@ const mediaWithNineImages = [
   }
 ]
 
-export { mediaWithOneImageWithoutType, mediaWithOneImageWithType,  mediaWithOneVideoWithoutAutoplay, mediaWithOneVideoWithAutoplay, mediaWithOneYoutube, mediaWithNineImages }
+const mediaWithSrcset = [
+  {
+    thumb: 'http://test/test-thumb.jpg',
+    src: 'http://test/test-image.jpg',
+    srcset: 'http://test/test-image-2x.jpg 2x',
+    caption: 'Test caption'
+  }
+]
+
+const mediaWithCaption = [
+  {
+    thumb: 'http://test/test-thumb.jpg',
+    src: 'http://test/test-image.jpg',
+    caption: '<strong>Bold caption</strong>'
+  }
+]
+
+const mediaWithTwoImages = [
+  {
+    thumb: 'http://test/test-thumb-1.jpg',
+    src: 'http://test/test-image-1.jpg'
+  },
+  {
+    thumb: 'http://test/test-thumb-2.jpg',
+    src: 'http://test/test-image-2.jpg'
+  }
+]
+
+const mediaMixed = [
+  {
+    thumb: 'http://test/thumb-1.jpg',
+    src: 'http://test/img-1.jpg'
+  },
+  {
+    type: 'video',
+    thumb: 'http://test/thumb-2.jpg',
+    sources: [
+      {
+        src: 'http://test/vid.mp4',
+        type: 'video/mp4'
+      }
+    ]
+  },
+  {
+    type: 'youtube',
+    thumb: 'http://test/thumb-3.jpg',
+    id: 'abc123'
+  }
+]
+
+const mediaWithNonStringThumb = [
+  {
+    thumb: undefined,
+    src: 'http://test/test-image.jpg'
+  },
+  {
+    thumb: null,
+    src: 'http://test/test-image-2.jpg'
+  }
+]
+
+export {
+  mediaWithOneImageWithoutType,
+  mediaWithOneImageWithType,
+  mediaWithOneVideoWithoutAutoplay,
+  mediaWithOneVideoWithAutoplay,
+  mediaWithOneYoutube,
+  mediaWithNineImages,
+  mediaWithSrcset,
+  mediaWithCaption,
+  mediaWithTwoImages,
+  mediaMixed,
+  mediaWithNonStringThumb
+}
