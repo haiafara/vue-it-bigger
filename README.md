@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/haiafara/vue-it-bigger/branch/master/graph/badge.svg)](https://codecov.io/gh/haiafara/vue-it-bigger)
 [![Depfu](https://badges.depfu.com/badges/d97efabdc36483941354cb65cd36ed01/overview.svg)](https://depfu.com/github/haiafara/vue-it-bigger?project_id=13757)
 
-A simple image / (YouTube) video lightbox component for Vue.js 3. Based on [vue-image-lightbox](https://github.com/pexea12/vue-image-lightbox).
+A simple image / (YouTube) video lightbox component for Vue.js 3.
 
 [![Vue It Bigger Screenshot](https://imgur.com/89eZHa7.jpg)](https://haiafara.github.io/vue-it-bigger/)
 
@@ -18,9 +18,6 @@ Click on the screenshot above for a **demo**.
 * Can play the slideshow automatically
 * All of the graphics (previous, next and close buttons) can be customized via slots
 * Can skip to next / previous media programatically
-
-# Improvements over vue-image-lightbox
-
 * Allows embedding YouTube videos
 * Lightbox opens and closes with a short fade
 * Media's width is no longer limited (stretches to the full width / height of the window)
@@ -247,9 +244,9 @@ yarn build
 
 ## Credits
 
-* Thanks [@anavsv](https://github.com/anavsv) for helping with the YouTube embed styling
+* Based on [vue-image-lightbox](https://github.com/pexea12/vue-image-lightbox) by [@pexea12](https://github.com/pexea12)
+* Thanks Ana Vidra for helping with the YouTube embed styling
 * Original CSS was based on [react-images](https://github.com/jossmac/react-images)
-* vue-image-lightbox authored by [@pexea12](https://github.com/pexea12)
 * [Other contributors](https://github.com/haiafara/vue-it-bigger/graphs/contributors)
 
 ## License
