@@ -6,6 +6,7 @@ import {
   mediaWithOneImageWithoutType,
   mediaWithNineImages,
   mediaWithOneVideoWithAutoplay,
+  mediaWithTwoImagesWithType,
   mediaWithTwoImagesWithSrcset
 } from '../fixtures'
 
@@ -462,6 +463,53 @@ describe('LightBox - Interaction', () => {
       expect(createdImage.srcset).toBe(mediaWithTwoImagesWithSrcset[1].srcset)
 
       imageSpy.mockRestore()
+    })
+
+    test('preloads adjacent images with explicit type "image"', () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithTwoImagesWithType
+        }
+      })
+
+      const imageSpy = vi.spyOn(globalThis, 'Image').mockImplementation(() => ({}))
+
+      wrapper.vm.preloadAdjacentImages()
+
+      expect(imageSpy).toHaveBeenCalled()
+      const createdImage = imageSpy.mock.results[0].value
+      expect(createdImage.src).toBe(mediaWithTwoImagesWithType[1].src)
+
+      imageSpy.mockRestore()
+    })
+  })
+
+  describe('slide direction', () => {
+    test('imageTransitionName returns slide-prev when direction is prev', () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithNineImages
+        }
+      })
+
+      wrapper.vm.imageTransitionsEnabled = true
+      wrapper.vm.slideDirection = 'prev'
+
+      expect(wrapper.vm.imageTransitionName).toBe('vib-image-slide-prev')
+    })
+
+    test('showImage sets direction to prev when target index is before current', () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithNineImages,
+          startAt: 5
+        }
+      })
+
+      wrapper.vm.showImage(2)
+
+      expect(wrapper.vm.slideDirection).toBe('prev')
+      expect(wrapper.vm.select).toBe(2)
     })
   })
 })

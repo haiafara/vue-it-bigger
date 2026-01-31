@@ -135,6 +135,19 @@ const mediaMixed = [
   }
 ]
 
+const mediaWithTwoImagesWithType = [
+  {
+    thumb: 'http://test/test-thumb-1.jpg',
+    src: 'http://test/test-image-1.jpg',
+    type: 'image'
+  },
+  {
+    thumb: 'http://test/test-thumb-2.jpg',
+    src: 'http://test/test-image-2.jpg',
+    type: 'image'
+  }
+]
+
 const mediaWithTwoImagesWithSrcset = [
   {
     thumb: 'http://test/test-thumb-1.jpg',
@@ -171,5 +184,6 @@ export {
   mediaWithTwoImages,
   mediaMixed,
   mediaWithNonStringThumb,
+  mediaWithTwoImagesWithType,
   mediaWithTwoImagesWithSrcset
 }
