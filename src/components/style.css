@@ -35,7 +35,12 @@
 .vib-content {
   position: relative;
   margin: 0;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 .vib-image {
@@ -160,15 +165,42 @@
   }
 }
 
-/* image transitions */
+/* image slide transitions */
 
-.vib-image-transition-enter-active,
-.vib-image-transition-leave-active {
-  transition: opacity .2s ease;
+.vib-image-slide-next-enter-active,
+.vib-image-slide-next-leave-active,
+.vib-image-slide-prev-enter-active,
+.vib-image-slide-prev-leave-active {
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-.vib-image-transition-enter-from,
-.vib-image-transition-leave-to {
+.vib-image-slide-next-leave-active,
+.vib-image-slide-prev-leave-active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.vib-image-slide-next-enter-from {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.vib-image-slide-next-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.vib-image-slide-prev-enter-from {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.vib-image-slide-prev-leave-to {
+  transform: translateX(100%);
   opacity: 0;
 }
 

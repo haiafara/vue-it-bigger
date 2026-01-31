@@ -358,8 +358,8 @@ describe('LightBox - Interaction', () => {
         }
       })
 
-      // Set transition to something else first
-      wrapper.vm.imageTransitionName = 'vib-image-transition'
+      // Enable transitions first
+      wrapper.vm.imageTransitionsEnabled = true
 
       // Call the method directly to test it
       wrapper.vm.disableImageTransition()
@@ -376,13 +376,13 @@ describe('LightBox - Interaction', () => {
 
       const handleMouseActivitySpy = vi.spyOn(wrapper.vm, 'handleMouseActivity')
 
-      // Set transition to no-transition first
-      wrapper.vm.imageTransitionName = 'vib-image-no-transition'
+      // Ensure transitions are disabled first
+      wrapper.vm.imageTransitionsEnabled = false
 
       // Call the method directly to test it
       wrapper.vm.enableImageTransition()
 
-      expect(wrapper.vm.imageTransitionName).toBe('vib-image-transition')
+      expect(wrapper.vm.imageTransitionName).toMatch(/^vib-image-slide-(next|prev)$/)
       expect(handleMouseActivitySpy).toHaveBeenCalled()
     })
   })
