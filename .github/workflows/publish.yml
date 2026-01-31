@@ -4,6 +4,10 @@ on:
   release:
     types: [published]
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   publish:
     name: Publish to npm
@@ -86,9 +90,7 @@ jobs:
         run: yarn build
 
       - name: Publish the package to npmjs.org
-        run: yarn publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPMJS_ACCESS_TOKEN }}
+        run: yarn publish
 
   deploy-demo:
     name: Deploy demo to GitHub Pages
