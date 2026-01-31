@@ -32,7 +32,9 @@
               class="video-background"
             >
               <iframe
-                :src="'https://www.youtube.com/embed/' + media[select].id + '?showinfo=0'"
+                :id="'youtube-player-' + select"
+                ref="youtubeIframe"
+                :src="'https://www.youtube.com/embed/' + media[select].id + '?enablejsapi=1&showinfo=0'"
                 width="560"
                 height="315"
                 frameborder="0"
@@ -272,6 +274,8 @@ export default {
       interfaceHovered: false,
       touchStartX: 0,
       touchStartY: 0,
+      youtubePlayer: null,
+      youtubeApiLoaded: false,
     }
   },
 
@@ -337,6 +341,13 @@ export default {
         this.$emit('onStartIndex')
 
       this.preloadAdjacentImages()
+
+      // Initialize YouTube player when switching to a YouTube video
+      if (this.media[this.select] && this.media[this.select].type === 'youtube') {
+        this.$nextTick(() => {
+          this.initYouTubePlayer()
+        })
+      }
     },
   },
 
@@ -355,6 +366,13 @@ export default {
       this.$refs.container.addEventListener('mousemove', this.handleMouseActivity);
       this.$refs.container.addEventListener('touchmove', this.handleMouseActivity);
     }
+
+    // Initialize YouTube player if initial media is a YouTube video
+    if (this.media[this.select] && this.media[this.select].type === 'youtube') {
+      this.$nextTick(() => {
+        this.initYouTubePlayer()
+      })
+    }
   },
 
   beforeUnmount() {
@@ -370,6 +388,12 @@ export default {
       this.$refs.container.removeEventListener('touchmove', this.handleMouseActivity);
       this.$refs.container.removeEventListener('touchstart', this.handleTouchStart);
       this.$refs.container.removeEventListener('touchend', this.handleTouchEnd);
+    }
+
+    // Clean up YouTube player
+    if (this.youtubePlayer && typeof this.youtubePlayer.destroy === 'function') {
+      this.youtubePlayer.destroy()
+      this.youtubePlayer = null
     }
   },
 
@@ -405,6 +429,9 @@ export default {
         this.$refs.video.pause()
         this.$refs.video.currentTime = '0'
       }
+
+      // Pause YouTube video when closing lightbox
+      this.pauseYouTubeVideo()
     },
 
     onToggleLightBox(value) {
@@ -436,6 +463,8 @@ export default {
     closeLightBox() {
       if (this.$refs.video)
         this.$refs.video.pause();
+      // Pause YouTube video when closing lightbox
+      this.pauseYouTubeVideo();
       if (!this.closable) return;
       this.lightBoxShown = false
     },
@@ -519,6 +548,64 @@ export default {
           this.previousImage()
         } else {
           this.nextImage()
+        }
+      }
+    },
+
+    loadYouTubeApi() {
+      if (this.youtubeApiLoaded) return
+
+      const tag = document.createElement('script')
+      tag.src = 'https://www.youtube.com/iframe_api'
+      const firstScriptTag = document.getElementsByTagName('script')[0]
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
+
+      // Set up global callback for YouTube API
+      window.onYouTubeIframeAPIReady = () => {
+        this.youtubeApiLoaded = true
+        this.initYouTubePlayer()
+      }
+    },
+
+    initYouTubePlayer() {
+      if (!this.media[this.select] || this.media[this.select].type !== 'youtube') {
+        return
+      }
+
+      const iframeId = 'youtube-player-' + this.select
+      const iframe = document.getElementById(iframeId)
+
+      if (!iframe) return
+
+      // If API is not loaded yet, load it
+      if (!window.YT || !window.YT.Player) {
+        this.loadYouTubeApi()
+        return
+      }
+
+      // Create new player instance
+      if (this.youtubePlayer) {
+        this.youtubePlayer.destroy()
+      }
+
+      this.youtubePlayer = new window.YT.Player(iframeId, {
+        events: {
+          onReady: () => {
+            // Player is ready
+          },
+          onError: () => {
+            // YouTube player error
+          },
+        },
+      })
+    },
+
+    pauseYouTubeVideo() {
+      if (this.youtubePlayer && typeof this.youtubePlayer.pauseVideo === 'function') {
+        try {
+          this.youtubePlayer.pauseVideo()
+        } catch {
+          // Error pausing YouTube video
         }
       }
     },

@@ -453,7 +453,9 @@ describe('LightBox - Interaction', () => {
         }
       })
 
-      const imageSpy = vi.spyOn(globalThis, 'Image').mockImplementation(() => ({}))
+      const imageSpy = vi.spyOn(globalThis, 'Image').mockImplementation(function() {
+        return {}
+      })
 
       wrapper.vm.preloadAdjacentImages()
 
@@ -472,7 +474,9 @@ describe('LightBox - Interaction', () => {
         }
       })
 
-      const imageSpy = vi.spyOn(globalThis, 'Image').mockImplementation(() => ({}))
+      const imageSpy = vi.spyOn(globalThis, 'Image').mockImplementation(function() {
+        return {}
+      })
 
       wrapper.vm.preloadAdjacentImages()
 
