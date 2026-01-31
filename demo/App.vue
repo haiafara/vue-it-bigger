@@ -33,6 +33,7 @@
 import LightBox from 'vue-it-bigger'
 
 import media from './media'
+import packageJson from '../package.json'
 
 export default {
   components: {
@@ -42,6 +43,15 @@ export default {
   data () {
     return {
       media,
+      version: packageJson.version,
+    }
+  },
+
+  mounted() {
+    // Update footer with version
+    const footer = document.getElementById('footer')
+    if (footer) {
+      footer.innerHTML = `All images by <a href="https://photos.rusiczki.net">János Rusiczki</a>.<br>Using vue-it-bigger v${this.version}.`
     }
   },
 
