@@ -90,7 +90,7 @@ jobs:
         run: yarn build
 
       - name: Publish the package to npmjs.org
-        run: yarn publish
+        run: npm publish
 
   deploy-demo:
     name: Deploy demo to GitHub Pages
