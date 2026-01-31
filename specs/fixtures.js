@@ -135,6 +135,17 @@ const mediaMixed = [
   }
 ]
 
+const mediaWithNonStringThumb = [
+  {
+    thumb: undefined,
+    src: 'http://test/test-image.jpg'
+  },
+  {
+    thumb: null,
+    src: 'http://test/test-image-2.jpg'
+  }
+]
+
 export {
   mediaWithOneImageWithoutType,
   mediaWithOneImageWithType,
@@ -145,5 +156,6 @@ export {
   mediaWithSrcset,
   mediaWithCaption,
   mediaWithTwoImages,
-  mediaMixed
+  mediaMixed,
+  mediaWithNonStringThumb
 }

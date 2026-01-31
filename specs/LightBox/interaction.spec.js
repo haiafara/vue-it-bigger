@@ -325,6 +325,66 @@ describe('LightBox - Interaction', () => {
         expect(el.classes()).toContain('vib-hidden')
       })
     })
+
+    test('mouse activity restores hidden controls', async () => {
+      const container = wrapper.find('.vib-container').element
+
+      // First, trigger mouse activity to start the hide timer
+      const mouseMoveEvent1 = new MouseEvent('mousemove', { bubbles: true })
+      container.dispatchEvent(mouseMoveEvent1)
+
+      // Wait for controls to hide
+      vi.advanceTimersByTime(3000)
+      await wrapper.vm.$nextTick()
+
+      // Verify controls are hidden
+      expect(wrapper.vm.controlsHidden).toBe(true)
+
+      // Now trigger mouse activity again - this should restore the controls
+      const mouseDownEvent = new MouseEvent('mousedown', { bubbles: true })
+      container.dispatchEvent(mouseDownEvent)
+      await wrapper.vm.$nextTick()
+
+      // Verify controls are restored
+      expect(wrapper.vm.controlsHidden).toBe(false)
+    })
+  })
+
+  describe('transition lifecycle methods', () => {
+    test('disableImageTransition sets transition to no-transition', () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithOneImageWithoutType
+        }
+      })
+
+      // Set transition to something else first
+      wrapper.vm.imageTransitionName = 'vib-image-transition'
+
+      // Call the method directly to test it
+      wrapper.vm.disableImageTransition()
+
+      expect(wrapper.vm.imageTransitionName).toBe('vib-image-no-transition')
+    })
+
+    test('enableImageTransition sets transition and calls handleMouseActivity', () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithOneImageWithoutType
+        }
+      })
+
+      const handleMouseActivitySpy = vi.spyOn(wrapper.vm, 'handleMouseActivity')
+
+      // Set transition to no-transition first
+      wrapper.vm.imageTransitionName = 'vib-image-no-transition'
+
+      // Call the method directly to test it
+      wrapper.vm.enableImageTransition()
+
+      expect(wrapper.vm.imageTransitionName).toBe('vib-image-transition')
+      expect(handleMouseActivitySpy).toHaveBeenCalled()
+    })
   })
 
   describe('video close behavior', () => {

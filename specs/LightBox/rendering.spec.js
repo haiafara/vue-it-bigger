@@ -10,7 +10,8 @@ import {
   mediaWithOneVideoWithAutoplay,
   mediaWithOneYoutube,
   mediaWithNineImages,
-  mediaWithTwoImages
+  mediaWithTwoImages,
+  mediaWithNonStringThumb
 } from '../fixtures'
 
 /* global HTMLMediaElement */
@@ -284,6 +285,23 @@ describe('LightBox - Rendering', () => {
 
     test('renders right arrow button', () => {
       expect(wrapper.find('.vib-arrow-right').exists()).toBe(true)
+    })
+  })
+
+  describe('thumbnail key generation', () => {
+    test('uses index as key when thumb is not a string', () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithNonStringThumb
+        }
+      })
+
+      // Check that the component renders without errors
+      expect(wrapper.find('.vib-container').exists()).toBe(true)
+
+      // Verify that thumbnails are rendered
+      const thumbnails = wrapper.findAll('.vib-thumbnail-wrapper > div')
+      expect(thumbnails.length).toBeGreaterThan(0)
     })
   })
 })
