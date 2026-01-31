@@ -5,7 +5,8 @@ import LightBox from '@/LightBox.vue'
 import {
   mediaWithOneImageWithoutType,
   mediaWithNineImages,
-  mediaWithOneVideoWithAutoplay
+  mediaWithOneVideoWithAutoplay,
+  mediaWithTwoImagesWithSrcset
 } from '../fixtures'
 
 /* global HTMLMediaElement, Event, MouseEvent */
@@ -440,6 +441,27 @@ describe('LightBox - Interaction', () => {
 
     test('close button is not rendered', () => {
       expect(wrapper.find('.vib-close').exists()).toBe(false)
+    })
+  })
+
+  describe('preloadAdjacentImages', () => {
+    test('preloads srcset when available on adjacent images', () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithTwoImagesWithSrcset
+        }
+      })
+
+      const imageSpy = vi.spyOn(globalThis, 'Image').mockImplementation(() => ({}))
+
+      wrapper.vm.preloadAdjacentImages()
+
+      expect(imageSpy).toHaveBeenCalled()
+      const createdImage = imageSpy.mock.results[0].value
+      expect(createdImage.src).toBe(mediaWithTwoImagesWithSrcset[1].src)
+      expect(createdImage.srcset).toBe(mediaWithTwoImagesWithSrcset[1].srcset)
+
+      imageSpy.mockRestore()
     })
   })
 })
