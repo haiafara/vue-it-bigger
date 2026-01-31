@@ -27,20 +27,6 @@
               class="vib-image"
               :alt="currentMedia.caption"
             >
-            <div
-              v-else-if="media[select].type == 'youtube'"
-              class="video-background"
-            >
-              <iframe
-                :id="'youtube-player-' + select"
-                ref="youtubeIframe"
-                :src="'https://www.youtube.com/embed/' + media[select].id + '?enablejsapi=1&showinfo=0'"
-                width="560"
-                height="315"
-                frameborder="0"
-                allowfullscreen
-              />
-            </div>
             <video
               v-else-if="currentMedia.type == 'video'"
               :key="currentMedia.sources[0].src"
@@ -59,6 +45,33 @@
             </video>
           </transition>
         </div> <!-- .vib-content -->
+
+        <!-- Persistent YouTube iframes - outside transition to preserve playback state -->
+        <template
+          v-for="(item, index) in media"
+          :key="'youtube-' + index"
+        >
+          <transition :name="imageTransitionName">
+            <div
+              v-if="item.type === 'youtube' && visitedYoutubeIndices.has(index)"
+              v-show="select === index"
+              class="vib-content"
+              style="position: absolute;"
+              @click.stop
+            >
+              <div class="video-background">
+                <iframe
+                  :id="'youtube-player-' + index"
+                  :src="'https://www.youtube.com/embed/' + item.id + '?enablejsapi=1&showinfo=0'"
+                  width="560"
+                  height="315"
+                  frameborder="0"
+                  allowfullscreen
+                />
+              </div>
+            </div>
+          </transition>
+        </template>
 
         <div
           v-if="showThumbs"
@@ -262,6 +275,11 @@ export default {
     },
   },
 
+  created() {
+    // Non-reactive map: Vue's Proxy wrapping breaks YT.Player API methods
+    this.youtubePlayers = new Map()
+  },
+
   data() {
     return {
       select: this.startAt,
@@ -274,7 +292,7 @@ export default {
       interfaceHovered: false,
       touchStartX: 0,
       touchStartY: 0,
-      youtubePlayer: null,
+      visitedYoutubeIndices: new Set(),
       youtubeApiLoaded: false,
     }
   },
@@ -325,7 +343,7 @@ export default {
       }
     },
 
-    select() {
+    select(newVal, oldVal) {
       this.$emit('onImageChanged', this.select)
 
       if (this.select >= this.media.length - this.lengthToLoadMore - 1)
@@ -342,10 +360,16 @@ export default {
 
       this.preloadAdjacentImages()
 
+      // Pause the YouTube video we are navigating away from
+      if (this.media[oldVal] && this.media[oldVal].type === 'youtube') {
+        this.pauseYouTubeVideo(oldVal)
+      }
+
       // Initialize YouTube player when switching to a YouTube video
       if (this.media[this.select] && this.media[this.select].type === 'youtube') {
+        this.visitedYoutubeIndices.add(this.select)
         this.$nextTick(() => {
-          this.initYouTubePlayer()
+          this.initYouTubePlayer(this.select)
         })
       }
     },
@@ -369,8 +393,9 @@ export default {
 
     // Initialize YouTube player if initial media is a YouTube video
     if (this.media[this.select] && this.media[this.select].type === 'youtube') {
+      this.visitedYoutubeIndices.add(this.select)
       this.$nextTick(() => {
-        this.initYouTubePlayer()
+        this.initYouTubePlayer(this.select)
       })
     }
   },
@@ -390,11 +415,13 @@ export default {
       this.$refs.container.removeEventListener('touchend', this.handleTouchEnd);
     }
 
-    // Clean up YouTube player
-    if (this.youtubePlayer && typeof this.youtubePlayer.destroy === 'function') {
-      this.youtubePlayer.destroy()
-      this.youtubePlayer = null
-    }
+    // Clean up all YouTube players
+    this.youtubePlayers.forEach((player) => {
+      if (player && typeof player.destroy === 'function') {
+        player.destroy()
+      }
+    })
+    this.youtubePlayers.clear()
   },
 
   methods: {
@@ -563,16 +590,21 @@ export default {
       // Set up global callback for YouTube API
       window.onYouTubeIframeAPIReady = () => {
         this.youtubeApiLoaded = true
-        this.initYouTubePlayer()
+        // Initialize players for all visited YouTube items
+        this.visitedYoutubeIndices.forEach((index) => {
+          this.initYouTubePlayer(index)
+        })
       }
     },
 
-    initYouTubePlayer() {
-      if (!this.media[this.select] || this.media[this.select].type !== 'youtube') {
+    initYouTubePlayer(index) {
+      if (index === undefined) index = this.select
+
+      if (!this.media[index] || this.media[index].type !== 'youtube') {
         return
       }
 
-      const iframeId = 'youtube-player-' + this.select
+      const iframeId = 'youtube-player-' + index
       const iframe = document.getElementById(iframeId)
 
       if (!iframe) return
@@ -583,12 +615,12 @@ export default {
         return
       }
 
-      // Create new player instance
-      if (this.youtubePlayer) {
-        this.youtubePlayer.destroy()
+      // Skip if player already exists for this index
+      if (this.youtubePlayers.has(index)) {
+        return
       }
 
-      this.youtubePlayer = new window.YT.Player(iframeId, {
+      const player = new window.YT.Player(iframeId, {
         events: {
           onReady: () => {
             // Player is ready
@@ -598,12 +630,17 @@ export default {
           },
         },
       })
+
+      this.youtubePlayers.set(index, player)
     },
 
-    pauseYouTubeVideo() {
-      if (this.youtubePlayer && typeof this.youtubePlayer.pauseVideo === 'function') {
+    pauseYouTubeVideo(index) {
+      if (index === undefined) index = this.select
+
+      const player = this.youtubePlayers.get(index)
+      if (player && typeof player.pauseVideo === 'function') {
         try {
-          this.youtubePlayer.pauseVideo()
+          player.pauseVideo()
         } catch {
           // Error pausing YouTube video
         }
