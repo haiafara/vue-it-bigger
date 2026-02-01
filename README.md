@@ -97,29 +97,6 @@ The `media` prop has the following structure:
   }
 ]
 ```
-## Using it with Nuxt 3
-
-Create a file named `lightbox.client.js` under the `plugins` directory with following contents:
-
-```javascript
-import LightBox from 'vue-it-bigger'
-import 'vue-it-bigger/dist/vue-it-bigger.css'
-
-export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.vueApp.component('LightBox', LightBox)
-})
-```
-
-Use it in any of your components:
-
-```html
-<ClientOnly>
-  <!-- this component will only be rendered on client-side -->
-  <LightBox
-    :media="lightBoxMedia"
-  ></LightBox>
-</ClientOnly>
-```
 
 ## Options
 
