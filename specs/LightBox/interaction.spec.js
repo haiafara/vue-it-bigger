@@ -340,7 +340,7 @@ describe('LightBox - Interaction', () => {
       await wrapper.vm.$nextTick()
 
       // Verify controls are hidden
-      expect(wrapper.vm.controlsHidden).toBe(true)
+      expect(wrapper.find('.vib-close').classes()).toContain('vib-hidden')
 
       // Now trigger mouse activity again - this should restore the controls
       const mouseDownEvent = new MouseEvent('mousedown', { bubbles: true })
@@ -348,7 +348,7 @@ describe('LightBox - Interaction', () => {
       await wrapper.vm.$nextTick()
 
       // Verify controls are restored
-      expect(wrapper.vm.controlsHidden).toBe(false)
+      expect(wrapper.find('.vib-close').classes()).not.toContain('vib-hidden')
     })
   })
 
@@ -361,7 +361,7 @@ describe('LightBox - Interaction', () => {
       })
 
       // Enable transitions first
-      wrapper.vm.imageTransitionsEnabled = true
+      wrapper.vm.enableImageTransition()
 
       // Call the method directly to test it
       wrapper.vm.disableImageTransition()
@@ -369,23 +369,33 @@ describe('LightBox - Interaction', () => {
       expect(wrapper.vm.imageTransitionName).toBe('vib-image-no-transition')
     })
 
-    test('enableImageTransition sets transition and calls handleMouseActivity', () => {
+    test('enableImageTransition sets transition and calls handleMouseActivity', async () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithOneImageWithoutType
         }
       })
 
-      const handleMouseActivitySpy = vi.spyOn(wrapper.vm, 'handleMouseActivity')
+      vi.useFakeTimers()
 
       // Ensure transitions are disabled first
-      wrapper.vm.imageTransitionsEnabled = false
+      wrapper.vm.disableImageTransition()
+
+      // Trigger mouse activity then advance timers to hide controls
+      wrapper.vm.handleMouseActivity()
+      vi.advanceTimersByTime(3000)
+      await wrapper.vm.$nextTick()
+
+      // Verify controls are hidden via DOM
+      expect(wrapper.find('.vib-close').classes()).toContain('vib-hidden')
 
       // Call the method directly to test it
       wrapper.vm.enableImageTransition()
+      await wrapper.vm.$nextTick()
 
       expect(wrapper.vm.imageTransitionName).toMatch(/^vib-image-slide-(next|prev)$/)
-      expect(handleMouseActivitySpy).toHaveBeenCalled()
+      // handleMouseActivity was called, which resets controlsHidden
+      expect(wrapper.find('.vib-close').classes()).not.toContain('vib-hidden')
     })
   })
 
@@ -496,13 +506,14 @@ describe('LightBox - Interaction', () => {
         }
       })
 
-      wrapper.vm.imageTransitionsEnabled = true
-      wrapper.vm.slideDirection = 'prev'
+      wrapper.vm.enableImageTransition()
+      // Navigate to previous to set slideDirection to 'prev'
+      wrapper.find('.vib-arrow-left').trigger('click')
 
       expect(wrapper.vm.imageTransitionName).toBe('vib-image-slide-prev')
     })
 
-    test('showImage sets direction to prev when target index is before current', () => {
+    test('showImage sets direction to prev when target index is before current', async () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithNineImages,
@@ -510,10 +521,12 @@ describe('LightBox - Interaction', () => {
         }
       })
 
+      wrapper.vm.enableImageTransition()
       wrapper.vm.showImage(2)
+      await wrapper.vm.$nextTick()
 
-      expect(wrapper.vm.slideDirection).toBe('prev')
-      expect(wrapper.vm.select).toBe(2)
+      expect(wrapper.vm.imageTransitionName).toBe('vib-image-slide-prev')
+      expect(wrapper.find('.vib-footer-count').text()).toContain('3 / 9')
     })
   })
 })
