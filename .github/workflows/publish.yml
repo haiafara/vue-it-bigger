@@ -95,4 +95,6 @@ jobs:
   deploy-demo:
     name: Deploy demo to GitHub Pages
     needs: publish
+    permissions:
+      contents: write
     uses: ./.github/workflows/deploy-demo.yml
