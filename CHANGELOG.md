@@ -5,6 +5,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-02-01
+
+### Added
+- YouTube API integration for programmatic video control
+- Directional slide transitions that indicate navigation direction
+- Image preloading for adjacent images to improve the user experience
+- Package version display in demo footer
+- Test coverage for YouTube integration and interaction
+
+### Changed
+- **BREAKING**: Refactored LightBox component from Options API to Composition API using `<script setup>`
+- Extracted logic into separate composables for better code organization:
+  - `useNavigation`: handles image selection, transitions, and preloading
+  - `useUIControls`: manages mouse activity and controls visibility
+  - `useTouchSwipe`: implements touch gesture detection
+  - `useYouTube`: manages YouTube player integration
+  - `useLightboxLifecycle`: handles open/close lifecycle events
+- Preserved YouTube playback state when navigating between media items
+- Updated tests to verify DOM state instead of internal component state
+- Reorganized the LightBox test suite into focused files for rendering, interaction, and props/events
+- Removed Nuxt usage instructions from README (dropping Nuxt support)
+- Consolidated anchor styles in demo
+- Extracted demo deployment into reusable workflow
+
+### Fixed
+- YouTube videos now pause when closing the lightbox
+- YouTube player instances are properly cleaned up on component unmount
+- YouTube iframes are preserved outside transitions to prevent destruction during navigation
+
+### Dependencies
+- Updated Vite from v6.0.5 to v7.3.1
+- Updated Vitest from v2.1.8 to v4.0.18
+- Updated @vitejs/plugin-vue from v5.2.1 to v6.0.3
+- Updated @vitest/coverage-v8 from v2.1.8 to v4.0.18
+- Updated jsdom to v27.4.0
+- Upgraded Codecov action from v4 to v5
+
 ## [1.0.0] - 2026-01-31
 
 ### Added
