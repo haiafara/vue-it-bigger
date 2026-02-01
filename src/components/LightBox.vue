@@ -27,18 +27,6 @@
               class="vib-image"
               :alt="currentMedia.caption"
             >
-            <div
-              v-else-if="media[select].type == 'youtube'"
-              class="video-background"
-            >
-              <iframe
-                :src="'https://www.youtube.com/embed/' + media[select].id + '?showinfo=0'"
-                width="560"
-                height="315"
-                frameborder="0"
-                allowfullscreen
-              />
-            </div>
             <video
               v-else-if="currentMedia.type == 'video'"
               :key="currentMedia.sources[0].src"
@@ -57,6 +45,33 @@
             </video>
           </transition>
         </div> <!-- .vib-content -->
+
+        <!-- Persistent YouTube iframes - outside transition to preserve playback state -->
+        <template
+          v-for="(item, index) in media"
+          :key="'youtube-' + index"
+        >
+          <transition :name="imageTransitionName">
+            <div
+              v-if="item.type === 'youtube' && visitedYoutubeIndices.has(index)"
+              v-show="select === index"
+              class="vib-content"
+              style="position: absolute;"
+              @click.stop
+            >
+              <div class="video-background">
+                <iframe
+                  :id="'youtube-player-' + index"
+                  :src="'https://www.youtube.com/embed/' + item.id + '?enablejsapi=1&showinfo=0'"
+                  width="560"
+                  height="315"
+                  frameborder="0"
+                  allowfullscreen
+                />
+              </div>
+            </div>
+          </transition>
+        </template>
 
         <div
           v-if="showThumbs"
@@ -158,372 +173,276 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import LeftArrowIcon from './LeftArrowIcon.vue'
 import RightArrowIcon from './RightArrowIcon.vue'
 import CloseIcon from './CloseIcon.vue'
 import VideoIcon from './VideoIcon.vue'
 
-export default {
-  components: {
-    LeftArrowIcon,
-    RightArrowIcon,
-    CloseIcon,
-    VideoIcon,
+import { useNavigation } from '../composables/useNavigation.js'
+import { useUIControls } from '../composables/useUIControls.js'
+import { useTouchSwipe } from '../composables/useTouchSwipe.js'
+import { useYouTube } from '../composables/useYouTube.js'
+import { useLightboxLifecycle } from '../composables/useLightboxLifecycle.js'
+
+const props = defineProps({
+  media: {
+    type: Array,
+    required: true,
   },
 
-  emits: [
-    'onImageChanged',
-    'onLoad',
-    'onLastIndex',
-    'onFirstIndex',
-    'onStartIndex',
-    'onOpened',
-    'onClosed',
-  ],
-
-  props: {
-    media: {
-      type: Array,
-      required: true,
-    },
-
-    disableScroll: {
-      type: Boolean,
-      default: true,
-    },
-
-    showLightBox: {
-      type: Boolean,
-      default: true,
-    },
-
-    closable: {
-      type: Boolean,
-      default: true,
-    },
-
-    startAt: {
-      type: Number,
-      default: 0,
-    },
-
-    nThumbs: {
-      type: Number,
-      default: 7,
-    },
-
-    showThumbs: {
-      type: Boolean,
-      default: true,
-    },
-
-    // Mode
-    autoPlay: {
-      type: Boolean,
-      default: false,
-    },
-
-    autoPlayTime: {
-      type: Number,
-      default: 3000,
-    },
-
-    interfaceHideTime: {
-      type: Number,
-      default: 3000,
-    },
-
-    showCaption: {
-      type: Boolean,
-      default: false,
-    },
-
-    lengthToLoadMore: {
-      type: Number,
-      default: 0
-    },
-
-    closeText: {
-      type: String,
-      default: 'Close (Esc)'
-    },
-
-    previousText: {
-      type: String,
-      default: 'Previous',
-    },
-
-    nextText: {
-      type: String,
-      default: 'Next',
-    },
+  disableScroll: {
+    type: Boolean,
+    default: true,
   },
 
-  data() {
-    return {
-      select: this.startAt,
-      lightBoxShown: this.showLightBox,
-      controlsHidden: false,
-      imageTransitionsEnabled: false,
-      slideDirection: 'next',
-      timer: null,
-      interactionTimer: null,
-      interfaceHovered: false,
-      touchStartX: 0,
-      touchStartY: 0,
-    }
+  showLightBox: {
+    type: Boolean,
+    default: true,
   },
 
-  computed: {
-    imageTransitionName() {
-      if (!this.imageTransitionsEnabled) return 'vib-image-no-transition'
-      return this.slideDirection === 'next'
-        ? 'vib-image-slide-next'
-        : 'vib-image-slide-prev'
-    },
-
-    currentMedia() {
-      return this.media[this.select]
-    },
-
-    thumbIndex() {
-      const halfDown = Math.floor(this.nThumbs / 2)
-
-      if (this.select >= halfDown && this.select < this.media.length - halfDown)
-        return {
-          begin: this.select - halfDown + (1 - this.nThumbs % 2),
-          end: this.select + halfDown,
-        }
-
-      if (this.select < halfDown)
-        return {
-          begin: 0,
-          end: this.nThumbs - 1,
-        }
-
-      return {
-        begin: this.media.length - this.nThumbs,
-        end: this.media.length - 1,
-      }
-    },
-
-    imagesThumb() {
-      return this.media.map(({ thumb, type }) => ({ thumb, type }))
-    },
+  closable: {
+    type: Boolean,
+    default: true,
   },
 
-  watch: {
-    lightBoxShown(value) {
-      // istanbul ignore else
-      if (document != null) {
-        this.onToggleLightBox(value)
-      }
-    },
-
-    select() {
-      this.$emit('onImageChanged', this.select)
-
-      if (this.select >= this.media.length - this.lengthToLoadMore - 1)
-        this.$emit('onLoad')
-
-      if (this.select === this.media.length - 1)
-        this.$emit('onLastIndex')
-
-      if (this.select === 0)
-        this.$emit('onFirstIndex')
-
-      if (this.select === this.startAt)
-        this.$emit('onStartIndex')
-
-      this.preloadAdjacentImages()
-    },
+  startAt: {
+    type: Number,
+    default: 0,
   },
 
-  mounted() {
-    if (this.autoPlay) {
-      this.timer = setInterval(this.nextImage, this.autoPlayTime)
-    }
-
-    this.onToggleLightBox(this.lightBoxShown)
-
-    if (this.$refs.container) {
-      // Native touch event swipe detection
-      this.$refs.container.addEventListener('touchstart', this.handleTouchStart);
-      this.$refs.container.addEventListener('touchend', this.handleTouchEnd);
-      this.$refs.container.addEventListener('mousedown', this.handleMouseActivity);
-      this.$refs.container.addEventListener('mousemove', this.handleMouseActivity);
-      this.$refs.container.addEventListener('touchmove', this.handleMouseActivity);
-    }
+  nThumbs: {
+    type: Number,
+    default: 7,
   },
 
-  beforeUnmount() {
-    document.removeEventListener('keydown', this.addKeyEvent)
-
-    if (this.autoPlay) {
-      clearInterval(this.timer)
-    }
-
-    if (this.$refs.container) {
-      this.$refs.container.removeEventListener('mousedown', this.handleMouseActivity);
-      this.$refs.container.removeEventListener('mousemove', this.handleMouseActivity);
-      this.$refs.container.removeEventListener('touchmove', this.handleMouseActivity);
-      this.$refs.container.removeEventListener('touchstart', this.handleTouchStart);
-      this.$refs.container.removeEventListener('touchend', this.handleTouchEnd);
-    }
+  showThumbs: {
+    type: Boolean,
+    default: true,
   },
 
-  methods: {
-    onLightBoxOpen() {
-      this.$emit('onOpened')
-
-      if (this.disableScroll) {
-        document.querySelector('html').classList.add('no-scroll')
-      }
-
-      document.querySelector('body').classList.add('vib-open')
-      document.addEventListener('keydown', this.addKeyEvent)
-
-      if (this.$refs.video && this.$refs.video.autoplay) {
-        this.$refs.video.play()
-      }
-
-      this.preloadAdjacentImages()
-    },
-
-    onLightBoxClose() {
-      this.$emit('onClosed')
-
-      if (this.disableScroll) {
-        document.querySelector('html').classList.remove('no-scroll')
-      }
-
-      document.querySelector('body').classList.remove('vib-open')
-      document.removeEventListener('keydown', this.addKeyEvent)
-
-      if (this.$refs.video) {
-        this.$refs.video.pause()
-        this.$refs.video.currentTime = '0'
-      }
-    },
-
-    onToggleLightBox(value) {
-      if (value) this.onLightBoxOpen()
-      else this.onLightBoxClose()
-    },
-
-    showImage(index) {
-      this.slideDirection = index > this.select ? 'next' : 'prev'
-      this.select = index
-      this.controlsHidden = false
-      this.lightBoxShown = true
-    },
-
-    addKeyEvent(event) {
-      switch (event.key) {
-        case 'ArrowLeft':
-          this.previousImage()
-          break
-        case 'ArrowRight':
-          this.nextImage()
-          break
-        case 'Escape':
-          this.closeLightBox()
-          break
-      }
-    },
-
-    closeLightBox() {
-      if (this.$refs.video)
-        this.$refs.video.pause();
-      if (!this.closable) return;
-      this.lightBoxShown = false
-    },
-
-    nextImage() {
-      this.slideDirection = 'next'
-      this.select = (this.select + 1) % this.media.length
-    },
-
-    previousImage() {
-      this.slideDirection = 'prev'
-      this.select = (this.select + this.media.length - 1) % this.media.length
-    },
-
-    enableImageTransition() {
-      this.handleMouseActivity()
-      this.imageTransitionsEnabled = true
-    },
-
-    disableImageTransition() {
-      this.imageTransitionsEnabled = false
-    },
-
-    handleMouseActivity() {
-      clearTimeout(this.interactionTimer);
-
-      if (this.controlsHidden) {
-        this.controlsHidden = false
-      }
-
-      if (this.interfaceHovered) {
-        this.stopInteractionTimer()
-      } else {
-        this.startInteractionTimer()
-      }
-    },
-
-    startInteractionTimer() {
-      this.interactionTimer = setTimeout(() => {
-        this.controlsHidden = true
-      }, this.interfaceHideTime)
-    },
-
-    stopInteractionTimer() {
-      this.interactionTimer = null
-    },
-
-    preloadAdjacentImages() {
-      const len = this.media.length
-      if (len <= 1) return
-
-      const nextIndex = (this.select + 1) % len
-      const prevIndex = (this.select + len - 1) % len
-
-      ;[nextIndex, prevIndex].forEach(index => {
-        const item = this.media[index]
-        if (item.type === undefined || item.type === 'image') {
-          const img = new Image()
-          img.src = item.src
-          if (item.srcset) {
-            img.srcset = item.srcset
-          }
-        }
-      })
-    },
-
-    handleTouchStart(event) {
-      this.touchStartX = event.touches[0].clientX
-      this.touchStartY = event.touches[0].clientY
-    },
-
-    handleTouchEnd(event) {
-      const touchEndX = event.changedTouches[0].clientX
-      const touchEndY = event.changedTouches[0].clientY
-      const deltaX = touchEndX - this.touchStartX
-      const deltaY = touchEndY - this.touchStartY
-
-      // Detect horizontal swipe (more horizontal than vertical movement)
-      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
-        if (deltaX > 0) {
-          this.previousImage()
-        } else {
-          this.nextImage()
-        }
-      }
-    },
+  autoPlay: {
+    type: Boolean,
+    default: false,
   },
+
+  autoPlayTime: {
+    type: Number,
+    default: 3000,
+  },
+
+  interfaceHideTime: {
+    type: Number,
+    default: 3000,
+  },
+
+  showCaption: {
+    type: Boolean,
+    default: false,
+  },
+
+  lengthToLoadMore: {
+    type: Number,
+    default: 0,
+  },
+
+  closeText: {
+    type: String,
+    default: 'Close (Esc)',
+  },
+
+  previousText: {
+    type: String,
+    default: 'Previous',
+  },
+
+  nextText: {
+    type: String,
+    default: 'Next',
+  },
+})
+
+const emit = defineEmits([
+  'onImageChanged',
+  'onLoad',
+  'onLastIndex',
+  'onFirstIndex',
+  'onStartIndex',
+  'onOpened',
+  'onClosed',
+])
+
+// Template refs
+const container = ref(null)
+const video = ref(null)
+
+// --- Composables (order matters for dependencies) ---
+
+const {
+  select,
+  imageTransitionName,
+  currentMedia,
+  thumbIndex,
+  imagesThumb,
+  showImage: navShowImage,
+  nextImage,
+  previousImage,
+  enableImageTransition: navEnableImageTransition,
+  disableImageTransition,
+  preloadAdjacentImages,
+} = useNavigation(props)
+
+const {
+  controlsHidden,
+  interfaceHovered,
+  handleMouseActivity,
+  clearInteraction,
+} = useUIControls(props)
+
+const { handleTouchStart, handleTouchEnd } = useTouchSwipe(nextImage, previousImage)
+
+const {
+  visitedYoutubeIndices,
+  initYouTubePlayer,
+  pauseYouTubeVideo,
+  markVisited,
+  cleanupYouTubePlayers,
+} = useYouTube(props, select)
+
+// Keyboard handler — defined here because it calls across composable boundaries
+function addKeyEvent(event) {
+  switch (event.key) {
+    case 'ArrowLeft':
+      previousImage()
+      break
+    case 'ArrowRight':
+      nextImage()
+      break
+    case 'Escape':
+      closeLightBox()
+      break
+  }
 }
+
+const {
+  lightBoxShown,
+  closeLightBox,
+  onToggleLightBox,
+} = useLightboxLifecycle(
+  props, emit, video,
+  pauseYouTubeVideo, preloadAdjacentImages, addKeyEvent
+)
+
+// Wrapped showImage — adds cross-composable side effects
+function showImage(index) {
+  navShowImage(index)
+  controlsHidden.value = false
+  lightBoxShown.value = true
+}
+
+// Wrapped enableImageTransition — triggers mouse activity first
+function enableImageTransition() {
+  handleMouseActivity()
+  navEnableImageTransition()
+}
+
+// --- Watchers ---
+
+watch(lightBoxShown, (value) => {
+  // istanbul ignore else
+  if (document != null) {
+    onToggleLightBox(value)
+  }
+})
+
+watch(select, (newVal, oldVal) => {
+  emit('onImageChanged', select.value)
+
+  if (select.value >= props.media.length - props.lengthToLoadMore - 1)
+    emit('onLoad')
+
+  if (select.value === props.media.length - 1)
+    emit('onLastIndex')
+
+  if (select.value === 0)
+    emit('onFirstIndex')
+
+  if (select.value === props.startAt)
+    emit('onStartIndex')
+
+  preloadAdjacentImages()
+
+  // Pause the YouTube video we are navigating away from
+  if (props.media[oldVal] && props.media[oldVal].type === 'youtube') {
+    pauseYouTubeVideo(oldVal)
+  }
+
+  // Initialize YouTube player when switching to a YouTube video
+  if (props.media[select.value] && props.media[select.value].type === 'youtube') {
+    markVisited(select.value)
+    nextTick(() => {
+      initYouTubePlayer(select.value)
+    })
+  }
+})
+
+// --- Lifecycle ---
+
+let timer = null
+
+onMounted(() => {
+  if (props.autoPlay) {
+    timer = setInterval(nextImage, props.autoPlayTime)
+  }
+
+  onToggleLightBox(lightBoxShown.value)
+
+  if (container.value) {
+    container.value.addEventListener('touchstart', handleTouchStart)
+    container.value.addEventListener('touchend', handleTouchEnd)
+    container.value.addEventListener('mousedown', handleMouseActivity)
+    container.value.addEventListener('mousemove', handleMouseActivity)
+    container.value.addEventListener('touchmove', handleMouseActivity)
+  }
+
+  // Initialize YouTube player if initial media is a YouTube video
+  if (props.media[select.value] && props.media[select.value].type === 'youtube') {
+    markVisited(select.value)
+    nextTick(() => {
+      initYouTubePlayer(select.value)
+    })
+  }
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', addKeyEvent)
+
+  if (props.autoPlay) {
+    clearInterval(timer)
+  }
+
+  if (container.value) {
+    container.value.removeEventListener('mousedown', handleMouseActivity)
+    container.value.removeEventListener('mousemove', handleMouseActivity)
+    container.value.removeEventListener('touchmove', handleMouseActivity)
+    container.value.removeEventListener('touchstart', handleTouchStart)
+    container.value.removeEventListener('touchend', handleTouchEnd)
+  }
+
+  cleanupYouTubePlayers()
+  clearInteraction()
+})
+
+// Expose for external callers (e.g. this.$refs.lightbox.showImage(index))
+defineExpose({
+  showImage,
+  enableImageTransition,
+  disableImageTransition,
+  handleMouseActivity,
+  preloadAdjacentImages,
+  imageTransitionName,
+})
 </script>
 
 <style src="./style.css">

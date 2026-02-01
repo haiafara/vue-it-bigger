@@ -170,7 +170,7 @@ describe('LightBox - Rendering', () => {
     })
 
     test('iframe src contains the youtube id', () => {
-      expect(wrapper.find('iframe').attributes('src')).toBe('https://www.youtube.com/embed/testid?showinfo=0')
+      expect(wrapper.find('iframe').attributes('src')).toBe('https://www.youtube.com/embed/testid?enablejsapi=1&showinfo=0')
     })
 
     test('thumbnail shows video icon', () => {

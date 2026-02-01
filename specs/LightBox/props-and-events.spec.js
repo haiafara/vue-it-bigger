@@ -103,6 +103,28 @@ describe('LightBox - Props and Events', () => {
 
       expect(document.querySelector('html').classList.contains('no-scroll')).toBe(false)
     })
+
+    test('disableScroll: false does not modify no-scroll class on close', async () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithOneImageWithoutType,
+          disableScroll: false
+        }
+      })
+
+      // Manually add no-scroll to test that it's NOT removed when disableScroll is false
+      document.querySelector('html').classList.add('no-scroll')
+
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+      await wrapper.vm.$nextTick()
+
+      // Should NOT have removed it because disableScroll is false
+      // The component only manages no-scroll when disableScroll is true
+      expect(document.querySelector('html').classList.contains('no-scroll')).toBe(true)
+
+      // Clean up
+      document.querySelector('html').classList.remove('no-scroll')
+    })
   })
 
   describe('showThumbs prop', () => {
@@ -277,6 +299,23 @@ describe('LightBox - Props and Events', () => {
       await wrapper.vm.$nextTick()
 
       expect(wrapper.emitted('onLoad')).toBeFalsy()
+    })
+
+    test('emits onLoad when lengthToLoadMore is 0 and at last image', async () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithNineImages,
+          lengthToLoadMore: 0
+        }
+      })
+
+      // Navigate to last image (>= 9 - 0 - 1 = 8)
+      for (let i = 0; i < 8; i++) {
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }))
+      }
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.emitted('onLoad')).toBeTruthy()
     })
   })
 
