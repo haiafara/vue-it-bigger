@@ -78,7 +78,11 @@ export function useYouTube(props, select) {
   function cleanupYouTubePlayers() {
     youtubePlayers.forEach((player) => {
       if (player && typeof player.destroy === 'function') {
-        player.destroy()
+        try {
+          player.destroy()
+        } catch {
+          // Error destroying YouTube player
+        }
       }
     })
     youtubePlayers.clear()
