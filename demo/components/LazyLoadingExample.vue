@@ -20,7 +20,10 @@
       </div>
       <div class="stat-item">
         <span class="stat-label">Status:</span>
-        <span class="stat-value" :class="{ 'loading': loading }">
+        <span
+          class="stat-value"
+          :class="{ 'loading': loading }"
+        >
           {{ loading ? 'Loading...' : 'Ready' }}
         </span>
       </div>
@@ -63,16 +66,21 @@ const loadMoreItems = () => {
         >
           <img
             :src="image.thumb"
-            @click="openGallery(index)"
             alt=""
+            @click="openGallery(index)"
           >
-          <div class="item-number">{{ index + 1 }}</div>
+          <div class="item-number">
+            {{ index + 1 }}
+          </div>
         </li>
       </ul>
 
       <!-- Loading Indicator -->
-      <div v-if="loading" class="loading-indicator">
-        <div class="spinner"></div>
+      <div
+        v-if="loading"
+        class="loading-indicator"
+      >
+        <div class="spinner" />
         <p>Loading more items...</p>
       </div>
 
@@ -82,7 +90,7 @@ const loadMoreItems = () => {
         :media="media"
         :show-caption="true"
         :show-light-box="false"
-        :lengthToLoadMore="3"
+        :length-to-load-more="3"
         @onLoad="loadMoreItems"
       />
     </div>

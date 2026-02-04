@@ -16,7 +16,10 @@
     <div class="tab-description">
       <p>{{ currentTab.description }}</p>
       <p class="source-link">
-        <a :href="currentTab.sourceUrl" target="_blank">View source code on GitHub →</a>
+        <a
+          :href="currentTab.sourceUrl"
+          target="_blank"
+        >View source code on GitHub →</a>
       </p>
     </div>
 

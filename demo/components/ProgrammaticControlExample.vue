@@ -19,8 +19,8 @@
           <button
             v-for="index in 9"
             :key="index"
-            @click="showImageAt(index - 1)"
             class="image-button"
+            @click="showImageAt(index - 1)"
           >
             Image {{ index }}
           </button>
@@ -41,16 +41,28 @@ lightbox.value.showImage(3)</pre>
         <p>Create custom navigation buttons for common actions:</p>
 
         <div class="nav-buttons">
-          <button @click="showFirst" class="nav-button">
+          <button
+            class="nav-button"
+            @click="showFirst"
+          >
             ⏮ First Image
           </button>
-          <button @click="showMiddle" class="nav-button">
+          <button
+            class="nav-button"
+            @click="showMiddle"
+          >
             ⏺ Middle Image
           </button>
-          <button @click="showLast" class="nav-button">
+          <button
+            class="nav-button"
+            @click="showLast"
+          >
             ⏭ Last Image
           </button>
-          <button @click="showRandom" class="nav-button">
+          <button
+            class="nav-button"
+            @click="showRandom"
+          >
             🎲 Random Image
           </button>
         </div>
@@ -75,14 +87,19 @@ const showRandom = () => {
           <label>
             Enter image number (1-{{ media.length }}):
             <input
-              type="number"
               v-model.number="userInput"
+              type="number"
               :min="1"
               :max="media.length"
               @keyup.enter="showUserInput"
             >
           </label>
-          <button @click="showUserInput" class="go-button">Go</button>
+          <button
+            class="go-button"
+            @click="showUserInput"
+          >
+            Go
+          </button>
         </div>
 
         <div class="code-snippet">
@@ -90,7 +107,7 @@ const showRandom = () => {
 const userInput = ref(1)
 const showUserInput = () => {
   const index = userInput.value - 1
-  if (index >= 0 && index < media.length) {
+  if (index >= 0 &amp;&amp; index &lt; media.length) {
     lightbox.value.showImage(index)
   }
 }</pre>
@@ -103,13 +120,22 @@ const showUserInput = () => {
         <p>Trigger the lightbox from any event or user interaction:</p>
 
         <div class="event-triggers">
-          <button @click="handleSearch" class="trigger-button">
+          <button
+            class="trigger-button"
+            @click="handleSearch"
+          >
             🔍 Search and Open
           </button>
-          <button @click="handleDeepLink" class="trigger-button">
+          <button
+            class="trigger-button"
+            @click="handleDeepLink"
+          >
             🔗 Deep Link Simulation
           </button>
-          <button @click="handleNotification" class="trigger-button">
+          <button
+            class="trigger-button"
+            @click="handleNotification"
+          >
             🔔 Notification Click
           </button>
         </div>
@@ -142,10 +168,12 @@ const handleDeepLink = () => {
         >
           <img
             :src="image.thumb"
-            @click="showImageAt(index)"
             alt=""
+            @click="showImageAt(index)"
           >
-          <div class="item-number">{{ index + 1 }}</div>
+          <div class="item-number">
+            {{ index + 1 }}
+          </div>
         </li>
       </ul>
     </div>
@@ -204,6 +232,7 @@ const showUserInput = () => {
   if (index >= 0 && index < media.length) {
     lightbox.value.showImage(index)
   } else {
+    // eslint-disable-next-line no-undef
     alert(`Please enter a number between 1 and ${media.length}`)
   }
 }

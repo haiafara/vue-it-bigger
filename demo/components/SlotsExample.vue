@@ -11,7 +11,12 @@
     <div class="slot-demo">
       <div class="demo-header">
         <h3>1. Custom Close Button</h3>
-        <button class="open-button" @click="openExample1">Open Example</button>
+        <button
+          class="open-button"
+          @click="openExample1"
+        >
+          Open Example
+        </button>
       </div>
       <p class="demo-description">
         Use the <code>close</code> slot to customize the close button appearance.
@@ -39,7 +44,12 @@
     <div class="slot-demo">
       <div class="demo-header">
         <h3>2. Custom Navigation Arrows</h3>
-        <button class="open-button" @click="openExample2">Open Example</button>
+        <button
+          class="open-button"
+          @click="openExample2"
+        >
+          Open Example
+        </button>
       </div>
       <p class="demo-description">
         Use the <code>previous</code> and <code>next</code> slots to customize navigation arrows.
@@ -73,7 +83,12 @@
     <div class="slot-demo">
       <div class="demo-header">
         <h3>3. Custom Footer with Progress Bar</h3>
-        <button class="open-button" @click="openExample3">Open Example</button>
+        <button
+          class="open-button"
+          @click="openExample3"
+        >
+          Open Example
+        </button>
       </div>
       <p class="demo-description">
         Use the <code>footer</code> slot to create a custom counter. The slot provides
@@ -100,7 +115,10 @@
         <template #footer="{ current, total }">
           <div class="custom-footer">
             <div class="progress-bar-container">
-              <div class="progress-bar" :style="{ width: (current / total * 100) + '%' }"></div>
+              <div
+                class="progress-bar"
+                :style="{ width: (current / total * 100) + '%' }"
+              />
             </div>
             <span class="progress-text">Image {{ current }} of {{ total }}</span>
           </div>
@@ -112,7 +130,12 @@
     <div class="slot-demo">
       <div class="demo-header">
         <h3>4. Custom Caption with Rich Metadata</h3>
-        <button class="open-button" @click="openExample4">Open Example</button>
+        <button
+          class="open-button"
+          @click="openExample4"
+        >
+          Open Example
+        </button>
       </div>
       <p class="demo-description">
         Use the <code>customCaption</code> slot to display rich metadata.
@@ -138,10 +161,18 @@
       >
         <template #customCaption="{ currentMedia }">
           <div class="rich-caption">
-            <h3 class="caption-title">{{ currentMedia.title }}</h3>
-            <p class="caption-meta">📷 {{ currentMedia.camera }}</p>
-            <p class="caption-meta">📍 {{ currentMedia.location }}</p>
-            <p class="caption-description">{{ currentMedia.description }}</p>
+            <h3 class="caption-title">
+              {{ currentMedia.title }}
+            </h3>
+            <p class="caption-meta">
+              📷 {{ currentMedia.camera }}
+            </p>
+            <p class="caption-meta">
+              📍 {{ currentMedia.location }}
+            </p>
+            <p class="caption-description">
+              {{ currentMedia.description }}
+            </p>
           </div>
         </template>
       </LightBox>
@@ -151,7 +182,12 @@
     <div class="slot-demo">
       <div class="demo-header">
         <h3>5. Custom Video Icon</h3>
-        <button class="open-button" @click="openExample5">Open Example</button>
+        <button
+          class="open-button"
+          @click="openExample5"
+        >
+          Open Example
+        </button>
       </div>
       <p class="demo-description">
         Use the <code>videoIcon</code> slot to customize the play icon overlay on video thumbnails.
@@ -170,7 +206,9 @@
         :show-light-box="false"
       >
         <template #videoIcon>
-          <div class="custom-play-icon">▶ PLAY VIDEO</div>
+          <div class="custom-play-icon">
+            ▶ PLAY VIDEO
+          </div>
         </template>
       </LightBox>
     </div>
@@ -179,7 +217,12 @@
     <div class="slot-demo">
       <div class="demo-header">
         <h3>6. All Slots Combined</h3>
-        <button class="open-button" @click="openExample6">Open Example</button>
+        <button
+          class="open-button"
+          @click="openExample6"
+        >
+          Open Example
+        </button>
       </div>
       <p class="demo-description">
         You can use multiple slots together for a fully customized lightbox experience.
@@ -202,16 +245,25 @@
         <template #footer="{ current, total }">
           <div class="custom-footer">
             <div class="progress-bar-container">
-              <div class="progress-bar" :style="{ width: (current / total * 100) + '%' }"></div>
+              <div
+                class="progress-bar"
+                :style="{ width: (current / total * 100) + '%' }"
+              />
             </div>
             <span class="progress-text">Image {{ current }} of {{ total }}</span>
           </div>
         </template>
         <template #customCaption="{ currentMedia }">
           <div class="rich-caption">
-            <h3 class="caption-title">{{ currentMedia.title }}</h3>
-            <p class="caption-meta">📷 {{ currentMedia.camera }} | 📍 {{ currentMedia.location }}</p>
-            <p class="caption-description">{{ currentMedia.description }}</p>
+            <h3 class="caption-title">
+              {{ currentMedia.title }}
+            </h3>
+            <p class="caption-meta">
+              📷 {{ currentMedia.camera }} | 📍 {{ currentMedia.location }}
+            </p>
+            <p class="caption-description">
+              {{ currentMedia.description }}
+            </p>
           </div>
         </template>
       </LightBox>

@@ -16,8 +16,8 @@
           >
             <img
               :src="image.thumb"
-              @click="openGallery(index)"
               alt=""
+              @click="openGallery(index)"
             >
           </li>
         </ul>
@@ -42,7 +42,12 @@
       <div class="event-log-section">
         <div class="event-log-header">
           <h3>Event Log</h3>
-          <button class="clear-button" @click="clearEvents">Clear Log</button>
+          <button
+            class="clear-button"
+            @click="clearEvents"
+          >
+            Clear Log
+          </button>
         </div>
 
         <div class="event-explanation">
@@ -72,10 +77,15 @@
             class="event-item"
             :class="'event-' + event.type"
           >
-            <div class="event-badge">{{ event.name }}</div>
+            <div class="event-badge">
+              {{ event.name }}
+            </div>
             <div class="event-details">
               <span class="event-time">{{ event.timestamp }}</span>
-              <span v-if="event.payload !== null" class="event-payload">
+              <span
+                v-if="event.payload !== null"
+                class="event-payload"
+              >
                 {{ event.payload }}
               </span>
             </div>

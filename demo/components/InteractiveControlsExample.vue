@@ -9,27 +9,42 @@
           <h4>Boolean Props</h4>
 
           <label class="checkbox-control">
-            <input type="checkbox" v-model="config.showCaption">
+            <input
+              v-model="config.showCaption"
+              type="checkbox"
+            >
             <span>showCaption</span>
           </label>
 
           <label class="checkbox-control">
-            <input type="checkbox" v-model="config.autoPlay">
+            <input
+              v-model="config.autoPlay"
+              type="checkbox"
+            >
             <span>autoPlay</span>
           </label>
 
           <label class="checkbox-control">
-            <input type="checkbox" v-model="config.showThumbs">
+            <input
+              v-model="config.showThumbs"
+              type="checkbox"
+            >
             <span>showThumbs</span>
           </label>
 
           <label class="checkbox-control">
-            <input type="checkbox" v-model="config.disableScroll">
+            <input
+              v-model="config.disableScroll"
+              type="checkbox"
+            >
             <span>disableScroll</span>
           </label>
 
           <label class="checkbox-control">
-            <input type="checkbox" v-model="config.closable">
+            <input
+              v-model="config.closable"
+              type="checkbox"
+            >
             <span>closable</span>
           </label>
         </div>
@@ -40,8 +55,8 @@
           <div class="slider-control">
             <label>nThumbs: {{ config.nThumbs }}</label>
             <input
-              type="range"
               v-model.number="config.nThumbs"
+              type="range"
               min="3"
               max="11"
             >
@@ -51,8 +66,8 @@
           <div class="slider-control">
             <label>autoPlayTime: {{ config.autoPlayTime }}ms</label>
             <input
-              type="range"
               v-model.number="config.autoPlayTime"
+              type="range"
               min="1000"
               max="10000"
               step="500"
@@ -63,8 +78,8 @@
           <div class="slider-control">
             <label>interfaceHideTime: {{ config.interfaceHideTime }}ms</label>
             <input
-              type="range"
               v-model.number="config.interfaceHideTime"
+              type="range"
               min="1000"
               max="10000"
               step="500"
@@ -75,8 +90,8 @@
           <div class="number-control">
             <label>startAt: </label>
             <input
-              type="number"
               v-model.number="config.startAt"
+              type="number"
               min="0"
               :max="media.length - 1"
             >
@@ -89,21 +104,33 @@
 
           <div class="text-control">
             <label>closeText:</label>
-            <input type="text" v-model="config.closeText">
+            <input
+              v-model="config.closeText"
+              type="text"
+            >
           </div>
 
           <div class="text-control">
             <label>previousText:</label>
-            <input type="text" v-model="config.previousText">
+            <input
+              v-model="config.previousText"
+              type="text"
+            >
           </div>
 
           <div class="text-control">
             <label>nextText:</label>
-            <input type="text" v-model="config.nextText">
+            <input
+              v-model="config.nextText"
+              type="text"
+            >
           </div>
         </div>
 
-        <button class="reset-button" @click="resetConfig">
+        <button
+          class="reset-button"
+          @click="resetConfig"
+        >
           Reset to Defaults
         </button>
       </div>
@@ -120,8 +147,8 @@
           >
             <img
               :src="image.thumb"
-              @click="openGallery(index)"
               alt=""
+              @click="openGallery(index)"
             >
           </li>
         </ul>
