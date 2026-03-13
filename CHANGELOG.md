@@ -14,6 +14,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - Upgrade eslint to v10 to resolve minimatch ReDoS vulnerability (CVE high)
 
+### Dependencies
+- `@eslint/js` 9.17.0 → 9.39.4
+- `@vitejs/plugin-vue` 6.0.3 → 6.0.4
+- `eslint-plugin-vue` 10.0.0 → 10.8.0
+- `jsdom` 27.4.0 → 28.1.0
+- `vue-eslint-parser` 10.0.0 → 10.4.0
+
 ## [1.1.0] - 2026-02-01
 
 ### Added
