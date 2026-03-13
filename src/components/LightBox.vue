@@ -11,6 +11,11 @@
         v-show="lightBoxShown"
         ref="container"
         class="vib-container"
+        @mousedown="handleMouseActivity"
+        @mousemove="handleMouseActivity"
+        @touchmove="handleMouseActivity"
+        @touchstart="handleTouchStart"
+        @touchend="handleTouchEnd"
       >
         <div
           class="vib-content"
@@ -398,14 +403,6 @@ onMounted(() => {
 
   onToggleLightBox(lightBoxShown.value)
 
-  if (container.value) {
-    container.value.addEventListener('touchstart', handleTouchStart)
-    container.value.addEventListener('touchend', handleTouchEnd)
-    container.value.addEventListener('mousedown', handleMouseActivity)
-    container.value.addEventListener('mousemove', handleMouseActivity)
-    container.value.addEventListener('touchmove', handleMouseActivity)
-  }
-
   // Initialize YouTube player if initial media is a YouTube video
   if (props.media[select.value] && props.media[select.value].type === 'youtube') {
     markVisited(select.value)
@@ -420,14 +417,6 @@ onBeforeUnmount(() => {
 
   if (props.autoPlay) {
     clearInterval(timer)
-  }
-
-  if (container.value) {
-    container.value.removeEventListener('mousedown', handleMouseActivity)
-    container.value.removeEventListener('mousemove', handleMouseActivity)
-    container.value.removeEventListener('touchmove', handleMouseActivity)
-    container.value.removeEventListener('touchstart', handleTouchStart)
-    container.value.removeEventListener('touchend', handleTouchEnd)
   }
 
   cleanupYouTubePlayers()

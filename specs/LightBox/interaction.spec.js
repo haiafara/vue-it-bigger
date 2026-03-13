@@ -276,6 +276,26 @@ describe('LightBox - Interaction', () => {
       })
     })
 
+    test('touchmove resets the hide timer', async () => {
+      await wrapper.find('.vib-container').trigger('touchmove')
+      vi.advanceTimersByTime(2000)
+
+      await wrapper.find('.vib-container').trigger('touchmove')
+      vi.advanceTimersByTime(2000)
+
+      const hideableElements = wrapper.findAll('.vib-hideable')
+      hideableElements.forEach(el => {
+        expect(el.classes()).not.toContain('vib-hidden')
+      })
+
+      vi.advanceTimersByTime(1000)
+      await wrapper.vm.$nextTick()
+
+      hideableElements.forEach(el => {
+        expect(el.classes()).toContain('vib-hidden')
+      })
+    })
+
     test('mouse movement resets the hide timer', async () => {
       await wrapper.find('.vib-container').trigger('mousemove')
       vi.advanceTimersByTime(2000)
@@ -633,6 +653,74 @@ describe('LightBox - Interaction', () => {
       await wrapper.vm.$nextTick()
 
       expect(wrapper.find('.vib-footer').exists()).toBe(true)
+    })
+  })
+
+  describe('late media prop (initially empty array)', () => {
+    beforeEach(() => {
+      vi.useFakeTimers()
+    })
+
+    test('container is absent from DOM when media is initially empty', () => {
+      wrapper = mount(LightBox, { props: { media: [] } })
+      expect(wrapper.find('.vib-container').exists()).toBe(false)
+    })
+
+    test('event listeners work after media prop changes from empty to non-empty', async () => {
+      wrapper = mount(LightBox, { props: { media: [] } })
+
+      await wrapper.setProps({ media: mediaWithOneImageWithoutType })
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.find('.vib-container').exists()).toBe(true)
+
+      // Trigger mouse activity and verify controls hide after timeout
+      await wrapper.find('.vib-container').trigger('mousemove')
+      vi.advanceTimersByTime(3000)
+      await wrapper.vm.$nextTick()
+
+      const hideableElements = wrapper.findAll('.vib-hideable')
+      hideableElements.forEach(el => {
+        expect(el.classes()).toContain('vib-hidden')
+      })
+    })
+
+    test('mousedown on container resets hide timer after late media load', async () => {
+      wrapper = mount(LightBox, { props: { media: [] } })
+
+      await wrapper.setProps({ media: mediaWithOneImageWithoutType })
+      await wrapper.vm.$nextTick()
+
+      // Hide controls first
+      await wrapper.find('.vib-container').trigger('mousemove')
+      vi.advanceTimersByTime(3000)
+      await wrapper.vm.$nextTick()
+      expect(wrapper.find('.vib-close').classes()).toContain('vib-hidden')
+
+      // mousedown should restore controls
+      await wrapper.find('.vib-container').trigger('mousedown')
+      await wrapper.vm.$nextTick()
+      expect(wrapper.find('.vib-close').classes()).not.toContain('vib-hidden')
+    })
+
+    test('touch swipe works after late media load', async () => {
+      wrapper = mount(LightBox, { props: { media: [] } })
+
+      await wrapper.setProps({ media: mediaWithNineImages })
+      await wrapper.vm.$nextTick()
+
+      const container = wrapper.find('.vib-container').element
+
+      const touchStart = new Event('touchstart')
+      touchStart.touches = [{ clientX: 200, clientY: 100 }]
+      container.dispatchEvent(touchStart)
+
+      const touchEnd = new Event('touchend')
+      touchEnd.changedTouches = [{ clientX: 100, clientY: 100 }]
+      container.dispatchEvent(touchEnd)
+
+      await wrapper.vm.$nextTick()
+      expect(wrapper.find('img.vib-image').attributes('src')).toBe(mediaWithNineImages[1].src)
     })
   })
 
