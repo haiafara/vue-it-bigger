@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use declarative event listeners on `.vib-container` to prevent duplicate listener registration
 - Use viewport units to prevent containing block from breaking lightbox sizing
 
+### Security
+- Upgrade eslint to v10 to resolve minimatch ReDoS vulnerability (CVE high)
+
 ## [1.1.0] - 2026-02-01
 
 ### Added
