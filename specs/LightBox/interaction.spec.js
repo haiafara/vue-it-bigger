@@ -276,6 +276,26 @@ describe('LightBox - Interaction', () => {
       })
     })
 
+    test('touchmove resets the hide timer', async () => {
+      await wrapper.find('.vib-container').trigger('touchmove')
+      vi.advanceTimersByTime(2000)
+
+      await wrapper.find('.vib-container').trigger('touchmove')
+      vi.advanceTimersByTime(2000)
+
+      const hideableElements = wrapper.findAll('.vib-hideable')
+      hideableElements.forEach(el => {
+        expect(el.classes()).not.toContain('vib-hidden')
+      })
+
+      vi.advanceTimersByTime(1000)
+      await wrapper.vm.$nextTick()
+
+      hideableElements.forEach(el => {
+        expect(el.classes()).toContain('vib-hidden')
+      })
+    })
+
     test('mouse movement resets the hide timer', async () => {
       await wrapper.find('.vib-container').trigger('mousemove')
       vi.advanceTimersByTime(2000)
