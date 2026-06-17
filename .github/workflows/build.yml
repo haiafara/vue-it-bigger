@@ -19,13 +19,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install
+        run: npm ci
       - name: Build the package
-        run: yarn build
+        run: npm run build
       - name: Run the linter
-        run: yarn lint
+        run: npm run lint
       - name: Run the tests
-        run: yarn test:coverage
+        run: npm run test:coverage
       - name: Upload coverage report to Codecov
         if: matrix.node-version == '22.x'
         uses: codecov/codecov-action@v5

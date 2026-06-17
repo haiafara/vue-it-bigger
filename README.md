@@ -33,8 +33,6 @@ You know the drill:
 
 ```bash
 npm install vue-it-bigger
-# or
-yarn add vue-it-bigger
 ```
 
 ## Usage
@@ -191,8 +189,8 @@ The Icon used for videos
 Clone the repository, cd into it and run:
 
 ```bash
-yarn install
-yarn dev
+npm install
+npm run dev
 ```
 
 The demo app will be available at http://localhost:1805
@@ -200,19 +198,19 @@ The demo app will be available at http://localhost:1805
 After you add or modify something make sure the tests still pass:
 
 ```bash
-yarn test
-yarn lint
+npm test
+npm run lint
 ```
 
 To build the library:
 
 ```bash
-yarn build
+npm run build
 ```
 
 ## Release
 
-1. Make sure everything works locally by running `yarn dev`, `yarn build`, and `yarn test`
+1. Make sure everything works locally by running `npm run dev`, `npm run build`, and `npm test`
 2. Bump the version in [package.json](package.json)
 3. Add an entry for the new version in [CHANGELOG.md](CHANGELOG.md) following the [Keep a Changelog](https://keepachangelog.com/) format
 4. Commit and push the changes to master
