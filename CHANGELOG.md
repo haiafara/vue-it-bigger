@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2] - 2026-06-17
+
+### Changed
+- Migrated package management and CI from Yarn to npm (replaced `yarn.lock` with `package-lock.json`)
+
+### Security
+- Updated Vite to v8 to resolve dev-server advisories (arbitrary file read via WebSocket; path traversal in optimized deps `.map` handling)
+- Updated Vitest to v4.1 to resolve the Vitest UI server arbitrary file read/execute advisory (GHSA-5xrq-8626-4rwp)
+
+### Dependencies
+- `@eslint/js` 9.39.4 → 10.0.1
+- `@vitest/coverage-v8` 4.0.18 → 4.1.9
+- `jsdom` 28.1.0 → 29.1.1
+- `vite` 7.3.1 → 8.0.16
+- `vitest` 4.0.18 → 4.1.9
+
 ## [1.1.1] - 2026-03-13
 
 ### Fixed
