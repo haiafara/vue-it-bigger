@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/vue-it-bigger?color=%2341BB13)](https://www.npmjs.com/package/vue-it-bigger)
 [![codecov](https://codecov.io/gh/haiafara/vue-it-bigger/branch/master/graph/badge.svg)](https://codecov.io/gh/haiafara/vue-it-bigger)
-[![Depfu](https://badges.depfu.com/badges/d97efabdc36483941354cb65cd36ed01/overview.svg)](https://depfu.com/github/haiafara/vue-it-bigger?project_id=13757)
+[![Depfu](https://badges.depfu.com/badges/c2455f6851f255bac3d00f45fc89571b/overview.svg)](https://depfu.com/github/haiafara/vue-it-bigger?project_id=71083)
 
 A simple image / (YouTube) video lightbox component for Vue 3.
 
