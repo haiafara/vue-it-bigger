@@ -1,511 +1,610 @@
-import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest'
-import { mount } from '@vue/test-utils'
-import LightBox from '@/LightBox.vue'
+import { describe, test, expect, beforeEach, afterEach, vi } from "vitest";
+import { mount } from "@vue/test-utils";
+import LightBox from "@/LightBox.vue";
 
 import {
   mediaWithOneImageWithoutType,
   mediaWithNineImages,
   mediaWithTwoImages,
   mediaWithCaption,
-  mediaWithOneVideoWithoutAutoplay
-} from '../fixtures'
+  mediaWithOneVideoWithoutAutoplay,
+} from "../fixtures";
 
-describe('LightBox - Props and Events', () => {
-  let wrapper
+describe("LightBox - Props and Events", () => {
+  let wrapper;
 
   afterEach(() => {
     if (wrapper) {
-      wrapper.unmount()
+      wrapper.unmount();
     }
-    document.querySelector('html').classList.remove('no-scroll')
-    document.querySelector('body').classList.remove('vib-open')
-    vi.restoreAllMocks()
-  })
+    document.querySelector("html").classList.remove("no-scroll");
+    document.querySelector("body").classList.remove("vib-open");
+    vi.restoreAllMocks();
+  });
 
-  describe('showLightBox prop', () => {
-    test('showLightBox: false starts with container hidden', () => {
+  describe("showLightBox prop", () => {
+    test("showLightBox: false starts with container hidden", () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithOneImageWithoutType,
-          showLightBox: false
-        }
-      })
+          showLightBox: false,
+        },
+      });
 
-      expect(wrapper.find('.vib-container').element.style.display).toBe('none')
-    })
+      expect(wrapper.find(".vib-container").element.style.display).toBe("none");
+    });
 
-    test('showLightBox: true starts with container visible', () => {
+    test("showLightBox: true starts with container visible", () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithOneImageWithoutType,
-          showLightBox: true
-        }
-      })
+          showLightBox: true,
+        },
+      });
 
-      expect(wrapper.find('.vib-container').element.style.display).not.toBe('none')
-    })
-  })
+      expect(wrapper.find(".vib-container").element.style.display).not.toBe(
+        "none",
+      );
+    });
+  });
 
-  describe('startAt prop', () => {
+  describe("startAt prop", () => {
     beforeEach(() => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithNineImages,
-          startAt: 3
-        }
-      })
-    })
+          startAt: 3,
+        },
+      });
+    });
 
-    test('startAt: 3 starts at the fourth image', () => {
-      expect(wrapper.find('img.vib-image').attributes('src')).toBe(mediaWithNineImages[3].src)
-    })
+    test("startAt: 3 starts at the fourth image", () => {
+      expect(wrapper.find("img.vib-image").attributes("src")).toBe(
+        mediaWithNineImages[3].src,
+      );
+    });
 
-    test('footer shows correct position for startAt', () => {
-      expect(wrapper.find('.vib-footer-count').text()).toContain('4 / 9')
-    })
-  })
+    test("footer shows correct position for startAt", () => {
+      expect(wrapper.find(".vib-footer-count").text()).toContain("4 / 9");
+    });
+  });
 
-  describe('disableScroll prop', () => {
-    test('disableScroll: true (default) adds no-scroll to html on open', () => {
+  describe("disableScroll prop", () => {
+    test("disableScroll: true (default) adds no-scroll to html on open", () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithOneImageWithoutType,
-          disableScroll: true
-        }
-      })
+          disableScroll: true,
+        },
+      });
 
-      expect(document.querySelector('html').classList.contains('no-scroll')).toBe(true)
-    })
+      expect(
+        document.querySelector("html").classList.contains("no-scroll"),
+      ).toBe(true);
+    });
 
-    test('disableScroll: false does not add no-scroll to html', () => {
+    test("disableScroll: false does not add no-scroll to html", () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithOneImageWithoutType,
-          disableScroll: false
-        }
-      })
+          disableScroll: false,
+        },
+      });
 
-      expect(document.querySelector('html').classList.contains('no-scroll')).toBe(false)
-    })
+      expect(
+        document.querySelector("html").classList.contains("no-scroll"),
+      ).toBe(false);
+    });
 
-    test('disableScroll: true removes no-scroll on close', async () => {
+    test("disableScroll: true removes no-scroll on close", async () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithOneImageWithoutType,
-          disableScroll: true
-        }
-      })
+          disableScroll: true,
+        },
+      });
 
-      expect(document.querySelector('html').classList.contains('no-scroll')).toBe(true)
+      expect(
+        document.querySelector("html").classList.contains("no-scroll"),
+      ).toBe(true);
 
-      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
-      await wrapper.vm.$nextTick()
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
+      await wrapper.vm.$nextTick();
 
-      expect(document.querySelector('html').classList.contains('no-scroll')).toBe(false)
-    })
+      expect(
+        document.querySelector("html").classList.contains("no-scroll"),
+      ).toBe(false);
+    });
 
-    test('disableScroll: false does not modify no-scroll class on close', async () => {
+    test("disableScroll: false does not modify no-scroll class on close", async () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithOneImageWithoutType,
-          disableScroll: false
-        }
-      })
+          disableScroll: false,
+        },
+      });
 
       // Manually add no-scroll to test that it's NOT removed when disableScroll is false
-      document.querySelector('html').classList.add('no-scroll')
+      document.querySelector("html").classList.add("no-scroll");
 
-      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
-      await wrapper.vm.$nextTick()
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
+      await wrapper.vm.$nextTick();
 
       // Should NOT have removed it because disableScroll is false
       // The component only manages no-scroll when disableScroll is true
-      expect(document.querySelector('html').classList.contains('no-scroll')).toBe(true)
+      expect(
+        document.querySelector("html").classList.contains("no-scroll"),
+      ).toBe(true);
 
       // Clean up
-      document.querySelector('html').classList.remove('no-scroll')
-    })
-  })
+      document.querySelector("html").classList.remove("no-scroll");
+    });
+  });
 
-  describe('showThumbs prop', () => {
-    test('showThumbs: true (default) renders thumbnail wrapper', () => {
+  describe("showThumbs prop", () => {
+    test("showThumbs: true (default) renders thumbnail wrapper", () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithOneImageWithoutType,
-          showThumbs: true
-        }
-      })
+          showThumbs: true,
+        },
+      });
 
-      expect(wrapper.find('.vib-thumbnail-wrapper').exists()).toBe(true)
-    })
+      expect(wrapper.find(".vib-thumbnail-wrapper").exists()).toBe(true);
+    });
 
-    test('showThumbs: false hides thumbnail wrapper', () => {
+    test("showThumbs: false hides thumbnail wrapper", () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithOneImageWithoutType,
-          showThumbs: false
-        }
-      })
+          showThumbs: false,
+        },
+      });
 
-      expect(wrapper.find('.vib-thumbnail-wrapper').exists()).toBe(false)
-    })
-  })
+      expect(wrapper.find(".vib-thumbnail-wrapper").exists()).toBe(false);
+    });
+  });
 
-  describe('showCaption prop', () => {
-    test('showCaption: false (default) hides the caption', () => {
+  describe("showCaption prop", () => {
+    test("showCaption: false (default) hides the caption", () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithCaption,
-          showCaption: false
-        }
-      })
+          showCaption: false,
+        },
+      });
 
       // The caption div is inside the customCaption slot default content
-      const captionDivs = wrapper.findAll('.vib-footer div')
-      const captionDiv = captionDivs.find(div => div.html().includes('v-show'))
+      const captionDivs = wrapper.findAll(".vib-footer div");
+      const captionDiv = captionDivs.find((div) =>
+        div.html().includes("v-show"),
+      );
       if (captionDiv) {
-        expect(captionDiv.element.style.display).toBe('none')
+        expect(captionDiv.element.style.display).toBe("none");
       }
-    })
+    });
 
-    test('showCaption: true displays caption HTML', () => {
+    test("showCaption: true displays caption HTML", () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithCaption,
-          showCaption: true
-        }
-      })
+          showCaption: true,
+        },
+      });
 
-      const footerHTML = wrapper.find('.vib-footer').html()
-      expect(footerHTML).toContain('<strong>Bold caption</strong>')
-    })
-  })
+      const footerHTML = wrapper.find(".vib-footer").html();
+      expect(footerHTML).toContain("<strong>Bold caption</strong>");
+    });
+  });
 
-  describe('nThumbs prop', () => {
-    test('nThumbs: 3 displays only 3 thumbnails', () => {
+  describe("nThumbs prop", () => {
+    test("nThumbs: 3 displays only 3 thumbnails", () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithNineImages,
-          nThumbs: 3
-        }
-      })
+          nThumbs: 3,
+        },
+      });
 
-      const visibleThumbs = wrapper.findAll('.vib-thumbnail-wrapper > div:not([style*="display: none"])')
-      expect(visibleThumbs.length).toBe(3)
-    })
-  })
+      const visibleThumbs = wrapper.findAll(
+        '.vib-thumbnail-wrapper > div:not([style*="display: none"])',
+      );
+      expect(visibleThumbs.length).toBe(3);
+    });
+  });
 
-  describe('closable prop', () => {
-    test('closable: true (default) renders close button', () => {
+  describe("closable prop", () => {
+    test("closable: true (default) renders close button", () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithOneImageWithoutType,
-          closable: true
-        }
-      })
+          closable: true,
+        },
+      });
 
-      expect(wrapper.find('.vib-close').exists()).toBe(true)
-    })
+      expect(wrapper.find(".vib-close").exists()).toBe(true);
+    });
 
-    test('closable: false does not render close button', () => {
+    test("closable: false does not render close button", () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithOneImageWithoutType,
-          closable: false
-        }
-      })
+          closable: false,
+        },
+      });
 
-      expect(wrapper.find('.vib-close').exists()).toBe(false)
-    })
-  })
+      expect(wrapper.find(".vib-close").exists()).toBe(false);
+    });
+  });
 
-  describe('custom text props', () => {
-    test('closeText sets close button title', () => {
+  describe("custom text props", () => {
+    test("closeText sets close button title", () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithOneImageWithoutType,
-          closeText: 'Dismiss'
-        }
-      })
+          closeText: "Dismiss",
+        },
+      });
 
-      expect(wrapper.find('.vib-close').attributes('title')).toBe('Dismiss')
-    })
+      expect(wrapper.find(".vib-close").attributes("title")).toBe("Dismiss");
+    });
 
-    test('previousText sets left arrow title', () => {
+    test("previousText sets left arrow title", () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithTwoImages,
-          previousText: 'Back'
-        }
-      })
+          previousText: "Back",
+        },
+      });
 
-      expect(wrapper.find('.vib-arrow-left').attributes('title')).toBe('Back')
-    })
+      expect(wrapper.find(".vib-arrow-left").attributes("title")).toBe("Back");
+    });
 
-    test('nextText sets right arrow title', () => {
+    test("nextText sets right arrow title", () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithTwoImages,
-          nextText: 'Forward'
-        }
-      })
+          nextText: "Forward",
+        },
+      });
 
-      expect(wrapper.find('.vib-arrow-right').attributes('title')).toBe('Forward')
-    })
+      expect(wrapper.find(".vib-arrow-right").attributes("title")).toBe(
+        "Forward",
+      );
+    });
 
-    test('default text values', () => {
+    test("default text values", () => {
       wrapper = mount(LightBox, {
         props: {
-          media: mediaWithTwoImages
-        }
-      })
+          media: mediaWithTwoImages,
+        },
+      });
 
-      expect(wrapper.find('.vib-close').attributes('title')).toBe('Close (Esc)')
-      expect(wrapper.find('.vib-arrow-left').attributes('title')).toBe('Previous')
-      expect(wrapper.find('.vib-arrow-right').attributes('title')).toBe('Next')
-    })
-  })
+      expect(wrapper.find(".vib-close").attributes("title")).toBe(
+        "Close (Esc)",
+      );
+      expect(wrapper.find(".vib-arrow-left").attributes("title")).toBe(
+        "Previous",
+      );
+      expect(wrapper.find(".vib-arrow-right").attributes("title")).toBe("Next");
+    });
+  });
 
-  describe('lengthToLoadMore and onLoad event', () => {
-    test('emits onLoad when navigating near the end', async () => {
+  describe("lengthToLoadMore and onLoad event", () => {
+    test("emits onLoad when navigating near the end", async () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithNineImages,
-          lengthToLoadMore: 2
-        }
-      })
+          lengthToLoadMore: 2,
+        },
+      });
 
       // Navigate to index 6 (>= 9 - 2 - 1 = 6)
       for (let i = 0; i < 6; i++) {
-        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }))
+        document.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "ArrowRight" }),
+        );
       }
-      await wrapper.vm.$nextTick()
+      await wrapper.vm.$nextTick();
 
-      expect(wrapper.emitted('onLoad')).toBeTruthy()
-    })
+      expect(wrapper.emitted("onLoad")).toBeTruthy();
+    });
 
-    test('does not emit onLoad when not near end', async () => {
+    test("does not emit onLoad when not near end", async () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithNineImages,
-          lengthToLoadMore: 2
-        }
-      })
+          lengthToLoadMore: 2,
+        },
+      });
 
       // Navigate to index 3
       for (let i = 0; i < 3; i++) {
-        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }))
+        document.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "ArrowRight" }),
+        );
       }
-      await wrapper.vm.$nextTick()
+      await wrapper.vm.$nextTick();
 
-      expect(wrapper.emitted('onLoad')).toBeFalsy()
-    })
+      expect(wrapper.emitted("onLoad")).toBeFalsy();
+    });
 
-    test('emits onLoad when lengthToLoadMore is 0 and at last image', async () => {
+    test("emits onLoad when lengthToLoadMore is 0 and at last image", async () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithNineImages,
-          lengthToLoadMore: 0
-        }
-      })
+          lengthToLoadMore: 0,
+        },
+      });
 
       // Navigate to last image (>= 9 - 0 - 1 = 8)
       for (let i = 0; i < 8; i++) {
-        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }))
+        document.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "ArrowRight" }),
+        );
       }
-      await wrapper.vm.$nextTick()
+      await wrapper.vm.$nextTick();
 
-      expect(wrapper.emitted('onLoad')).toBeTruthy()
-    })
-  })
+      expect(wrapper.emitted("onLoad")).toBeTruthy();
+    });
+  });
 
-  describe('event emissions', () => {
+  describe("event emissions", () => {
     beforeEach(() => {
-      wrapper = mount(LightBox, {
-        props: {
-          media: mediaWithNineImages
-        }
-      })
-    })
-
-    test('emits onOpened when lightbox opens', () => {
-      expect(wrapper.emitted('onOpened')).toBeTruthy()
-    })
-
-    test('emits onClosed when lightbox closes', async () => {
-      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
-      await wrapper.vm.$nextTick()
-
-      expect(wrapper.emitted('onClosed')).toBeTruthy()
-    })
-
-    test('emits onImageChanged when navigating', async () => {
-      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }))
-      await wrapper.vm.$nextTick()
-
-      expect(wrapper.emitted('onImageChanged')).toBeTruthy()
-      expect(wrapper.emitted('onImageChanged')[0]).toEqual([1])
-    })
-
-    test('emits onFirstIndex when navigating to first image', async () => {
-      // Navigate away first
-      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }))
-      await wrapper.vm.$nextTick()
-
-      // Navigate back to index 0
-      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft' }))
-      await wrapper.vm.$nextTick()
-
-      expect(wrapper.emitted('onFirstIndex')).toBeTruthy()
-    })
-
-    test('emits onLastIndex when reaching last image', async () => {
-      // Navigate to last image (index 8)
-      for (let i = 0; i < 8; i++) {
-        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }))
-      }
-      await wrapper.vm.$nextTick()
-
-      expect(wrapper.emitted('onLastIndex')).toBeTruthy()
-    })
-
-    test('emits onStartIndex when returning to startAt', async () => {
-      wrapper.unmount()
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithNineImages,
-          startAt: 3
-        }
-      })
+        },
+      });
+    });
+
+    test("emits onOpened when lightbox opens", () => {
+      expect(wrapper.emitted("onOpened")).toBeTruthy();
+    });
+
+    test("emits onClosed when lightbox closes", async () => {
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.emitted("onClosed")).toBeTruthy();
+    });
+
+    test("emits onImageChanged when navigating", async () => {
+      document.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "ArrowRight" }),
+      );
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.emitted("onImageChanged")).toBeTruthy();
+      expect(wrapper.emitted("onImageChanged")[0]).toEqual([1]);
+    });
+
+    test("emits onFirstIndex when navigating to first image", async () => {
+      // Navigate away first
+      document.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "ArrowRight" }),
+      );
+      await wrapper.vm.$nextTick();
+
+      // Navigate back to index 0
+      document.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "ArrowLeft" }),
+      );
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.emitted("onFirstIndex")).toBeTruthy();
+    });
+
+    test("emits onLastIndex when reaching last image", async () => {
+      // Navigate to last image (index 8)
+      for (let i = 0; i < 8; i++) {
+        document.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "ArrowRight" }),
+        );
+      }
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.emitted("onLastIndex")).toBeTruthy();
+    });
+
+    test("emits onStartIndex when returning to startAt", async () => {
+      wrapper.unmount();
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithNineImages,
+          startAt: 3,
+        },
+      });
 
       // Navigate away from startAt
-      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }))
-      await wrapper.vm.$nextTick()
+      document.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "ArrowRight" }),
+      );
+      await wrapper.vm.$nextTick();
 
       // Navigate back to index 3
-      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft' }))
-      await wrapper.vm.$nextTick()
+      document.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "ArrowLeft" }),
+      );
+      await wrapper.vm.$nextTick();
 
-      expect(wrapper.emitted('onStartIndex')).toBeTruthy()
-    })
-  })
+      expect(wrapper.emitted("onStartIndex")).toBeTruthy();
+    });
+  });
 
-  describe('DOM class management', () => {
+  describe("DOM class management", () => {
     beforeEach(() => {
       wrapper = mount(LightBox, {
         props: {
-          media: mediaWithOneImageWithoutType
-        }
-      })
-    })
+          media: mediaWithOneImageWithoutType,
+        },
+      });
+    });
 
-    test('adds vib-open to body when opened', () => {
-      expect(document.querySelector('body').classList.contains('vib-open')).toBe(true)
-    })
+    test("adds vib-open to body when opened", () => {
+      expect(
+        document.querySelector("body").classList.contains("vib-open"),
+      ).toBe(true);
+    });
 
-    test('removes vib-open from body when closed', async () => {
-      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
-      await wrapper.vm.$nextTick()
+    test("removes vib-open from body when closed", async () => {
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
+      await wrapper.vm.$nextTick();
 
-      expect(document.querySelector('body').classList.contains('vib-open')).toBe(false)
-    })
+      expect(
+        document.querySelector("body").classList.contains("vib-open"),
+      ).toBe(false);
+    });
 
-    test('adds no-scroll to html when opened (disableScroll: true)', () => {
-      expect(document.querySelector('html').classList.contains('no-scroll')).toBe(true)
-    })
+    test("adds no-scroll to html when opened (disableScroll: true)", () => {
+      expect(
+        document.querySelector("html").classList.contains("no-scroll"),
+      ).toBe(true);
+    });
 
-    test('removes no-scroll from html when closed', async () => {
-      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
-      await wrapper.vm.$nextTick()
+    test("removes no-scroll from html when closed", async () => {
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
+      await wrapper.vm.$nextTick();
 
-      expect(document.querySelector('html').classList.contains('no-scroll')).toBe(false)
-    })
-  })
+      expect(
+        document.querySelector("html").classList.contains("no-scroll"),
+      ).toBe(false);
+    });
+  });
 
-  describe('slot rendering', () => {
-    test('close slot replaces default close icon', () => {
+  describe("slot rendering", () => {
+    test("close slot replaces default close icon", () => {
       wrapper = mount(LightBox, {
         props: {
-          media: mediaWithOneImageWithoutType
+          media: mediaWithOneImageWithoutType,
         },
         slots: {
-          close: '<span class="custom-close">X</span>'
-        }
-      })
+          close: '<span class="custom-close">X</span>',
+        },
+      });
 
-      expect(wrapper.find('.custom-close').exists()).toBe(true)
-      expect(wrapper.find('.custom-close').text()).toBe('X')
-    })
+      expect(wrapper.find(".custom-close").exists()).toBe(true);
+      expect(wrapper.find(".custom-close").text()).toBe("X");
+    });
 
-    test('previous slot replaces default left arrow', () => {
+    test("previous slot replaces default left arrow", () => {
       wrapper = mount(LightBox, {
         props: {
-          media: mediaWithTwoImages
+          media: mediaWithTwoImages,
         },
         slots: {
-          previous: '<span class="custom-prev">Prev</span>'
-        }
-      })
+          previous: '<span class="custom-prev">Prev</span>',
+        },
+      });
 
-      expect(wrapper.find('.custom-prev').exists()).toBe(true)
-      expect(wrapper.find('.custom-prev').text()).toBe('Prev')
-    })
+      expect(wrapper.find(".custom-prev").exists()).toBe(true);
+      expect(wrapper.find(".custom-prev").text()).toBe("Prev");
+    });
 
-    test('next slot replaces default right arrow', () => {
+    test("next slot replaces default right arrow", () => {
       wrapper = mount(LightBox, {
         props: {
-          media: mediaWithTwoImages
+          media: mediaWithTwoImages,
         },
         slots: {
-          next: '<span class="custom-next">Next</span>'
-        }
-      })
+          next: '<span class="custom-next">Next</span>',
+        },
+      });
 
-      expect(wrapper.find('.custom-next').exists()).toBe(true)
-      expect(wrapper.find('.custom-next').text()).toBe('Next')
-    })
+      expect(wrapper.find(".custom-next").exists()).toBe(true);
+      expect(wrapper.find(".custom-next").text()).toBe("Next");
+    });
 
-    test('videoIcon slot replaces default video icon', () => {
+    test("videoIcon slot replaces default video icon", () => {
       wrapper = mount(LightBox, {
         props: {
-          media: mediaWithOneVideoWithoutAutoplay
+          media: mediaWithOneVideoWithoutAutoplay,
         },
         slots: {
-          videoIcon: '<span class="custom-video-icon">Play</span>'
-        }
-      })
+          videoIcon: '<span class="custom-video-icon">Play</span>',
+        },
+      });
 
-      expect(wrapper.find('.custom-video-icon').exists()).toBe(true)
-      expect(wrapper.find('.custom-video-icon').text()).toBe('Play')
-    })
+      expect(wrapper.find(".custom-video-icon").exists()).toBe(true);
+      expect(wrapper.find(".custom-video-icon").text()).toBe("Play");
+    });
 
-    test('customCaption slot replaces default caption', () => {
+    test("customCaption slot replaces default caption", () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithCaption,
-          showCaption: true
+          showCaption: true,
         },
         slots: {
-          customCaption: '<div class="custom-caption">Custom Caption</div>'
-        }
-      })
+          customCaption: '<div class="custom-caption">Custom Caption</div>',
+        },
+      });
 
-      expect(wrapper.find('.custom-caption').exists()).toBe(true)
-      expect(wrapper.find('.custom-caption').text()).toBe('Custom Caption')
-    })
+      expect(wrapper.find(".custom-caption").exists()).toBe(true);
+      expect(wrapper.find(".custom-caption").text()).toBe("Custom Caption");
+    });
 
-    test('footer slot replaces default counter', () => {
+    test("footer slot replaces default counter", () => {
       wrapper = mount(LightBox, {
         props: {
-          media: mediaWithNineImages
+          media: mediaWithNineImages,
         },
         slots: {
-          footer: '<span class="custom-footer">Custom Footer</span>'
-        }
-      })
+          footer: '<span class="custom-footer">Custom Footer</span>',
+        },
+      });
 
-      expect(wrapper.find('.custom-footer').exists()).toBe(true)
-      expect(wrapper.find('.custom-footer').text()).toBe('Custom Footer')
-    })
-  })
-})
+      expect(wrapper.find(".custom-footer").exists()).toBe(true);
+      expect(wrapper.find(".custom-footer").text()).toBe("Custom Footer");
+    });
+
+    test("imageOverlay slot renders over the current image", () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithOneImageWithoutType,
+        },
+        slots: {
+          imageOverlay: '<span class="custom-overlay">Overlay</span>',
+        },
+      });
+
+      const overlay = wrapper.find(
+        ".vib-image-container .vib-image-overlay .custom-overlay",
+      );
+      expect(overlay.exists()).toBe(true);
+      expect(overlay.text()).toBe("Overlay");
+    });
+
+    test("imageOverlay slot exposes currentMedia", () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithCaption,
+        },
+        slots: {
+          imageOverlay: `
+            <template #imageOverlay="{ currentMedia }">
+              <span class="overlay-caption">{{ currentMedia.caption }}</span>
+            </template>
+          `,
+        },
+      });
+
+      expect(wrapper.find(".overlay-caption").text()).toBe(
+        mediaWithCaption[0].caption,
+      );
+    });
+
+    test("imageOverlay slot is not rendered for video media", () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithOneVideoWithoutAutoplay,
+        },
+        slots: {
+          imageOverlay: '<span class="custom-overlay">Overlay</span>',
+        },
+      });
+
+      expect(wrapper.find(".custom-overlay").exists()).toBe(false);
+    });
+  });
+});

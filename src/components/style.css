@@ -45,14 +45,25 @@
   height: 100dvh;
 }
 
+.vib-image-container {
+  position: relative;
+  display: inline-block;
+}
+
 .vib-image {
   cursor: pointer;
   max-height: calc(100vh);
   display: block;
   height: auto;
   margin: 0 auto;
-  max-width: 100%;
+  max-width: 100vw;
   user-select: none;
+}
+
+.vib-image-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 .vib-thumbnail-wrapper {
