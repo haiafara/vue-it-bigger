@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - `imageOverlay` slot for rendering per-slide content (e.g. annotations) positioned over the currently displayed image, for image-type media only
 
+### Dependencies
+- `eslint` 10.0.3 → 10.6.0
+- `vite` 8.0.16 → 8.1.0
+- `vue` 3.5.13 → 3.5.39
+
 ## [1.1.2] - 2026-06-17
 
 ### Changed
