@@ -17,7 +17,10 @@
         @touchstart="handleTouchStart"
         @touchend="handleTouchEnd"
       >
-        <div class="vib-content" @click.stop>
+        <div
+          class="vib-content"
+          @click.stop
+        >
           <transition :name="imageTransitionName">
             <div
               v-if="
@@ -31,7 +34,7 @@
                 :srcset="currentMedia.srcset || ''"
                 class="vib-image"
                 :alt="currentMedia.caption"
-              />
+              >
               <div class="vib-image-overlay">
                 <slot
                   name="imageOverlay"
@@ -54,14 +57,17 @@
                 :key="source.src"
                 :src="source.src"
                 :type="source.type"
-              />
+              >
             </video>
           </transition>
         </div>
         <!-- .vib-content -->
 
         <!-- Persistent YouTube iframes - outside transition to preserve playback state -->
-        <template v-for="(item, index) in media" :key="'youtube-' + index">
+        <template
+          v-for="(item, index) in media"
+          :key="'youtube-' + index"
+        >
           <transition :name="imageTransitionName">
             <div
               v-if="item.type === 'youtube' && visitedYoutubeIndices.has(index)"
@@ -75,8 +81,8 @@
                   :id="'youtube-player-' + index"
                   :src="
                     'https://www.youtube.com/embed/' +
-                    item.id +
-                    '?enablejsapi=1&showinfo=0'
+                      item.id +
+                      '?enablejsapi=1&showinfo=0'
                   "
                   width="560"
                   height="315"
@@ -122,12 +128,22 @@
           @mouseover="interfaceHovered = true"
           @mouseleave="interfaceHovered = false"
         >
-          <slot name="customCaption" :current-media="currentMedia">
-            <div v-show="showCaption" v-html="currentMedia.caption" />
+          <slot
+            name="customCaption"
+            :current-media="currentMedia"
+          >
+            <div
+              v-show="showCaption"
+              v-html="currentMedia.caption"
+            />
           </slot>
 
           <div class="vib-footer-count">
-            <slot name="footer" :current="select + 1" :total="media.length">
+            <slot
+              name="footer"
+              :current="select + 1"
+              :total="media.length"
+            >
               {{ select + 1 }} / {{ media.length }}
             </slot>
           </div>
