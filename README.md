@@ -172,6 +172,29 @@ Usage example:
 </LightBox>
 ```
 
+#### imageOverlay
+Content rendered on top of the currently displayed image, sized and positioned to match the image box, not the surrounding viewport. Only shows up for image slides; video and YouTube slides skip it. Pointer events are off on the overlay by default so it doesn't block swipe or click navigation — turn them back on for individual elements in the slot if you need something in there to be clickable. Handy for drawing arrows or highlight boxes over a photo.
+
+##### Slot props
+
+| name | type | description |
+|------|------|-------------|
+| currentMedia | Object | The currently displayed object from the media array |
+| index | integer | The index of the currently displayed media item |
+
+Usage example:
+
+```javascript
+<LightBox
+  ref="overlayLightbox"
+  :media="media"
+>
+  <template v-slot:imageOverlay="{ currentMedia }">
+    <MyAnnotationsOverlay :annotations="currentMedia.annotations" />
+  </template>
+</LightBox>
+```
+
 #### videoIcon
 The Icon used for videos
 

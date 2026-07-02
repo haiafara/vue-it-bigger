@@ -21,17 +21,28 @@
           class="vib-content"
           @click.stop
         >
-          <transition
-            :name="imageTransitionName"
-          >
-            <img
-              v-if="currentMedia.type == undefined || currentMedia.type == 'image'"
+          <transition :name="imageTransitionName">
+            <div
+              v-if="
+                currentMedia.type == undefined || currentMedia.type == 'image'
+              "
               :key="currentMedia.src"
-              :src="currentMedia.src"
-              :srcset="currentMedia.srcset || ''"
-              class="vib-image"
-              :alt="currentMedia.caption"
+              class="vib-image-container"
             >
+              <img
+                :src="currentMedia.src"
+                :srcset="currentMedia.srcset || ''"
+                class="vib-image"
+                :alt="currentMedia.caption"
+              >
+              <div class="vib-image-overlay">
+                <slot
+                  name="imageOverlay"
+                  :current-media="currentMedia"
+                  :index="select"
+                />
+              </div>
+            </div>
             <video
               v-else-if="currentMedia.type == 'video'"
               :key="currentMedia.sources[0].src"
@@ -49,7 +60,8 @@
               >
             </video>
           </transition>
-        </div> <!-- .vib-content -->
+        </div>
+        <!-- .vib-content -->
 
         <!-- Persistent YouTube iframes - outside transition to preserve playback state -->
         <template
@@ -61,13 +73,17 @@
               v-if="item.type === 'youtube' && visitedYoutubeIndices.has(index)"
               v-show="select === index"
               class="vib-content"
-              style="position: absolute;"
+              style="position: absolute"
               @click.stop
             >
               <div class="video-background">
                 <iframe
                   :id="'youtube-player-' + index"
-                  :src="'https://www.youtube.com/embed/' + item.id + '?enablejsapi=1&showinfo=0'"
+                  :src="
+                    'https://www.youtube.com/embed/' +
+                      item.id +
+                      '?enablejsapi=1&showinfo=0'
+                  "
                   width="560"
                   height="315"
                   frameborder="0"
@@ -89,7 +105,9 @@
           <div
             v-for="(image, index) in imagesThumb"
             v-show="index >= thumbIndex.begin && index <= thumbIndex.end"
-            :key="typeof image.thumb === 'string' ? `${image.thumb}${index}` : index"
+            :key="
+              typeof image.thumb === 'string' ? `${image.thumb}${index}` : index
+            "
             :style="{ backgroundImage: 'url(' + image.thumb + ')' }"
             :class="'vib-thumbnail' + (select === index ? '-active' : '')"
             @click.stop="showImage(index)"
@@ -101,7 +119,8 @@
               <VideoIcon />
             </slot>
           </div>
-        </div> <!-- .vib-thumbnail-wrapper -->
+        </div>
+        <!-- .vib-thumbnail-wrapper -->
 
         <div
           class="vib-footer vib-hideable"
@@ -173,23 +192,24 @@
             <RightArrowIcon />
           </slot>
         </button>
-      </div> <!-- .vib-container -->
+      </div>
+      <!-- .vib-container -->
     </transition>
   </div>
 </template>
 
 <script setup>
-import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
-import LeftArrowIcon from './LeftArrowIcon.vue'
-import RightArrowIcon from './RightArrowIcon.vue'
-import CloseIcon from './CloseIcon.vue'
-import VideoIcon from './VideoIcon.vue'
+import { ref, watch, onMounted, onBeforeUnmount, nextTick } from "vue";
+import LeftArrowIcon from "./LeftArrowIcon.vue";
+import RightArrowIcon from "./RightArrowIcon.vue";
+import CloseIcon from "./CloseIcon.vue";
+import VideoIcon from "./VideoIcon.vue";
 
-import { useNavigation } from '../composables/useNavigation.js'
-import { useUIControls } from '../composables/useUIControls.js'
-import { useTouchSwipe } from '../composables/useTouchSwipe.js'
-import { useYouTube } from '../composables/useYouTube.js'
-import { useLightboxLifecycle } from '../composables/useLightboxLifecycle.js'
+import { useNavigation } from "../composables/useNavigation.js";
+import { useUIControls } from "../composables/useUIControls.js";
+import { useTouchSwipe } from "../composables/useTouchSwipe.js";
+import { useYouTube } from "../composables/useYouTube.js";
+import { useLightboxLifecycle } from "../composables/useLightboxLifecycle.js";
 
 const props = defineProps({
   media: {
@@ -254,33 +274,33 @@ const props = defineProps({
 
   closeText: {
     type: String,
-    default: 'Close (Esc)',
+    default: "Close (Esc)",
   },
 
   previousText: {
     type: String,
-    default: 'Previous',
+    default: "Previous",
   },
 
   nextText: {
     type: String,
-    default: 'Next',
+    default: "Next",
   },
-})
+});
 
 const emit = defineEmits([
-  'onImageChanged',
-  'onLoad',
-  'onLastIndex',
-  'onFirstIndex',
-  'onStartIndex',
-  'onOpened',
-  'onClosed',
-])
+  "onImageChanged",
+  "onLoad",
+  "onLastIndex",
+  "onFirstIndex",
+  "onStartIndex",
+  "onOpened",
+  "onClosed",
+]);
 
 // Template refs
-const container = ref(null)
-const video = ref(null)
+const container = ref(null);
+const video = ref(null);
 
 // --- Composables (order matters for dependencies) ---
 
@@ -296,16 +316,19 @@ const {
   enableImageTransition: navEnableImageTransition,
   disableImageTransition,
   preloadAdjacentImages,
-} = useNavigation(props)
+} = useNavigation(props);
 
 const {
   controlsHidden,
   interfaceHovered,
   handleMouseActivity,
   clearInteraction,
-} = useUIControls(props)
+} = useUIControls(props);
 
-const { handleTouchStart, handleTouchEnd } = useTouchSwipe(nextImage, previousImage)
+const { handleTouchStart, handleTouchEnd } = useTouchSwipe(
+  nextImage,
+  previousImage,
+);
 
 const {
   visitedYoutubeIndices,
@@ -313,43 +336,43 @@ const {
   pauseYouTubeVideo,
   markVisited,
   cleanupYouTubePlayers,
-} = useYouTube(props, select)
+} = useYouTube(props, select);
 
 // Keyboard handler — defined here because it calls across composable boundaries
 function addKeyEvent(event) {
   switch (event.key) {
-    case 'ArrowLeft':
-      previousImage()
-      break
-    case 'ArrowRight':
-      nextImage()
-      break
-    case 'Escape':
-      closeLightBox()
-      break
+    case "ArrowLeft":
+      previousImage();
+      break;
+    case "ArrowRight":
+      nextImage();
+      break;
+    case "Escape":
+      closeLightBox();
+      break;
   }
 }
 
-const {
-  lightBoxShown,
-  closeLightBox,
-  onToggleLightBox,
-} = useLightboxLifecycle(
-  props, emit, video,
-  pauseYouTubeVideo, preloadAdjacentImages, addKeyEvent
-)
+const { lightBoxShown, closeLightBox, onToggleLightBox } = useLightboxLifecycle(
+  props,
+  emit,
+  video,
+  pauseYouTubeVideo,
+  preloadAdjacentImages,
+  addKeyEvent,
+);
 
 // Wrapped showImage — adds cross-composable side effects
 function showImage(index) {
-  navShowImage(index)
-  controlsHidden.value = false
-  lightBoxShown.value = true
+  navShowImage(index);
+  controlsHidden.value = false;
+  lightBoxShown.value = true;
 }
 
 // Wrapped enableImageTransition — triggers mouse activity first
 function enableImageTransition() {
-  handleMouseActivity()
-  navEnableImageTransition()
+  handleMouseActivity();
+  navEnableImageTransition();
 }
 
 // --- Watchers ---
@@ -357,71 +380,74 @@ function enableImageTransition() {
 watch(lightBoxShown, (value) => {
   // istanbul ignore else
   if (document != null) {
-    onToggleLightBox(value)
+    onToggleLightBox(value);
   }
-})
+});
 
 watch(select, (newVal, oldVal) => {
-  emit('onImageChanged', select.value)
+  emit("onImageChanged", select.value);
 
   if (select.value >= props.media.length - props.lengthToLoadMore - 1)
-    emit('onLoad')
+    emit("onLoad");
 
-  if (select.value === props.media.length - 1)
-    emit('onLastIndex')
+  if (select.value === props.media.length - 1) emit("onLastIndex");
 
-  if (select.value === 0)
-    emit('onFirstIndex')
+  if (select.value === 0) emit("onFirstIndex");
 
-  if (select.value === props.startAt)
-    emit('onStartIndex')
+  if (select.value === props.startAt) emit("onStartIndex");
 
-  preloadAdjacentImages()
+  preloadAdjacentImages();
 
   // Pause the YouTube video we are navigating away from
-  if (props.media[oldVal] && props.media[oldVal].type === 'youtube') {
-    pauseYouTubeVideo(oldVal)
+  if (props.media[oldVal] && props.media[oldVal].type === "youtube") {
+    pauseYouTubeVideo(oldVal);
   }
 
   // Initialize YouTube player when switching to a YouTube video
-  if (props.media[select.value] && props.media[select.value].type === 'youtube') {
-    markVisited(select.value)
+  if (
+    props.media[select.value] &&
+    props.media[select.value].type === "youtube"
+  ) {
+    markVisited(select.value);
     nextTick(() => {
-      initYouTubePlayer(select.value)
-    })
+      initYouTubePlayer(select.value);
+    });
   }
-})
+});
 
 // --- Lifecycle ---
 
-let timer = null
+let timer = null;
 
 onMounted(() => {
   if (props.autoPlay) {
-    timer = setInterval(nextImage, props.autoPlayTime)
+    timer = setInterval(nextImage, props.autoPlayTime);
   }
 
-  onToggleLightBox(lightBoxShown.value)
+  onToggleLightBox(lightBoxShown.value);
 
   // Initialize YouTube player if initial media is a YouTube video
-  if (props.media[select.value] && props.media[select.value].type === 'youtube') {
-    markVisited(select.value)
+  if (
+    props.media[select.value] &&
+    props.media[select.value].type === "youtube"
+  ) {
+    markVisited(select.value);
     nextTick(() => {
-      initYouTubePlayer(select.value)
-    })
+      initYouTubePlayer(select.value);
+    });
   }
-})
+});
 
 onBeforeUnmount(() => {
-  document.removeEventListener('keydown', addKeyEvent)
+  document.removeEventListener("keydown", addKeyEvent);
 
   if (props.autoPlay) {
-    clearInterval(timer)
+    clearInterval(timer);
   }
 
-  cleanupYouTubePlayers()
-  clearInteraction()
-})
+  cleanupYouTubePlayers();
+  clearInteraction();
+});
 
 // Expose for external callers (e.g. this.$refs.lightbox.showImage(index))
 defineExpose({
@@ -431,8 +457,7 @@ defineExpose({
   handleMouseActivity,
   preloadAdjacentImages,
   imageTransitionName,
-})
+});
 </script>
 
-<style src="./style.css">
-</style>
+<style src="./style.css"></style>
