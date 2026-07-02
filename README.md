@@ -173,7 +173,7 @@ Usage example:
 ```
 
 #### imageOverlay
-Content rendered on top of the currently displayed image, aligned exactly to the rendered image box (not the surrounding viewport). Only rendered for image-type media, never for video or YouTube slides. The overlay layer has `pointer-events: none` by default so it never interferes with swipe/click navigation; re-enable pointer events per element inside the slot if needed. Useful for drawing annotations (arrows, highlight boxes) over a photo.
+Content rendered on top of the currently displayed image, sized and positioned to match the image box, not the surrounding viewport. Only shows up for image slides; video and YouTube slides skip it. Pointer events are off on the overlay by default so it doesn't block swipe or click navigation — turn them back on for individual elements in the slot if you need something in there to be clickable. Handy for drawing arrows or highlight boxes over a photo.
 
 ##### Slot props
 
