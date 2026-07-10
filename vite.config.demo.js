@@ -10,7 +10,13 @@ export default defineConfig({
 
   build: {
     outDir: '../gh-pages',
-    emptyOutDir: true
+    emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'demo/index.html'),
+        advanced: resolve(__dirname, 'demo/advanced.html')
+      }
+    }
   },
 
   server: {
