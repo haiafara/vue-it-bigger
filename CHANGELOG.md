@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2026-08-21
+
+### Changed
+- CI now tests against Node.js 22.x, 24.x and 26.x (dropped end-of-life 20.x)
+
+### Security
+- Updated `brace-expansion` (transitive) to resolve a high-severity ReDoS advisory (GHSA-3jxr-9vmj-r5cp)
+- Updated `undici` (transitive) to 7.29.0 to resolve advisories for CRLF injection, cookie attribute injection and shared-cache information disclosure
+- Updated `postcss` (transitive) to 8.5.26 to resolve source-map path traversal advisories
+- Updated `vite` to 8.2.2 and `vue` to 3.5.41 (security patches)
+
+### Dependencies
+- `@vitejs/plugin-vue` 6.0.4 → 6.0.8
+- `@vitest/coverage-v8` 4.1.0 → 4.1.10
+- `eslint` 10.6.0 → 10.8.1
+- `eslint-plugin-vue` 10.8.0 → 10.10.0
+- `jsdom` 29.1.1 → 30.0.1
+- `vite` 8.1.0 → 8.2.2
+- `vitest` 4.1.0 → 4.1.11
+- `vue` 3.5.39 → 3.5.41
+
 ## [1.2.0] - 2026-07-02
 
 ### Added
