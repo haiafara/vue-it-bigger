@@ -54,13 +54,13 @@
     "@eslint/js": "^10.0.1",
     "@vitejs/plugin-vue": "^6.0.8",
     "@vitest/coverage-v8": "^4.1.10",
-    "@vue/test-utils": "^2.4.6",
+    "@vue/test-utils": "^2.5.0",
     "eslint": "^10.9.1",
     "eslint-plugin-vue": "^10.10.0",
     "jsdom": "^30.0.1",
     "vite": "^8.2.2",
     "vitest": "^4.1.11",
-    "vue": "^3.5.41",
+    "vue": "^3.5.42",
     "vue-eslint-parser": "^10.4.0"
   }
 }
