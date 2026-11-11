@@ -20,6 +20,7 @@
         <div
           class="vib-content"
           @click.stop
+          @wheel="handleWheel"
         >
           <transition :name="imageTransitionName">
             <div
@@ -29,18 +30,31 @@
               :key="currentMedia.src"
               class="vib-image-container"
             >
-              <img
-                :src="currentMedia.src"
-                :srcset="currentMedia.srcset || ''"
-                class="vib-image"
-                :alt="currentMedia.caption"
+              <div
+                ref="zoomTarget"
+                class="vib-image-zoom"
+                :class="{ 'vib-zoomed': isZoomed, 'vib-panning': isPanning }"
+                :style="transformStyle"
+                @mousedown="handleMouseDown"
+                @touchstart="handleZoomTouchStart"
+                @touchmove="handleZoomTouchMove"
+                @touchend="handleZoomTouchEnd"
+                @touchcancel="handleZoomTouchEnd"
               >
-              <div class="vib-image-overlay">
-                <slot
-                  name="imageOverlay"
-                  :current-media="currentMedia"
-                  :index="select"
-                />
+                <img
+                  :src="currentMedia.src"
+                  :srcset="currentMedia.srcset || ''"
+                  class="vib-image"
+                  :alt="currentMedia.caption"
+                  draggable="false"
+                >
+                <div class="vib-image-overlay">
+                  <slot
+                    name="imageOverlay"
+                    :current-media="currentMedia"
+                    :index="select"
+                  />
+                </div>
               </div>
             </div>
             <video
@@ -149,6 +163,38 @@
           </div>
         </div>
 
+        <div
+          v-if="canZoom"
+          class="vib-zoom vib-hideable"
+          :class="{ 'vib-hidden': controlsHidden }"
+          @click.stop
+          @mouseover="interfaceHovered = true"
+          @mouseleave="interfaceHovered = false"
+        >
+          <button
+            type="button"
+            class="vib-zoom-button vib-zoom-in"
+            :title="zoomInText"
+            :disabled="isMaxZoom"
+            @click.stop="zoomIn()"
+          >
+            <slot name="zoomIn">
+              <ZoomInIcon />
+            </slot>
+          </button>
+          <button
+            type="button"
+            class="vib-zoom-button vib-zoom-out"
+            :title="zoomOutText"
+            :disabled="!isZoomed"
+            @click.stop="zoomOut()"
+          >
+            <slot name="zoomOut">
+              <ZoomOutIcon />
+            </slot>
+          </button>
+        </div>
+
         <button
           v-if="closable"
           type="button"
@@ -204,10 +250,13 @@ import LeftArrowIcon from "./LeftArrowIcon.vue";
 import RightArrowIcon from "./RightArrowIcon.vue";
 import CloseIcon from "./CloseIcon.vue";
 import VideoIcon from "./VideoIcon.vue";
+import ZoomInIcon from "./ZoomInIcon.vue";
+import ZoomOutIcon from "./ZoomOutIcon.vue";
 
 import { useNavigation } from "../composables/useNavigation.js";
 import { useUIControls } from "../composables/useUIControls.js";
 import { useTouchSwipe } from "../composables/useTouchSwipe.js";
+import { useZoom } from "../composables/useZoom.js";
 import { useYouTube } from "../composables/useYouTube.js";
 import { useLightboxLifecycle } from "../composables/useLightboxLifecycle.js";
 
@@ -286,6 +335,26 @@ const props = defineProps({
     type: String,
     default: "Next",
   },
+
+  zoomable: {
+    type: Boolean,
+    default: true,
+  },
+
+  maxZoom: {
+    type: Number,
+    default: 4,
+  },
+
+  zoomInText: {
+    type: String,
+    default: "Zoom in",
+  },
+
+  zoomOutText: {
+    type: String,
+    default: "Zoom out",
+  },
 });
 
 const emit = defineEmits([
@@ -301,6 +370,7 @@ const emit = defineEmits([
 // Template refs
 const container = ref(null);
 const video = ref(null);
+const zoomTarget = ref(null);
 
 // --- Composables (order matters for dependencies) ---
 
@@ -325,9 +395,26 @@ const {
   clearInteraction,
 } = useUIControls(props);
 
+const {
+  isZoomed,
+  isMaxZoom,
+  isPanning,
+  canZoom,
+  transformStyle,
+  zoomIn,
+  zoomOut,
+  resetZoom,
+  handleWheel,
+  handleMouseDown,
+  handleZoomTouchStart,
+  handleZoomTouchMove,
+  handleZoomTouchEnd,
+} = useZoom(props, currentMedia, zoomTarget);
+
 const { handleTouchStart, handleTouchEnd } = useTouchSwipe(
   nextImage,
   previousImage,
+  () => isZoomed.value,
 );
 
 const {
@@ -349,6 +436,16 @@ function addKeyEvent(event) {
       break;
     case "Escape":
       closeLightBox();
+      break;
+    case "+":
+    case "=":
+      zoomIn();
+      break;
+    case "-":
+      zoomOut();
+      break;
+    case "0":
+      if (canZoom.value) resetZoom();
       break;
   }
 }
@@ -378,6 +475,7 @@ function enableImageTransition() {
 // --- Watchers ---
 
 watch(lightBoxShown, (value) => {
+  if (!value) resetZoom();
   // istanbul ignore else
   if (document != null) {
     onToggleLightBox(value);
@@ -385,6 +483,7 @@ watch(lightBoxShown, (value) => {
 });
 
 watch(select, (newVal, oldVal) => {
+  resetZoom();
   emit("onImageChanged", select.value);
 
   if (select.value >= props.media.length - props.lengthToLoadMore - 1)
@@ -457,6 +556,9 @@ defineExpose({
   handleMouseActivity,
   preloadAdjacentImages,
   imageTransitionName,
+  zoomIn,
+  zoomOut,
+  resetZoom,
 });
 </script>
 
