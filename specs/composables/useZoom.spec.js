@@ -215,4 +215,58 @@ describe('useZoom', () => {
       expect(zoom.isPinching.value).toBe(false)
     })
   })
+
+  describe('edge cases', () => {
+    test('disables the transform transition while panning', () => {
+      const { zoom } = setup()
+      expect(zoom.transformStyle.value.transition).toBeUndefined()
+      zoom.zoomTo(2)
+      zoom.handleMouseDown({ button: 0, clientX: 0, clientY: 0, preventDefault: vi.fn() })
+      expect(zoom.transformStyle.value.transition).toBe('none')
+      window.dispatchEvent(new MouseEvent('mouseup'))
+    })
+
+    test('zooming without an element does not throw or pan', () => {
+      const { zoom } = setup({}, { src: 'a.jpg' }, null)
+      zoom.zoomTo(2, 100, 100)
+      expect(zoom.scale.value).toBe(2)
+      expect(zoom.translateX.value).toBeCloseTo(0)
+    })
+
+    test('zoomOut does nothing on a video', () => {
+      const { zoom } = setup({}, { type: 'video' })
+      zoom.zoomOut()
+      expect(zoom.scale.value).toBe(1)
+    })
+
+    test('touchmove is ignored on non-images', () => {
+      const { zoom } = setup({}, { type: 'video' })
+      const move = { touches: [touch(0, 0)], preventDefault: vi.fn() }
+      zoom.handleZoomTouchMove(move)
+      expect(move.preventDefault).not.toHaveBeenCalled()
+    })
+
+    test('touchmove does nothing when neither pinching nor panning', () => {
+      const { zoom } = setup()
+      const move = { touches: [touch(0, 0)], preventDefault: vi.fn() }
+      zoom.handleZoomTouchMove(move)
+      expect(move.preventDefault).not.toHaveBeenCalled()
+      expect(zoom.translateX.value).toBe(0)
+    })
+
+    test('touchend with two fingers still down keeps pinching', () => {
+      const { zoom } = setup()
+      zoom.handleZoomTouchStart({ touches: [touch(0, 0), touch(100, 0)] })
+      zoom.handleZoomTouchEnd({ touches: [touch(0, 0), touch(100, 0)] })
+      expect(zoom.isPinching.value).toBe(true)
+    })
+
+    test('touchend with one finger left while not zoomed does not start panning', () => {
+      const { zoom } = setup()
+      zoom.handleZoomTouchStart({ touches: [touch(0, 0), touch(100, 0)] })
+      zoom.handleZoomTouchEnd({ touches: [touch(0, 0)] })
+      expect(zoom.isPinching.value).toBe(false)
+      expect(zoom.isPanning.value).toBe(false)
+    })
+  })
 })

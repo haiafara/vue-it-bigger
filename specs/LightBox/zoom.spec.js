@@ -7,6 +7,8 @@ import {
   mediaWithOneVideoWithoutAutoplay
 } from '../fixtures'
 
+/* global MouseEvent */
+
 describe('LightBox - Zoom', () => {
   let wrapper
 
@@ -136,5 +138,48 @@ describe('LightBox - Zoom', () => {
     expect(wrapper.find('.my-out').exists()).toBe(true)
     expect(wrapper.find('.vib-zoom-in').attributes('title')).toBe('Bigger')
     expect(wrapper.find('.vib-zoom-out').attributes('title')).toBe('Smaller')
+  })
+
+  test('wires up mouse and touch handlers on the zoomable image', async () => {
+    mountBox()
+    await wrapper.find('.vib-zoom-in').trigger('click')
+    const zoomed = wrapper.find('.vib-image-zoom')
+    await zoomed.trigger('mousedown', { button: 0, clientX: 10, clientY: 10 })
+    expect(zoomed.classes()).toContain('vib-panning')
+    window.dispatchEvent(new MouseEvent('mouseup'))
+    await wrapper.vm.$nextTick()
+    expect(zoomed.classes()).not.toContain('vib-panning')
+
+    const finger = { clientX: 10, clientY: 10 }
+    await zoomed.trigger('touchstart', { touches: [finger] })
+    expect(zoomed.classes()).toContain('vib-panning')
+    await zoomed.trigger('touchmove', { touches: [{ clientX: 20, clientY: 20 }] })
+    await zoomed.trigger('touchend', { touches: [] })
+    expect(zoomed.classes()).not.toContain('vib-panning')
+    await zoomed.trigger('touchstart', { touches: [finger] })
+    await zoomed.trigger('touchcancel', { touches: [] })
+    expect(zoomed.classes()).not.toContain('vib-panning')
+  })
+
+  test('hovering the zoom buttons keeps the interface visible', async () => {
+    mountBox()
+    const toolbar = wrapper.find('.vib-zoom')
+    await toolbar.trigger('mouseover')
+    await toolbar.trigger('mouseleave')
+    expect(toolbar.exists()).toBe(true)
+  })
+
+  test('closing the lightbox resets the zoom', async () => {
+    mountBox()
+    await wrapper.find('.vib-zoom-in').trigger('click')
+    expect(transform()).toContain('scale(1.5)')
+    await press('Escape')
+    expect(transform()).toContain('scale(1)')
+  })
+
+  test('the 0 key does nothing on a video slide', async () => {
+    mountBox({ media: mediaWithOneVideoWithoutAutoplay })
+    await press('0')
+    expect(wrapper.find('.vib-image-zoom').exists()).toBe(false)
   })
 })
