@@ -233,7 +233,7 @@
         </button>
 
         <button
-          v-if="media.length > 1"
+          v-if="media.length > 1 && canGoPrevious"
           type="button"
           class="vib-arrow vib-arrow-left vib-hideable"
           :class="{ 'vib-hidden': controlsHidden }"
@@ -241,6 +241,7 @@
           @click.stop="previousImage()"
           @mouseover="interfaceHovered = true"
           @mouseleave="interfaceHovered = false"
+          @vue:unmounted="interfaceHovered = false"
         >
           <slot name="previous">
             <LeftArrowIcon />
@@ -248,7 +249,7 @@
         </button>
 
         <button
-          v-if="media.length > 1"
+          v-if="media.length > 1 && canGoNext"
           type="button"
           class="vib-arrow vib-arrow-right vib-hideable"
           :class="{ 'vib-hidden': controlsHidden }"
@@ -256,6 +257,7 @@
           @click.stop="nextImage()"
           @mouseover="interfaceHovered = true"
           @mouseleave="interfaceHovered = false"
+          @vue:unmounted="interfaceHovered = false"
         >
           <slot name="next">
             <RightArrowIcon />
@@ -298,6 +300,11 @@ const props = defineProps({
   },
 
   showLightBox: {
+    type: Boolean,
+    default: true,
+  },
+
+  allowLoop: {
     type: Boolean,
     default: true,
   },
@@ -420,6 +427,8 @@ const {
   select,
   imageTransitionName,
   currentMedia,
+  canGoPrevious,
+  canGoNext,
   thumbIndex,
   imagesThumb,
   showImage: navShowImage,
