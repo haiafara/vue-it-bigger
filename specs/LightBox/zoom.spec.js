@@ -182,4 +182,13 @@ describe('LightBox - Zoom', () => {
     await press('0')
     expect(wrapper.find('.vib-image-zoom').exists()).toBe(false)
   })
+
+  test('reopening the lightbox keeps working after a close', async () => {
+    mountBox({ showLightBox: false })
+    wrapper.vm.showImage(1)
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('.vib-container').isVisible()).toBe(true)
+    await wrapper.find('.vib-zoom-in').trigger('click')
+    expect(transform()).toContain('scale(1.5)')
+  })
 })
