@@ -518,7 +518,12 @@ function addKeyEvent(event) {
   }
 }
 
-const { lightBoxShown, closeLightBox, onToggleLightBox } = useLightboxLifecycle(
+const {
+  lightBoxShown,
+  closeLightBox,
+  onToggleLightBox,
+  releasePage,
+} = useLightboxLifecycle(
   props,
   emit,
   video,
@@ -610,6 +615,10 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   document.removeEventListener("keydown", addKeyEvent);
+
+  // The component can be destroyed while open (e.g. navigating away); make
+  // sure the page doesn't stay locked
+  if (lightBoxShown.value) releasePage();
 
   if (props.autoPlay) {
     clearInterval(timer);
