@@ -197,7 +197,7 @@
   top: 50%;
   user-select: none;
   height: 65px;
-  margin-top: -60px;
+  transform: translateY(-50%);
   width: 60px;
 }
 
