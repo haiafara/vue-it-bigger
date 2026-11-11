@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.2] - 2026-11-11
+
+### Security
+- Updated `undici` (transitive) to 8.12.4 to resolve multiple advisories, including TLS certificate validation bypass, cache poisoning via cross-origin redirects and several denial-of-service issues
+- Updated `vite` to 8.3.8 to resolve dev-server advisories (files outside `server.fs.allow` being served, cross-origin script execution) and `launch-editor` command-injection issues
+- Updated `brace-expansion` (transitive) to 5.0.12 to resolve denial-of-service advisories (uncontrolled recursion, quadratic-time expansion)
+- Updated `source-map-js` (transitive) to 1.2.2 to resolve a high-severity event-loop denial-of-service advisory (GHSA-68fv-2mgg-jv7q)
+- Updated `postcss` (transitive) to 8.5.32 and `postcss-selector-parser` (transitive) to 7.1.6 to resolve CPU-exhaustion advisories
+
+### Dependencies
+- `@vitejs/plugin-vue` 6.0.8 → 6.0.9
+- `@vue/test-utils` 2.4.11 → 2.5.1
+- `eslint` 10.8.1 → 10.11.0
+- `eslint-plugin-vue` 10.10.0 → 10.11.1
+- `jsdom` 30.0.1 → 30.1.1
+- `vite` 8.2.2 → 8.3.8
+- `vue` 3.5.41 → 3.5.43
+
 ## [1.2.1] - 2026-08-21
 
 ### Changed
