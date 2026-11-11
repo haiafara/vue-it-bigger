@@ -23,14 +23,19 @@ export function useLightboxLifecycle(
     preloadAdjacentImages()
   }
 
-  function onLightBoxClose() {
-    emit('onClosed')
-
+  // Undo what opening the lightbox did to the page (scroll lock, body class)
+  function releasePage() {
     if (props.disableScroll) {
       document.querySelector('html').classList.remove('no-scroll')
     }
 
     document.querySelector('body').classList.remove('vib-open')
+  }
+
+  function onLightBoxClose() {
+    emit('onClosed')
+
+    releasePage()
     document.removeEventListener('keydown', addKeyEventHandler)
 
     if (videoRef.value) {
@@ -59,5 +64,6 @@ export function useLightboxLifecycle(
     lightBoxShown,
     closeLightBox,
     onToggleLightBox,
+    releasePage,
   }
 }
