@@ -14,6 +14,11 @@ export function useNavigation(props) {
 
   const currentMedia = computed(() => props.media[select.value])
 
+  const canGoPrevious = computed(() => props.allowLoop || select.value > 0)
+  const canGoNext = computed(
+    () => props.allowLoop || select.value < props.media.length - 1
+  )
+
   const thumbIndex = computed(() => {
     const halfDown = Math.floor(props.nThumbs / 2)
 
@@ -45,11 +50,13 @@ export function useNavigation(props) {
   }
 
   function nextImage() {
+    if (!canGoNext.value) return
     slideDirection.value = 'next'
     select.value = (select.value + 1) % props.media.length
   }
 
   function previousImage() {
+    if (!canGoPrevious.value) return
     slideDirection.value = 'prev'
     select.value = (select.value + props.media.length - 1) % props.media.length
   }
@@ -87,6 +94,8 @@ export function useNavigation(props) {
     imageTransitionsEnabled,
     imageTransitionName,
     currentMedia,
+    canGoPrevious,
+    canGoNext,
     thumbIndex,
     imagesThumb,
     showImage,
