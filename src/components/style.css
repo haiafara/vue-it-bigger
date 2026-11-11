@@ -215,6 +215,35 @@
   border-bottom-left-radius: 50%;
 }
 
+/* On narrow screens the thumbnail strip would be drawn under the toolbar and
+   the close button, so it moves down below the row of controls */
+@media (max-width: 760px) {
+  .vib-thumbnail-wrapper {
+    top: 65px;
+  }
+}
+
+/* Smaller thumbnails so that the default 7 still fit on small phones */
+@media (max-width: 440px) {
+  .vib-thumbnail-wrapper {
+    padding: 8px 12px;
+  }
+
+  .vib-thumbnail,
+  .vib-thumbnail-active {
+    height: 40px;
+    width: 40px;
+  }
+}
+
+@media (max-width: 340px) {
+  .vib-thumbnail,
+  .vib-thumbnail-active {
+    height: 36px;
+    width: 36px;
+  }
+}
+
 @media (min-width: 500px) {
   .vib-thumbnail-arrow {
     width: 40px;
