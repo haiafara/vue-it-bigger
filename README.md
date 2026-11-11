@@ -18,6 +18,7 @@ Click on the screenshot above for a **demo**.
 * Can play the slideshow automatically
 * All of the graphics (previous, next and close buttons) can be customized via slots
 * Can skip to next / previous media programatically
+* Zoom images with the magnifier buttons, the scroll wheel, the `+` / `-` / `0` keys, or pinch to zoom on touch devices; drag to pan while zoomed
 * Allows embedding YouTube videos
 * Lightbox opens and closes with a short fade
 * Media's width is no longer limited (stretches to the full width / height of the window)
@@ -96,6 +97,30 @@ The `media` prop has the following structure:
 ]
 ```
 
+## Zoom
+
+Images can be zoomed in the lightbox (videos and YouTube embeds can't). It's enabled by default and works with:
+
+| input | action |
+|-------|--------|
+| Magnifier + / − buttons | Zoom in / out by a step of 1.5× (shown at the top left) |
+| Scroll wheel | Zoom in / out towards the mouse pointer |
+| `+` / `=` and `-` keys | Zoom in / out |
+| `0` key | Reset the zoom |
+| Pinch (touch devices) | Zoom towards the midpoint between the fingers |
+| Drag (mouse or one finger) | Pan the image while zoomed |
+
+While an image is zoomed in, swiping doesn't move to the next or previous image. Use the arrows, the thumbnails or the arrow keys instead. The zoom resets whenever you move to another image or close the lightbox.
+
+The zoom is limited to `maxZoom` times the original size (4 by default). To change it, or to turn zooming off entirely:
+
+```html
+<LightBox :media="media" :max-zoom="6"></LightBox>
+<LightBox :media="media" :zoomable="false"></LightBox>
+```
+
+The buttons' graphics can be replaced with the `zoomIn` and `zoomOut` slots, and their tooltips with the `zoomInText` and `zoomOutText` properties. You can also zoom programmatically through the `zoomIn`, `zoomOut` and `resetZoom` methods (e.g. `this.$refs.lightbox.zoomIn()`).
+
 ## Options
 
 ### Properties
@@ -117,6 +142,10 @@ The `media` prop has the following structure:
 | closeText | String | Close (Esc) | Text for the close button |
 | previousText | String | Previous | Text for the previous image button |
 | nextText | String | Next | Text for the next image button |
+| zoomable | Boolean | true | Allow zooming images (buttons, scroll wheel, keyboard and pinch) |
+| maxZoom | Number | 4 | Maximum zoom factor |
+| zoomInText | String | Zoom in | Text for the zoom in button |
+| zoomOutText | String | Zoom out | Text for the zoom out button |
 
 ### Methods
 
@@ -126,6 +155,9 @@ The `media` prop has the following structure:
 | previousImage | () | Move to previous image |
 | closeLightBox | () | Close lightbox |
 | showImage | (index) | Show the image at index |
+| zoomIn | () | Zoom in on the current image |
+| zoomOut | () | Zoom out of the current image |
+| resetZoom | () | Reset the zoom of the current image |
 
 ### Slots
 
@@ -147,6 +179,12 @@ The previous button on the main image.
 
 #### next
 The next button on the main image.
+
+#### zoomIn
+The content of the zoom in button.
+
+#### zoomOut
+The content of the zoom out button.
 
 #### customCaption
 The caption of the current image.

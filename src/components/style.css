@@ -60,6 +60,22 @@
   user-select: none;
 }
 
+.vib-image-zoom {
+  position: relative;
+  transform-origin: center;
+  touch-action: none;
+  will-change: transform;
+  transition: transform 0.15s ease-out;
+}
+
+.vib-image-zoom.vib-zoomed .vib-image {
+  cursor: grab;
+}
+
+.vib-image-zoom.vib-panning .vib-image {
+  cursor: grabbing;
+}
+
 .vib-image-overlay {
   position: absolute;
   inset: 0;
@@ -136,6 +152,30 @@
   width: 60px;
   padding: 15px 12px 15px 20px;
   border-bottom-left-radius: 50%;
+}
+
+.vib-zoom {
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom-right-radius: 20px;
+  display: flex;
+  left: 0;
+  position: fixed;
+  top: 0;
+}
+
+.vib-zoom-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  height: 65px;
+  outline: none;
+  padding: 15px 12px;
+  width: 60px;
+}
+
+.vib-zoom-button:disabled {
+  cursor: default;
+  opacity: 0.4;
 }
 
 .vib-arrow {

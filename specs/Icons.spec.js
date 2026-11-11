@@ -4,6 +4,8 @@ import CloseIcon from '@/CloseIcon.vue'
 import LeftArrowIcon from '@/LeftArrowIcon.vue'
 import RightArrowIcon from '@/RightArrowIcon.vue'
 import VideoIcon from '@/VideoIcon.vue'
+import ZoomInIcon from '@/ZoomInIcon.vue'
+import ZoomOutIcon from '@/ZoomOutIcon.vue'
 
 describe('CloseIcon', () => {
   let wrapper
@@ -58,6 +60,38 @@ describe('VideoIcon', () => {
 
   beforeEach(() => {
     wrapper = mount(VideoIcon)
+  })
+
+  afterEach(() => {
+    wrapper.unmount()
+  })
+
+  test('renders a svg element', () => {
+    expect(wrapper.find('svg').exists()).toBe(true)
+  })
+})
+
+describe('ZoomInIcon', () => {
+  let wrapper
+
+  beforeEach(() => {
+    wrapper = mount(ZoomInIcon)
+  })
+
+  afterEach(() => {
+    wrapper.unmount()
+  })
+
+  test('renders a svg element', () => {
+    expect(wrapper.find('svg').exists()).toBe(true)
+  })
+})
+
+describe('ZoomOutIcon', () => {
+  let wrapper
+
+  beforeEach(() => {
+    wrapper = mount(ZoomOutIcon)
   })
 
   afterEach(() => {
