@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.3] - 2026-11-11
+
+### Changed
+- Vite configs now use `import.meta.dirname` instead of `__dirname` (silences Vite's native config loader warning)
+
+### Security
+- Updated `vitest` to 5.1.0 to resolve `@vitest/mocker` advisories: code injection via unauthenticated manual mock registration (GHSA-qxg6-89mg-rqv8) and a Windows backslash traversal bypass of the redirect allowlist (GHSA-xp26-3454-mjgp)
+
+### Dependencies
+- `@vitejs/plugin-vue` 6.0.9 → 6.0.10
+- `@vitest/coverage-v8` 4.1.11 → 5.1.0
+- `eslint` 10.11.0 → 10.14.0
+- `eslint-plugin-vue` 10.11.1 → 10.12.1
+- `jsdom` 30.1.1 → 31.0.0
+- `vitest` 4.1.11 → 5.1.0
+- `vue` 3.5.43 → 3.5.45
+- `vue-eslint-parser` 10.4.1 → 10.4.2
+
 ## [1.2.2] - 2026-11-11
 
 ### Security
