@@ -19,7 +19,7 @@ export default defineConfig({
 
   resolve: {
     alias: {
-      'vue-it-bigger': resolve(__dirname, 'src/index.js')
+      'vue-it-bigger': resolve(import.meta.dirname, 'src/index.js')
     }
   }
 })
