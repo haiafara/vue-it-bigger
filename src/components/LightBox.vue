@@ -65,6 +65,7 @@
               :width="currentMedia.width"
               :height="currentMedia.height"
               :autoplay="currentMedia.autoplay"
+              controlslist="nofullscreen"
             >
               <source
                 v-for="source in currentMedia.sources"
@@ -164,35 +165,57 @@
         </div>
 
         <div
-          v-if="canZoom"
-          class="vib-zoom vib-hideable"
+          v-if="canZoom || isFullscreenSupported"
+          class="vib-toolbar vib-hideable"
           :class="{ 'vib-hidden': controlsHidden }"
           @click.stop
           @mouseover="interfaceHovered = true"
           @mouseleave="interfaceHovered = false"
         >
           <button
+            v-if="isFullscreenSupported"
             type="button"
-            class="vib-zoom-button vib-zoom-in"
-            :title="zoomInText"
-            :disabled="isMaxZoom"
-            @click.stop="zoomIn()"
+            class="vib-toolbar-button vib-fullscreen"
+            :title="isFullscreen ? exitFullscreenText : enterFullscreenText"
+            @click.stop="toggleFullscreen()"
           >
-            <slot name="zoomIn">
-              <ZoomInIcon />
+            <slot
+              v-if="isFullscreen"
+              name="exitFullscreen"
+            >
+              <FullscreenExitIcon />
+            </slot>
+            <slot
+              v-else
+              name="enterFullscreen"
+            >
+              <FullscreenEnterIcon />
             </slot>
           </button>
-          <button
-            type="button"
-            class="vib-zoom-button vib-zoom-out"
-            :title="zoomOutText"
-            :disabled="!isZoomed"
-            @click.stop="zoomOut()"
-          >
-            <slot name="zoomOut">
-              <ZoomOutIcon />
-            </slot>
-          </button>
+          <template v-if="canZoom">
+            <button
+              type="button"
+              class="vib-toolbar-button vib-zoom-in"
+              :title="zoomInText"
+              :disabled="isMaxZoom"
+              @click.stop="zoomIn()"
+            >
+              <slot name="zoomIn">
+                <ZoomInIcon />
+              </slot>
+            </button>
+            <button
+              type="button"
+              class="vib-toolbar-button vib-zoom-out"
+              :title="zoomOutText"
+              :disabled="!isZoomed"
+              @click.stop="zoomOut()"
+            >
+              <slot name="zoomOut">
+                <ZoomOutIcon />
+              </slot>
+            </button>
+          </template>
         </div>
 
         <button
@@ -252,11 +275,14 @@ import CloseIcon from "./CloseIcon.vue";
 import VideoIcon from "./VideoIcon.vue";
 import ZoomInIcon from "./ZoomInIcon.vue";
 import ZoomOutIcon from "./ZoomOutIcon.vue";
+import FullscreenEnterIcon from "./FullscreenEnterIcon.vue";
+import FullscreenExitIcon from "./FullscreenExitIcon.vue";
 
 import { useNavigation } from "../composables/useNavigation.js";
 import { useUIControls } from "../composables/useUIControls.js";
 import { useTouchSwipe } from "../composables/useTouchSwipe.js";
 import { useZoom } from "../composables/useZoom.js";
+import { useFullscreen } from "../composables/useFullscreen.js";
 import { useYouTube } from "../composables/useYouTube.js";
 import { useLightboxLifecycle } from "../composables/useLightboxLifecycle.js";
 
@@ -355,6 +381,21 @@ const props = defineProps({
     type: String,
     default: "Zoom out",
   },
+
+  fullscreenable: {
+    type: Boolean,
+    default: true,
+  },
+
+  enterFullscreenText: {
+    type: String,
+    default: "Enter full screen (F)",
+  },
+
+  exitFullscreenText: {
+    type: String,
+    default: "Exit full screen (F)",
+  },
 });
 
 const emit = defineEmits([
@@ -365,6 +406,7 @@ const emit = defineEmits([
   "onStartIndex",
   "onOpened",
   "onClosed",
+  "onFullscreenChange",
 ]);
 
 // Template refs
@@ -411,6 +453,13 @@ const {
   handleZoomTouchEnd,
 } = useZoom(props, currentMedia, zoomTarget);
 
+const {
+  isFullscreen,
+  isSupported: isFullscreenSupported,
+  exitFullscreen,
+  toggleFullscreen,
+} = useFullscreen(props, emit, container);
+
 const { handleTouchStart, handleTouchEnd } = useTouchSwipe(
   nextImage,
   previousImage,
@@ -447,6 +496,10 @@ function addKeyEvent(event) {
     case "0":
       if (canZoom.value) resetZoom();
       break;
+    case "f":
+    case "F":
+      toggleFullscreen();
+      break;
   }
 }
 
@@ -475,7 +528,10 @@ function enableImageTransition() {
 // --- Watchers ---
 
 watch(lightBoxShown, (value) => {
-  if (!value) resetZoom();
+  if (!value) {
+    resetZoom();
+    exitFullscreen();
+  }
   // istanbul ignore else
   if (document != null) {
     onToggleLightBox(value);
@@ -559,6 +615,7 @@ defineExpose({
   zoomIn,
   zoomOut,
   resetZoom,
+  toggleFullscreen,
 });
 </script>
 

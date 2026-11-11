@@ -6,6 +6,8 @@ import RightArrowIcon from '@/RightArrowIcon.vue'
 import VideoIcon from '@/VideoIcon.vue'
 import ZoomInIcon from '@/ZoomInIcon.vue'
 import ZoomOutIcon from '@/ZoomOutIcon.vue'
+import FullscreenEnterIcon from '@/FullscreenEnterIcon.vue'
+import FullscreenExitIcon from '@/FullscreenExitIcon.vue'
 
 describe('CloseIcon', () => {
   let wrapper
@@ -92,6 +94,38 @@ describe('ZoomOutIcon', () => {
 
   beforeEach(() => {
     wrapper = mount(ZoomOutIcon)
+  })
+
+  afterEach(() => {
+    wrapper.unmount()
+  })
+
+  test('renders a svg element', () => {
+    expect(wrapper.find('svg').exists()).toBe(true)
+  })
+})
+
+describe('FullscreenEnterIcon', () => {
+  let wrapper
+
+  beforeEach(() => {
+    wrapper = mount(FullscreenEnterIcon)
+  })
+
+  afterEach(() => {
+    wrapper.unmount()
+  })
+
+  test('renders a svg element', () => {
+    expect(wrapper.find('svg').exists()).toBe(true)
+  })
+})
+
+describe('FullscreenExitIcon', () => {
+  let wrapper
+
+  beforeEach(() => {
+    wrapper = mount(FullscreenExitIcon)
   })
 
   afterEach(() => {

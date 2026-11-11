@@ -19,6 +19,7 @@ Click on the screenshot above for a **demo**.
 * All of the graphics (previous, next and close buttons) can be customized via slots
 * Can skip to next / previous media programatically
 * Zoom images with the magnifier buttons, the scroll wheel, the `+` / `-` / `0` keys, or pinch to zoom on touch devices; drag to pan while zoomed
+* Full screen toggle (button or the `f` key) for all media types
 * Allows embedding YouTube videos
 * Lightbox opens and closes with a short fade
 * Media's width is no longer limited (stretches to the full width / height of the window)
@@ -121,6 +122,20 @@ The zoom is limited to `maxZoom` times the original size (4 by default). To chan
 
 The buttons' graphics can be replaced with the `zoomIn` and `zoomOut` slots, and their tooltips with the `zoomInText` and `zoomOutText` properties. You can also zoom programmatically through the `zoomIn`, `zoomOut` and `resetZoom` methods (e.g. `this.$refs.lightbox.zoomIn()`).
 
+## Full screen
+
+A button next to the zoom buttons (top left) switches the lightbox to full screen and back, and so does the `f` key. It works for images, videos and YouTube embeds. On video slides the browser's own full screen button is hidden where the browser allows it (Safari ignores that), so there is a single full screen control.
+
+Pressing `Esc` while in full screen only leaves full screen (this is the browser's behavior); pressing it again closes the lightbox. Closing the lightbox always exits full screen.
+
+The button is hidden on browsers that don't support the Fullscreen API (for example Safari on iPhone). To hide it everywhere:
+
+```html
+<LightBox :media="media" :fullscreenable="false"></LightBox>
+```
+
+Use the `enterFullscreen` and `exitFullscreen` slots to replace the icons, the `enterFullscreenText` and `exitFullscreenText` properties for the tooltips, the `onFullscreenChange` event to react to changes, and the `toggleFullscreen` method to switch programmatically (browsers only allow entering full screen from a user action, such as a click).
+
 ## Options
 
 ### Properties
@@ -146,6 +161,9 @@ The buttons' graphics can be replaced with the `zoomIn` and `zoomOut` slots, and
 | maxZoom | Number | 4 | Maximum zoom factor |
 | zoomInText | String | Zoom in | Text for the zoom in button |
 | zoomOutText | String | Zoom out | Text for the zoom out button |
+| fullscreenable | Boolean | true | Show the full screen button and allow toggling full screen (button, `f` key) |
+| enterFullscreenText | String | Enter full screen (F) | Text for the enter full screen button |
+| exitFullscreenText | String | Exit full screen (F) | Text for the exit full screen button |
 
 ### Methods
 
@@ -158,6 +176,7 @@ The buttons' graphics can be replaced with the `zoomIn` and `zoomOut` slots, and
 | zoomIn | () | Zoom in on the current image |
 | zoomOut | () | Zoom out of the current image |
 | resetZoom | () | Reset the zoom of the current image |
+| toggleFullscreen | () | Enter or exit full screen |
 
 ### Slots
 
@@ -185,6 +204,12 @@ The content of the zoom in button.
 
 #### zoomOut
 The content of the zoom out button.
+
+#### enterFullscreen
+The content of the full screen button while not in full screen.
+
+#### exitFullscreen
+The content of the full screen button while in full screen.
 
 #### customCaption
 The caption of the current image.
@@ -240,6 +265,7 @@ The Icon used for videos
 
 - `onOpened`: Emit when the lightbox is opened.
 - `onClosed`: Emit when the lightbox is closed.
+- `onFullscreenChange`: Emit when the lightbox enters or exits full screen. The argument is `true` when entering and `false` when exiting.
 - `onLastIndex`: Emit when the current image is the last one of the list.
 - `onFirstIndex`: Emit when the current image is the first one of the list.
 - `onStartIndex`: Emit when the current image is at the `startAt` index (specified in the properties).
