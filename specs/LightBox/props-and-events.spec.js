@@ -607,4 +607,25 @@ describe("LightBox - Props and Events", () => {
       expect(wrapper.find(".custom-overlay").exists()).toBe(false);
     });
   });
+
+  describe("zIndex", () => {
+    test("does not set the z-index variable by default", () => {
+      wrapper = mount(LightBox, {
+        props: { media: mediaWithOneImageWithoutType },
+      });
+
+      const style = wrapper.find(".vib-container").attributes("style") ?? "";
+      expect(style).not.toContain("--vib-z-index");
+    });
+
+    test("sets the z-index variable on the container", () => {
+      wrapper = mount(LightBox, {
+        props: { media: mediaWithOneImageWithoutType, zIndex: 5000 },
+      });
+
+      expect(wrapper.find(".vib-container").attributes("style")).toContain(
+        "--vib-z-index: 5000",
+      );
+    });
+  });
 });

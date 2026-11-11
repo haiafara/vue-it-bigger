@@ -11,6 +11,7 @@
         v-show="lightBoxShown"
         ref="container"
         class="vib-container"
+        :style="{ '--vib-z-index': zIndex }"
         @mousedown="handleMouseActivity"
         @mousemove="handleMouseActivity"
         @touchmove="handleMouseActivity"
@@ -307,6 +308,11 @@ const props = defineProps({
   allowLoop: {
     type: Boolean,
     default: true,
+  },
+
+  zIndex: {
+    type: Number,
+    default: undefined,
   },
 
   closable: {
