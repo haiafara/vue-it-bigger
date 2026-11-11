@@ -197,6 +197,14 @@
   margin: auto;
 }
 
+/* Without an explicit size the absolutely positioned container stretches to
+   fill .vib-content and the image inside it jumps to the top. */
+.vib-image-container.vib-image-slide-next-leave-active,
+.vib-image-container.vib-image-slide-prev-leave-active {
+  width: fit-content;
+  height: fit-content;
+}
+
 .vib-image-slide-next-enter-from {
   transform: translateX(100%);
   opacity: 0;
