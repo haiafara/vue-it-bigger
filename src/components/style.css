@@ -76,6 +76,15 @@
   cursor: grabbing;
 }
 
+/* Keep videos inside the viewport (the width / height attributes come from
+   the media definition and can be larger than the screen) */
+.vib-content video {
+  height: auto;
+  max-height: 100dvh;
+  max-width: 100vw;
+  object-fit: contain;
+}
+
 .vib-image-overlay {
   position: absolute;
   inset: 0;
@@ -154,7 +163,7 @@
   border-bottom-left-radius: 50%;
 }
 
-.vib-zoom {
+.vib-toolbar {
   background: rgba(0, 0, 0, 0.2);
   border-bottom-right-radius: 20px;
   display: flex;
@@ -163,7 +172,7 @@
   top: 0;
 }
 
-.vib-zoom-button {
+.vib-toolbar-button {
   background: transparent;
   border: none;
   cursor: pointer;
@@ -173,7 +182,7 @@
   width: 60px;
 }
 
-.vib-zoom-button:disabled {
+.vib-toolbar-button:disabled {
   cursor: default;
   opacity: 0.4;
 }

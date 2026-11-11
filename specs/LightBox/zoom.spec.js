@@ -41,12 +41,12 @@ describe('LightBox - Zoom', () => {
 
   test('does not render zoom buttons for videos', () => {
     mountBox({ media: mediaWithOneVideoWithoutAutoplay })
-    expect(wrapper.find('.vib-zoom').exists()).toBe(false)
+    expect(wrapper.find('.vib-zoom-in').exists()).toBe(false)
   })
 
   test('does not render zoom buttons when zoomable is false', () => {
     mountBox({ zoomable: false })
-    expect(wrapper.find('.vib-zoom').exists()).toBe(false)
+    expect(wrapper.find('.vib-zoom-in').exists()).toBe(false)
   })
 
   test('zoom in button scales the image; zoom out is disabled at 1', async () => {
@@ -163,7 +163,7 @@ describe('LightBox - Zoom', () => {
 
   test('hovering the zoom buttons keeps the interface visible', async () => {
     mountBox()
-    const toolbar = wrapper.find('.vib-zoom')
+    const toolbar = wrapper.find('.vib-toolbar')
     await toolbar.trigger('mouseover')
     await toolbar.trigger('mouseleave')
     expect(toolbar.exists()).toBe(true)
