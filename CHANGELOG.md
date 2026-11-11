@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-11-11
+
+### Added
+- Image zoom: magnifier + / − buttons, mouse wheel zoom towards the pointer, `+` / `-` / `0` keyboard shortcuts and pinch to zoom on touch devices, with drag to pan while zoomed. Swiping to change image is disabled while zoomed, and the zoom resets when changing image or closing the lightbox
+- New props: `zoomable`, `maxZoom`, `zoomInText` and `zoomOutText`
+- New slots: `zoomIn` and `zoomOut`
+- New methods: `zoomIn`, `zoomOut` and `resetZoom`
+- Full screen toggle: a button next to the zoom buttons and the `f` key shortcut, for images, videos and YouTube. It is hidden where the Fullscreen API isn't available (e.g. Safari on iPhone) and exits when the lightbox closes
+- New props: `fullscreenable`, `enterFullscreenText` and `exitFullscreenText`
+- New slots: `enterFullscreen` and `exitFullscreen`
+- New event: `onFullscreenChange`
+- New method: `toggleFullscreen`
+
+### Changed
+- The zoom and full screen buttons share a toolbar at the top left of the lightbox
+- Video slides hide the browser's own full screen button (where the browser supports it), so there is a single full screen control
+- The `imageOverlay` slot content now zooms and pans together with the image
+
+### Fixed
+- The previous / next arrows were about 27px above the vertical center of the image
+- The outgoing image jumped to the top of the screen during the slide transition
+- Videos with a fixed `width` / `height` larger than the screen were cropped; they now scale to fit the viewport
+
+### Documentation
+- Added Zoom and Full screen sections to the README, and removed the `nextImage`, `previousImage` and `closeLightBox` methods from the Methods table because they are not exposed to parent components (tracked in #501)
+
 ## [1.2.3] - 2026-11-11
 
 ### Changed
