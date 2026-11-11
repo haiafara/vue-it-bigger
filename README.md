@@ -16,18 +16,12 @@ Click on the screenshot above for a **demo**.
 * Optional thumbnail strip with all of the gallery's media
 * Can show an HTML enabled caption under each image or video
 * Can play the slideshow automatically
-* All of the graphics (previous, next and close buttons) can be customized via slots
-* Can skip to next / previous media programatically
-* Zoom images with the magnifier buttons, the scroll wheel, the `+` / `-` / `0` keys, or pinch to zoom on touch devices; drag to pan while zoomed
-* Full screen toggle (button or the `f` key) for all media types
+* All of the graphics can be customized via slots
+* Can be controlled programmatically (change media, zoom, toggle full screen)
+* Zoom images with the magnifier buttons, the scroll wheel, the keyboard, or pinch to zoom on touch devices; drag to pan while zoomed
+* Full screen toggle (button or keyboard) for all media types
 * Allows embedding YouTube videos
 * Lightbox opens and closes with a short fade
-* Media's width is no longer limited (stretches to the full width / height of the window)
-* When opening the lightbox the media doesn't flicker
-* Moved caption bar and image counter off the media to the bottom of the screen
-* Moved thumbnails to the top of the screen (as the bottom is now used by the caption bar)
-* All interface elements have a background for better visibility
-* Simplified CSS
 
 ## Installation
 
@@ -169,9 +163,6 @@ Use the `enterFullscreen` and `exitFullscreen` slots to replace the icons, the `
 
 | name | arguments | description |
 |------|-----------|-------------|
-| nextImage | () | Move to next image |
-| previousImage | () | Move to previous image |
-| closeLightBox | () | Close lightbox |
 | showImage | (index) | Show the image at index |
 | zoomIn | () | Zoom in on the current image |
 | zoomOut | () | Zoom out of the current image |
