@@ -198,7 +198,7 @@ describe("LightBox - Props and Events", () => {
   });
 
   describe("nThumbs prop", () => {
-    test("nThumbs: 3 displays only 3 thumbnails", () => {
+    test("nThumbs is passed to the strip as its maximum width", () => {
       wrapper = mount(LightBox, {
         props: {
           media: mediaWithNineImages,
@@ -206,10 +206,22 @@ describe("LightBox - Props and Events", () => {
         },
       });
 
-      const visibleThumbs = wrapper.findAll(
-        '.vib-thumbnail-wrapper > div:not([style*="display: none"])',
-      );
-      expect(visibleThumbs.length).toBe(3);
+      const style = wrapper.find(".vib-thumbnail-wrapper").attributes("style");
+      expect(style).toContain("--vib-thumbs-max: 3");
+      expect(style).toContain("--vib-thumbs-count: 9");
+    });
+
+    test("only the thumbnails around the current one are rendered", () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithNineImages,
+          nThumbs: 1,
+          startAt: 4,
+        },
+      });
+
+      // the current one, and 2 on each side
+      expect(wrapper.findAll(".vib-thumbnail, .vib-thumbnail-active").length).toBe(5);
     });
   });
 

@@ -96,7 +96,7 @@ describe('LightBox - Interaction', () => {
     })
 
     test('clicking a thumbnail navigates to that image', async () => {
-      const allThumbs = wrapper.findAll('.vib-thumbnail-wrapper > div')
+      const allThumbs = wrapper.findAll('.vib-thumbnail, .vib-thumbnail-active')
       await allThumbs[3].trigger('click')
       expect(wrapper.find('img.vib-image').attributes('src')).toBe(mediaWithNineImages[3].src)
     })

@@ -91,42 +91,91 @@
   pointer-events: none;
 }
 
+/* The thumbnail strip is a window onto a row of thumbnails. The row slides to
+   keep the current thumbnail centered, until it reaches either end. The
+   LightBox component sets --vib-thumbs-count, --vib-thumbs-max (the nThumbs
+   prop) and --vib-thumb-index on the wrapper. */
 .vib-thumbnail-wrapper {
+  --vib-thumb-size: 50px;
+  --vib-thumb-slot: calc(var(--vib-thumb-size) + 4px);
+  /* Room for the strip: leave space for the toolbar and the close button,
+     which share the row with the strip on wide screens */
+  --vib-thumbs-available: calc(100vw - 384px);
+  --vib-thumbs-wanted: calc(
+    min(var(--vib-thumbs-count), var(--vib-thumbs-max)) * var(--vib-thumb-slot)
+  );
+  --vib-thumbs-view: min(var(--vib-thumbs-wanted), var(--vib-thumbs-available));
   background: rgba(0, 0, 0, 0.2);
   padding: 10px 12px;
-  text-align: center;
-  white-space: nowrap;
   position: fixed;
-  display: inline-block;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   top: 0px;
 }
 
-.vib-thumbnail {
-  background-position: center;
-  background-size: cover;
-  border-radius: 4px;
-  box-shadow: inset 0 0 0 1px hsla(0,0%,100%,.2);
-  cursor: pointer;
-  display: inline-block;
-  height: 50px;
-  margin: 2px 2px 0 2px;
-  overflow: hidden;
-  width: 50px;
+/* Only show whole thumbnails where round() is supported */
+@supports (width: round(down, 10px, 3px)) {
+  .vib-thumbnail-wrapper {
+    --vib-thumbs-view: max(
+      var(--vib-thumb-slot),
+      min(
+        var(--vib-thumbs-wanted),
+        round(down, var(--vib-thumbs-available), var(--vib-thumb-slot))
+      )
+    );
+  }
 }
 
+.vib-thumbnail-viewport {
+  overflow: hidden;
+  width: var(--vib-thumbs-view);
+}
+
+.vib-thumbnail-track {
+  height: calc(var(--vib-thumb-size) + 2px);
+  position: relative;
+  transform: translateX(
+    clamp(
+      calc(
+        var(--vib-thumbs-view) - var(--vib-thumbs-count) * var(--vib-thumb-slot)
+      ),
+      calc(
+        var(--vib-thumbs-view) / 2 -
+          (var(--vib-thumb-index) + 0.5) * var(--vib-thumb-slot)
+      ),
+      0px
+    )
+  );
+  transition: transform 0.3s ease;
+  width: calc(var(--vib-thumbs-count) * var(--vib-thumb-slot));
+}
+
+.vib-thumbnail,
 .vib-thumbnail-active {
   background-position: center;
   background-size: cover;
   border-radius: 4px;
-  box-shadow: inset 0 0 0 2px white;
   cursor: pointer;
-  display: inline-block;
-  height: 50px;
-  margin: 2px 2px 0 2px;
+  height: var(--vib-thumb-size);
+  left: calc(var(--vib-thumb-i) * var(--vib-thumb-slot) + 2px);
   overflow: hidden;
-  width: 50px;
+  position: absolute;
+  top: 2px;
+  width: var(--vib-thumb-size);
+}
+
+.vib-thumbnail {
+  box-shadow: inset 0 0 0 1px hsla(0,0%,100%,.2);
+}
+
+.vib-thumbnail-active {
+  box-shadow: inset 0 0 0 2px white;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vib-thumbnail-track {
+    transition: none;
+  }
 }
 
 .vib-footer {
@@ -215,32 +264,51 @@
   border-bottom-left-radius: 50%;
 }
 
+.vib-topbar {
+  display: none;
+}
+
 /* On narrow screens the thumbnail strip would be drawn under the toolbar and
-   the close button, so it moves down below the row of controls */
+   the close button, so it moves down below the row of controls. The two rows
+   then share one darkened background that spans the whole width. */
 @media (max-width: 760px) {
+  .vib-topbar {
+    background: rgba(0, 0, 0, 0.2);
+    display: block;
+    height: 65px;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+  }
+
+  .vib-toolbar,
+  .vib-close {
+    background: transparent;
+  }
+
   .vib-thumbnail-wrapper {
+    --vib-thumbs-available: calc(100vw - 32px);
+    border-radius: 0;
+    display: flex;
+    justify-content: center;
+    left: 0;
+    right: 0;
     top: 65px;
   }
 }
 
-/* Smaller thumbnails so that the default 7 still fit on small phones */
+/* Smaller thumbnails on small phones */
 @media (max-width: 440px) {
   .vib-thumbnail-wrapper {
+    --vib-thumb-size: 40px;
     padding: 8px 12px;
-  }
-
-  .vib-thumbnail,
-  .vib-thumbnail-active {
-    height: 40px;
-    width: 40px;
   }
 }
 
 @media (max-width: 340px) {
-  .vib-thumbnail,
-  .vib-thumbnail-active {
-    height: 36px;
-    width: 36px;
+  .vib-thumbnail-wrapper {
+    --vib-thumb-size: 36px;
   }
 }
 

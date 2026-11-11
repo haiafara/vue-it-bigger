@@ -110,30 +110,48 @@
           </transition>
         </template>
 
+        <!-- Background for the row of controls, only shown on narrow screens -->
         <div
-          v-if="showThumbs"
-          class="vib-thumbnail-wrapper vib-hideable"
+          class="vib-topbar vib-hideable"
           :class="{ 'vib-hidden': controlsHidden }"
           @click.stop
           @mouseover="interfaceHovered = true"
           @mouseleave="interfaceHovered = false"
+        />
+
+        <div
+          v-if="showThumbs"
+          class="vib-thumbnail-wrapper vib-hideable"
+          :class="{ 'vib-hidden': controlsHidden }"
+          :style="thumbStyle"
+          @click.stop
+          @mouseover="interfaceHovered = true"
+          @mouseleave="interfaceHovered = false"
         >
-          <div
-            v-for="(image, index) in imagesThumb"
-            v-show="index >= thumbIndex.begin && index <= thumbIndex.end"
-            :key="
-              typeof image.thumb === 'string' ? `${image.thumb}${index}` : index
-            "
-            :style="{ backgroundImage: 'url(' + image.thumb + ')' }"
-            :class="'vib-thumbnail' + (select === index ? '-active' : '')"
-            @click.stop="showImage(index)"
-          >
-            <slot
-              v-if="image.type == 'video' || image.type == 'youtube'"
-              name="videoIcon"
-            >
-              <VideoIcon />
-            </slot>
+          <div class="vib-thumbnail-viewport">
+            <div class="vib-thumbnail-track">
+              <div
+                v-for="item in renderedThumbs"
+                :key="
+                  typeof item.thumb === 'string'
+                    ? `${item.thumb}${item.index}`
+                    : item.index
+                "
+                :style="{
+                  '--vib-thumb-i': item.index,
+                  backgroundImage: 'url(' + item.thumb + ')',
+                }"
+                :class="'vib-thumbnail' + (select === item.index ? '-active' : '')"
+                @click.stop="showImage(item.index)"
+              >
+                <slot
+                  v-if="item.type == 'video' || item.type == 'youtube'"
+                  name="videoIcon"
+                >
+                  <VideoIcon />
+                </slot>
+              </div>
+            </div>
           </div>
         </div>
         <!-- .vib-thumbnail-wrapper -->
@@ -285,6 +303,7 @@ import { useNavigation } from "../composables/useNavigation.js";
 import { useUIControls } from "../composables/useUIControls.js";
 import { useTouchSwipe } from "../composables/useTouchSwipe.js";
 import { useZoom } from "../composables/useZoom.js";
+import { useThumbnails } from "../composables/useThumbnails.js";
 import { useFullscreen } from "../composables/useFullscreen.js";
 import { useYouTube } from "../composables/useYouTube.js";
 import { useLightboxLifecycle } from "../composables/useLightboxLifecycle.js";
@@ -435,7 +454,6 @@ const {
   currentMedia,
   canGoPrevious,
   canGoNext,
-  thumbIndex,
   imagesThumb,
   showImage: navShowImage,
   nextImage,
@@ -444,6 +462,8 @@ const {
   disableImageTransition,
   preloadAdjacentImages,
 } = useNavigation(props);
+
+const { renderedThumbs, thumbStyle } = useThumbnails(props, select, imagesThumb);
 
 const {
   controlsHidden,

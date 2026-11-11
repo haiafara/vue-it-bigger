@@ -141,7 +141,7 @@ Use the `enterFullscreen` and `exitFullscreen` slots to replace the icons, the `
 | zIndex | Number | 2000 | The `z-index` of the lightbox. Raise it if something on your page (a fixed menu, for example) is drawn on top of the lightbox. It is also available as the `--vib-z-index` CSS variable |
 | startAt | Number | 0 | Index of the image that you want to start at |
 | allowLoop | Boolean | true | Whether going next from the last media goes to the first one (and previous from the first goes to the last). Set to `false` to stop at the ends: the previous control is hidden on the first media and the next control on the last one, and swiping, the arrow keys and autoplay stop there too |
-| nThumbs | Number | 7 | Number of thumbnail images |
+| nThumbs | Number | 7 | Maximum number of thumbnails shown at once. Fewer are shown when the screen is too narrow, and the strip scrolls to keep the current one centered |
 | showThumbs | Boolean | true | Whether to show thumbnails or not |
 | autoPlay | Boolean | false | Move to next image automatically |
 | autoPlayTime | Number | 3000 (ms) | Time to stop at an image before move on to next image |

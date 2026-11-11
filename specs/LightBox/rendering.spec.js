@@ -195,19 +195,17 @@ describe('LightBox - Rendering', () => {
       expect(wrapper.findAll('.vib-thumbnail-active').length).toBe(1)
     })
 
-    test('displays 7 thumbnails (nThumbs default)', () => {
-      const visibleThumbs = wrapper.findAll('.vib-thumbnail-wrapper > div:not([style*="display: none"])')
-      expect(visibleThumbs.length).toBe(7)
+    test('shows up to 7 thumbnails at once (nThumbs default)', () => {
+      const style = wrapper.find('.vib-thumbnail-wrapper').attributes('style')
+      expect(style).toContain('--vib-thumbs-max: 7')
+      expect(style).toContain('--vib-thumbs-count: 9')
     })
 
-    test('first visible thumb is the first media item', () => {
-      const visibleThumbs = wrapper.findAll('.vib-thumbnail-wrapper > div:not([style*="display: none"])')
-      expect(visibleThumbs[0].element.style.backgroundImage).toBe(`url("${mediaWithNineImages[0].thumb}")`)
-    })
-
-    test('last visible thumb is the seventh media item', () => {
-      const visibleThumbs = wrapper.findAll('.vib-thumbnail-wrapper > div:not([style*="display: none"])')
-      expect(visibleThumbs[6].element.style.backgroundImage).toBe(`url("${mediaWithNineImages[6].thumb}")`)
+    test('renders the thumbnails in order, starting with the first media item', () => {
+      const thumbs = wrapper.findAll('.vib-thumbnail, .vib-thumbnail-active')
+      expect(thumbs[0].element.style.backgroundImage).toBe(`url("${mediaWithNineImages[0].thumb}")`)
+      expect(thumbs[0].element.style.getPropertyValue('--vib-thumb-i')).toBe('0')
+      expect(thumbs[6].element.style.backgroundImage).toBe(`url("${mediaWithNineImages[6].thumb}")`)
     })
   })
 
@@ -220,24 +218,41 @@ describe('LightBox - Rendering', () => {
       })
     })
 
-    test('clicking last thumbnail shifts window', async () => {
-      const allThumbs = wrapper.findAll('.vib-thumbnail-wrapper > div')
+    test('clicking a thumbnail moves the strip to it', async () => {
+      const allThumbs = wrapper.findAll('.vib-thumbnail, .vib-thumbnail-active')
       await allThumbs[8].trigger('click')
       await wrapper.vm.$nextTick()
 
-      const visibleThumbs = wrapper.findAll('.vib-thumbnail-wrapper > div:not([style*="display: none"])')
-      expect(visibleThumbs[0].element.style.backgroundImage).toBe(`url("${mediaWithNineImages[2].thumb}")`)
-      expect(visibleThumbs[6].element.style.backgroundImage).toBe(`url("${mediaWithNineImages[8].thumb}")`)
+      expect(wrapper.find('.vib-thumbnail-wrapper').attributes('style')).toContain('--vib-thumb-index: 8')
+      const active = wrapper.findAll('.vib-thumbnail-active')
+      expect(active.length).toBe(1)
+      expect(active[0].element.style.getPropertyValue('--vib-thumb-i')).toBe('8')
     })
 
-    test('clicking middle thumbnail centers window', async () => {
-      const allThumbs = wrapper.findAll('.vib-thumbnail-wrapper > div')
-      await allThumbs[4].trigger('click')
+    test('the strip follows the keyboard and the arrows', async () => {
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }))
       await wrapper.vm.$nextTick()
+      expect(wrapper.find('.vib-thumbnail-wrapper').attributes('style')).toContain('--vib-thumb-index: 1')
+    })
+  })
 
-      const visibleThumbs = wrapper.findAll('.vib-thumbnail-wrapper > div:not([style*="display: none"])')
-      expect(visibleThumbs[0].element.style.backgroundImage).toBe(`url("${mediaWithNineImages[1].thumb}")`)
-      expect(visibleThumbs[6].element.style.backgroundImage).toBe(`url("${mediaWithNineImages[7].thumb}")`)
+  describe('top bar background', () => {
+    test('renders a background for the row of controls that hides with the interface', async () => {
+      wrapper = mount(LightBox, {
+        props: {
+          media: mediaWithNineImages
+        }
+      })
+
+      const bar = wrapper.find('.vib-topbar')
+      expect(bar.exists()).toBe(true)
+      expect(bar.classes()).toContain('vib-hideable')
+      expect(bar.classes()).not.toContain('vib-hidden')
+
+      await bar.trigger('mouseover')
+      await bar.trigger('mouseleave')
+      await bar.trigger('click')
+      expect(wrapper.find('.vib-container').isVisible()).toBe(true)
     })
   })
 

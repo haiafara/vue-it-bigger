@@ -19,27 +19,6 @@ export function useNavigation(props) {
     () => props.allowLoop || select.value < props.media.length - 1
   )
 
-  const thumbIndex = computed(() => {
-    const halfDown = Math.floor(props.nThumbs / 2)
-
-    if (select.value >= halfDown && select.value < props.media.length - halfDown)
-      return {
-        begin: select.value - halfDown + (1 - props.nThumbs % 2),
-        end: select.value + halfDown,
-      }
-
-    if (select.value < halfDown)
-      return {
-        begin: 0,
-        end: props.nThumbs - 1,
-      }
-
-    return {
-      begin: props.media.length - props.nThumbs,
-      end: props.media.length - 1,
-    }
-  })
-
   const imagesThumb = computed(() =>
     props.media.map(({ thumb, type }) => ({ thumb, type }))
   )
@@ -96,7 +75,6 @@ export function useNavigation(props) {
     currentMedia,
     canGoPrevious,
     canGoNext,
-    thumbIndex,
     imagesThumb,
     showImage,
     nextImage,
